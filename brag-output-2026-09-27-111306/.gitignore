@@ -1,0 +1,10 @@
+work/
+work-*/
+composition/.hyperframes/
+composition/.cache/
+composition/node_modules/
+composition/snapshots/
+composition/assets/gsap.min.js
+*.log
+check.json
+voiceover-result.json

@@ -23,7 +23,7 @@ Keep it beside your editor while Claude Code and Codex work. The summary shows t
 
 *Real browser capture. The demo task and deliverables are fictional.*
 
-[Watch the 35-second narrated walkthrough](brag-output-2026-09-27-104941/brag.mp4) · [Video source and rebuild instructions](brag-output-2026-09-27-104941/README.md)
+[Watch the 36-second guided walkthrough](brag-output-2026-09-27-111306/brag.mp4) · [Video source and rebuild instructions](brag-output-2026-09-27-111306/README.md)
 
 ## Install once, use across projects
 

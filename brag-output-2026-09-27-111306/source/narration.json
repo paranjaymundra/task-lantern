@@ -1,0 +1,32 @@
+[
+  {
+    "id": 0,
+    "headline": "Making progress, stuck, or waiting on you?",
+    "text": "Your coding agent is busy. But is it making progress, stuck, or waiting on you?"
+  },
+  {
+    "id": 1,
+    "headline": "One dashboard. Across your projects.",
+    "text": "One local dashboard brings your tracked threads together. Pick a thread to see the current step, progress, and blockers."
+  },
+  {
+    "id": 2,
+    "headline": "Know what needs your answer.",
+    "text": "Questions show what needs your answer, and what can continue while you wait. Reply in your agent chat."
+  },
+  {
+    "id": 3,
+    "headline": "Details, when you need them.",
+    "text": "Open the plan, files, or developer details without leaving the page."
+  },
+  {
+    "id": 4,
+    "headline": "Updates come from your coding agent.",
+    "text": "Your agent publishes updates as it works. No server. No extra account."
+  },
+  {
+    "id": 5,
+    "headline": "Task Lantern",
+    "text": "Task Lantern. Open source, for your next long task."
+  }
+]
