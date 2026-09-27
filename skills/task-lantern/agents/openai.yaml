@@ -1,0 +1,4 @@
+interface:
+  display_name: "Task Lantern"
+  short_description: "Offline dashboards for progress and pending decisions"
+  default_prompt: "Use $task-lantern to keep a progress dashboard for this task."

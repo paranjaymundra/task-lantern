@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<title>A better search experience. · Task Lantern</title>
+<style>
+:root{color-scheme:dark;--bg:#141916;--surface:#1d2420;--fg:#eef2e9;--muted:#a6b3a9;--line:#354039;--accent:#c7ed84;--pad:26px;--radius:16px;--warn:#ffd298;--good:#c7ed84;--bad:#ffb3a7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body.light{color-scheme:light;--bg:#f5f5ee;--surface:#fffef8;--fg:#202a23;--muted:#59665c;--line:#d6ddd0;--warn:#79480b;--good:#3a6118;--bad:#9a3529}body.dense{--pad:17px;font-size:14px}button{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px;cursor:pointer}button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}main{max-width:1280px;margin:auto;padding:30px 40px 48px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:25px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:10px;font-weight:650;letter-spacing:-.3px}.mark{color:var(--accent);font-size:22px}.top-actions{display:flex;align-items:center;gap:16px}.small,.eyebrow,.badge,.index{font:11px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.06em}.small{color:var(--muted)}.hero{display:grid;grid-template-columns:1fr 240px;gap:48px;padding:48px 0 36px}.eyebrow{color:var(--muted);letter-spacing:.16em}h1{font-size:clamp(30px,4vw,51px);font-weight:550;letter-spacing:-2px;line-height:1.13;max-width:800px;margin:16px 0}p{margin:8px 0;color:var(--muted);overflow-wrap:anywhere}.summary{max-width:700px;font-size:16px}.phase{display:inline-flex;align-items:center;gap:8px;color:var(--fg);font-size:12px}.dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}.progress-card{align-self:center;border-left:1px solid var(--line);padding-left:30px}.progress-value{font-size:52px;line-height:1.2;letter-spacing:-2px;font-weight:450}.progress-value span{font-size:23px;color:var(--muted)}progress{appearance:none;border:none;width:100%;height:5px;background:var(--line);border-radius:5px;margin:15px 0 6px}progress::-webkit-progress-bar{background:var(--line);border-radius:5px}progress::-webkit-progress-value{background:var(--accent);border-radius:5px}progress::-moz-progress-bar{background:var(--accent)}.metrics{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:var(--radius);margin:0 0 26px;overflow:hidden}.metric{padding:18px 22px;border-right:1px solid var(--line)}.metric:last-child{border:0}.metric b{font-size:23px;font-weight:550;display:block}.metric span{color:var(--muted);font-size:12px}.panels{display:grid;grid-template-columns:1fr 1fr;gap:20px}.panels.brief{grid-template-columns:1fr}.panel{padding:var(--pad);border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);min-width:0}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}h2{font-size:17px;font-weight:600;letter-spacing:-.4px;margin:0}.index{color:var(--muted)}.row{padding:16px 0;border-top:1px solid var(--line)}.row-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.row-title{font-weight:550;overflow-wrap:anywhere;min-width:0}.row p{font-size:13px}.badge{border:1px solid var(--line);border-radius:5px;padding:2px 7px;white-space:nowrap;flex-shrink:0;text-transform:uppercase;font-size:10px}.done,.resolved,.answered{color:var(--good)}.doing,.pending{color:var(--warn)}.blocked,.open,.required{color:var(--bad)}.default{padding:10px 12px;margin-top:10px;border-left:2px solid var(--accent);background:var(--bg);font-size:12px;overflow-wrap:anywhere}.default strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}.path{font:12px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere;color:var(--fg)}.empty{font-size:13px;padding:14px 0;color:var(--muted)}footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:28px;padding-top:20px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}#freshness{margin-bottom:20px;font-size:12px;color:var(--muted)}#freshness.stale{color:var(--warn)}noscript{display:block;padding:20px;color:var(--warn)}
+@media(max-width:760px){main{padding:20px}.hero{grid-template-columns:1fr;gap:24px;padding:32px 0}.progress-card{border:0;padding:0}.progress-value{font-size:38px}.panels{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.metric:nth-child(2){border-right:0}.metric:nth-child(-n+2){border-bottom:1px solid var(--line)}.top-actions .small{display:none}h1{letter-spacing:-1px}.row-top{flex-wrap:wrap;gap:8px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+@media print{button{display:none}.panels{display:block}.panel{break-inside:avoid;margin-bottom:15px}main{padding:0}}
+
+</style>
+</head>
+<body>
+<noscript>Enable JavaScript to view this offline dashboard. The original data is in state.json beside this file.</noscript>
+<main>
+  <header class="topbar"><div class="brand"><span class="mark" aria-hidden="true">◈</span> Task Lantern</div><div class="top-actions"><span class="small">LOCAL · PRIVATE · YOURS</span><button id="refresh" type="button" aria-pressed="false">Pause refresh</button></div></header>
+  <section class="hero" aria-label="Task overview"><div><div class="eyebrow" id="eyebrow"></div><h1 id="title"></h1><p class="summary" id="summary"></p><div class="phase"><span class="dot" aria-hidden="true"></span><span id="phase"></span></div></div><div class="progress-card"><div class="small">TASKS COMPLETED</div><div class="progress-value" id="completion"></div><progress id="progress" aria-label="Tasks completed"></progress><div class="small" id="progress-note"></div></div></section>
+  <div class="metrics" id="metrics"></div>
+  <div id="freshness" role="status"></div>
+  <div class="panels" id="panels"></div>
+  <footer><span id="updated"></span><span>Reply to questions in your agent chat · This page is a read-only view</span></footer>
+</main>
+<script id="state" type="application/json">{"version": 1, "run": "20260927-073653-86ef0066", "revision": 1, "started_at": "2026-09-27T07:36:53+00:00", "updated_at": "2026-09-27T07:36:53+00:00", "style": {"theme": "light", "density": "airy", "accent": "#c7ed84"}, "snapshot": {"title": "A better search experience.", "summary": "The core search flow is ready. Keyboard navigation is being checked while the release preview waits on access.", "phase": "active", "tasks": [{"id": "audit", "title": "Map the current search flow", "status": "done", "detail": "Found three friction points across desktop and mobile."}, {"id": "design", "title": "Design the result states", "status": "done", "detail": "Empty, loading, and no-result states are covered."}, {"id": "build", "title": "Build the search interface", "status": "done", "detail": "The local preview is ready to inspect."}, {"id": "keyboard", "title": "Verify keyboard navigation", "status": "doing", "detail": "Checking focus order and Escape behavior."}, {"id": "release", "title": "Prepare the release preview", "status": "blocked", "detail": "Waiting for access to the preview environment."}, {"id": "handoff", "title": "Write the handoff", "status": "todo", "detail": "Include validation results and remaining decisions."}], "questions": [{"id": "density", "question": "Should result rows be more compact?", "status": "pending", "requires_answer": false, "default": "Keep the current airy spacing. Easy to change later.", "answer": ""}, {"id": "publish", "question": "Publish the preview when access is ready?", "status": "pending", "requires_answer": true, "default": "Keep the preview local and continue the handoff until you approve publication.", "answer": ""}], "blockers": [{"id": "access", "title": "Preview access is missing", "status": "open", "detail": "Release preparation is waiting. Local checks can continue."}], "deliverables": [{"id": "preview", "title": "Interactive search preview", "path": "preview/search.html", "detail": "Desktop and mobile states, ready for review."}, {"id": "notes", "title": "Design decisions", "path": "docs/search-decisions.md", "detail": "The rationale behind the new result layout."}]}, "presentation": {"eyebrow": "DEMO / FICTIONAL PROJECT", "order": ["tasks", "questions", "blockers", "deliverables"], "layout": "board"}}</script>
+<script>
+'use strict';
+const state = JSON.parse(document.getElementById('state').textContent);
+const data = state.snapshot;
+const $ = id => document.getElementById(id);
+const node = (tag, content, cls) => {const el=document.createElement(tag);if(content!==undefined)el.textContent=content;if(cls)el.className=cls;return el;};
+document.body.classList.add(state.style.theme,state.style.density);
+document.documentElement.style.setProperty('--accent',state.style.accent);
+$('title').textContent=data.title;
+$('summary').textContent=data.summary;
+$('eyebrow').textContent=state.presentation.eyebrow;
+$('phase').textContent={active:'Work in progress',blocked:'Waiting on a blocker',paused:'Work paused',complete:'Work complete'}[data.phase];
+const done=data.tasks.filter(t=>t.status==='done').length;
+const skipped=data.tasks.filter(t=>t.status==='skipped').length;
+$('completion').append(node('strong',String(done)),node('span',' / '+data.tasks.length));
+$('progress').max=Math.max(1,data.tasks.length);$('progress').value=done;
+$('progress-note').textContent=skipped ? skipped+' skipped · counts, not a time estimate' : 'Counted steps, not a time estimate';
+const pending=data.questions.filter(q=>q.status==='pending').length;
+const blocked=data.blockers.filter(b=>b.status==='open').length;
+for(const [number,label] of [[data.tasks.filter(t=>t.status==='doing').length,'In progress'],[pending,'Questions for you'],[blocked,'Open blockers'],[data.deliverables.length,'Deliverables']]){const el=node('div',undefined,'metric');el.append(node('b',String(number)),node('span',label));$('metrics').append(el);}
+const labels={tasks:'The plan',questions:'Your input',blockers:'What’s stuck',deliverables:'Ready to inspect'};
+const empty={tasks:'The agent has not recorded a plan yet.',questions:'No questions waiting on you.',blockers:'No blockers reported.',deliverables:'Deliverables will appear here as they are ready.'};
+$('panels').classList.add(state.presentation.layout);
+for(const [index,key] of state.presentation.order.entries()){
+  const panel=node('section',undefined,'panel');panel.id=key;panel.setAttribute('aria-labelledby',key+'-title');
+  const head=node('div',undefined,'panel-head');const heading=node('h2',labels[key]);heading.id=key+'-title';head.append(heading,node('span',String(index+1).padStart(2,'0'),'index'));panel.append(head);
+  if(!data[key].length)panel.append(node('p',empty[key],'empty'));
+  for(const item of data[key]){
+    const row=node('article',undefined,'row'),top=node('div',undefined,'row-top');
+    top.append(node('div',item.title||item.question,'row-title'));
+    if(item.status)top.append(node('span',item.status,'badge '+item.status));
+    row.append(top);
+    if(item.detail)row.append(node('p',item.detail));
+    if(key==='questions'){
+      const box=node('div',undefined,'default');
+      if(item.status==='answered'){box.append(node('strong','Your answer'),node('span',item.answer));}
+      else{box.append(node('strong',item.requires_answer?'Answer required · dependent work waits':item.status==='defaulted'?'Default applied':'If you don’t answer'),node('span',item.default));}
+      row.append(box);
+    }
+    if(key==='deliverables')row.append(node('div',item.path,'path'));
+    panel.append(row);
+  }
+  $('panels').append(panel);
+}
+const updated=new Date(state.updated_at),started=new Date(state.started_at);
+$('updated').textContent='Updated '+updated.toLocaleString()+' · Started '+started.toLocaleString()+' · Revision '+state.revision;
+let paused=false;
+try{paused=sessionStorage.getItem('lantern-paused:'+state.run)==='true';}catch{}
+const terminal=['complete','paused'].includes(data.phase);
+function refreshLabel(){const button=$('refresh');button.textContent=terminal?'Refresh now':paused?'Resume refresh':'Pause refresh';button.setAttribute('aria-pressed',String(paused));}
+$('refresh').addEventListener('click',()=>{if(terminal){location.reload();return;}paused=!paused;try{sessionStorage.setItem('lantern-paused:'+state.run,String(paused));}catch{}refreshLabel();freshness();});
+function freshness(){const seconds=Math.max(0,Math.floor((Date.now()-updated.getTime())/1000));const age=seconds<60?seconds+'s':Math.floor(seconds/60)+'m';const stale=seconds>120&&!terminal;$('freshness').classList.toggle('stale',stale);$('freshness').textContent=(stale?'No progress update for '+age+'. The agent may still be working.':'Last progress update '+age+' ago.')+(terminal?' Automatic refresh stopped.':paused?' Refresh paused.':' Page checks for changes every 10 seconds.');}
+refreshLabel();freshness();setInterval(freshness,1000);
+setInterval(()=>{if(!paused&&!terminal)location.reload();},10000);
+</script>
+</body>
+</html>

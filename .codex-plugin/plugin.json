@@ -1,0 +1,24 @@
+{
+  "name": "task-lantern",
+  "version": "0.1.0",
+  "description": "Offline progress dashboards for long-running agent tasks.",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Task Lantern",
+    "shortDescription": "See progress, blockers, and decisions at a glance.",
+    "category": "Productivity",
+    "defaultPrompt": [
+      "Use Task Lantern to track this long task."
+    ],
+    "brandColor": "#c7ed84",
+    "longDescription": "Local HTML progress dashboards for long agent tasks, with saved style preferences and explicit decision defaults.",
+    "developerName": "Task Lantern contributors",
+    "capabilities": [
+      "Write"
+    ]
+  },
+  "author": {
+    "name": "Task Lantern contributors"
+  }
+}

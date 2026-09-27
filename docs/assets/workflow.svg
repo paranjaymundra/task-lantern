@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="280" viewBox="0 0 1200 280" role="img" aria-labelledby="title desc">
+<title id="title">One task, two roles, one clear view</title><desc id="desc">The main agent works and publishes facts. The dashboard builder designs the presentation. Both feed one offline HTML dashboard.</desc>
+<rect width="1200" height="280" rx="18" fill="#141916"/>
+<g fill="#1d2420" stroke="#354039"><rect x="36" y="36" width="350" height="90" rx="12"/><rect x="36" y="152" width="350" height="90" rx="12"/><rect x="550" y="70" width="240" height="140" rx="12"/><rect x="930" y="70" width="234" height="140" rx="12"/></g>
+<g fill="none" stroke="#c7ed84" stroke-width="2"><path d="M386 81H460V120H550M386 197H460V160H550M790 140H918"/><path d="m908 133 10 7-10 7"/></g>
+<g font-family="system-ui,-apple-system,sans-serif" fill="#eef2e9"><text x="60" y="74" font-size="20">Main agent</text><text x="60" y="190" font-size="20">Dashboard builder</text><text x="578" y="119" font-size="20">Local publisher</text><text x="957" y="119" font-size="20">Your dashboard</text></g>
+<g font-family="system-ui,-apple-system,sans-serif" fill="#a6b3a9" font-size="14"><text x="60" y="102">Does the work. Records the facts.</text><text x="60" y="218">Designs the view. Runs alongside.</text><text x="578" y="151">Validates + timestamps</text><text x="578" y="175">One writer. Real progress.</text><text x="957" y="151">One HTML file</text><text x="957" y="175">Refreshes every 10s</text></g>
+</svg>

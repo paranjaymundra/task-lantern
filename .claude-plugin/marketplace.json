@@ -1,0 +1,16 @@
+{
+  "name": "task-lantern-marketplace",
+  "owner": {
+    "name": "Task Lantern contributors"
+  },
+  "plugins": [
+    {
+      "name": "task-lantern",
+      "source": "./",
+      "description": "Offline dashboards for long agent tasks."
+    }
+  ],
+  "metadata": {
+    "description": "Task Lantern: offline progress dashboards for long agent tasks."
+  }
+}

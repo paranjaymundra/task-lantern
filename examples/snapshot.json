@@ -1,0 +1,24 @@
+{
+  "title": "A better search experience.",
+  "summary": "The core search flow is ready. Keyboard navigation is being checked while the release preview waits on access.",
+  "phase": "active",
+  "tasks": [
+    {"id": "audit", "title": "Map the current search flow", "status": "done", "detail": "Found three friction points across desktop and mobile."},
+    {"id": "design", "title": "Design the result states", "status": "done", "detail": "Empty, loading, and no-result states are covered."},
+    {"id": "build", "title": "Build the search interface", "status": "done", "detail": "The local preview is ready to inspect."},
+    {"id": "keyboard", "title": "Verify keyboard navigation", "status": "doing", "detail": "Checking focus order and Escape behavior."},
+    {"id": "release", "title": "Prepare the release preview", "status": "blocked", "detail": "Waiting for access to the preview environment."},
+    {"id": "handoff", "title": "Write the handoff", "status": "todo", "detail": "Include validation results and remaining decisions."}
+  ],
+  "questions": [
+    {"id": "density", "question": "Should result rows be more compact?", "status": "pending", "requires_answer": false, "default": "Keep the current airy spacing. Easy to change later.", "answer": ""},
+    {"id": "publish", "question": "Publish the preview when access is ready?", "status": "pending", "requires_answer": true, "default": "Keep the preview local and continue the handoff until you approve publication.", "answer": ""}
+  ],
+  "blockers": [
+    {"id": "access", "title": "Preview access is missing", "status": "open", "detail": "Release preparation is waiting. Local checks can continue."}
+  ],
+  "deliverables": [
+    {"id": "preview", "title": "Interactive search preview", "path": "preview/search.html", "detail": "Desktop and mobile states, ready for review."},
+    {"id": "notes", "title": "Design decisions", "path": "docs/search-decisions.md", "detail": "The rationale behind the new result layout."}
+  ]
+}
