@@ -7,6 +7,8 @@ an upload form requires it.
 
 | Asset | Use |
 | --- | --- |
+| [task-lantern-demo.mp4](task-lantern-demo.mp4) | Final narrated launch video, 1920 × 1080, 35.6 seconds, approximately 3 MB. |
+| [task-lantern-demo.jpg](task-lantern-demo.jpg) | Poster for the launch video. |
 | [hero.svg](hero.svg) / [hero.png](hero.png) | README banner, 1600 × 560. |
 | [logo.svg](logo.svg) | Standalone lantern mark, 128 × 128. |
 | [social-preview.svg](social-preview.svg) / [social-preview.png](social-preview.png) | Repository social preview or announcement, 1280 × 640. |
@@ -19,6 +21,15 @@ The brand artwork is original, code-authored vector work created for this
 repository. PNG brand images are browser renderings of the SVG sources. Product
 images are real Chrome screenshots of the generated fictional demo, not mockups.
 The demo's timestamps come from the system clock at generation time.
+
+## Launch video
+
+The final video uses the actual dashboard with fictional tasks, scripted interactions,
+locally synthesized Kokoro narration, and an original instrumental. The approved
+render and poster are the only video production artifacts kept in the current tree.
+Editable production source and rebuild instructions remain available in
+[commit 25ba79d](https://github.com/paranjaymundra/task-lantern/tree/25ba79d9d63eeac4a22b64967c0b54ed13304513/brag-output-2026-09-27-141031).
+Keep temporary renders, recordings, and audio outside the repository.
 
 ## Regenerate
 

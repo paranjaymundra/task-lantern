@@ -1,1 +1,0 @@
-Task Lantern gives long Claude Code and Codex tasks one local dashboard. Switch tracked threads, see progress and waiting decisions, and open the details when you need them. Open source: https://github.com/paranjaymundra/task-lantern
