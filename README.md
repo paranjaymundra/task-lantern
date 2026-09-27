@@ -47,7 +47,13 @@ you want. Completed and paused runs stop refreshing automatically.
 ## Quick start
 
 You need **Python 3.10+**, a browser with JavaScript, and Claude Code or Codex.
-Clone or download this repository, then run the commands below from its root.
+Clone the repository and enter its folder:
+
+```sh
+git clone https://github.com/paranjaymundra/task-lantern.git
+cd task-lantern
+```
+
 The Python publisher uses only the standard library. Your agent's normal usage
 costs still apply; a designer subagent is optional.
 
@@ -98,10 +104,10 @@ Then invoke:
 /task-lantern:task-lantern Track this task and use dashboard-builder in the background.
 ```
 
-For a persistent plugin installation, run from the cloned repository root:
+For a persistent plugin installation:
 
 ```sh
-claude plugin marketplace add .
+claude plugin marketplace add paranjaymundra/task-lantern
 claude plugin install task-lantern@task-lantern-marketplace
 ```
 
