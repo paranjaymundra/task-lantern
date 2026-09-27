@@ -116,7 +116,7 @@ class DashboardTests(unittest.TestCase):
         user.parent.mkdir(parents=True)
         d.write_json(user, {"theme": "light", "density": "dense", "accent": "#123456"})
         self.assertEqual(d.load_style(self.project)["theme"], "light")
-        d.write_json(self.project / ".dashboard/preferences.json", d.DEFAULT_STYLE)
+        d.write_json(self.project / ".dashboard/preferences.json", {**d.DEFAULT_STYLE, "theme": "dark"})
         self.assertEqual(d.load_style(self.project)["theme"], "dark")
 
     def test_style_rejects_css_injection(self):
@@ -176,6 +176,75 @@ class DashboardTests(unittest.TestCase):
         result = subprocess.run([sys.executable, str(d.__file__), "--project", str(self.project), "publish", self.state["run"], "--input", "-", "--expected-revision", "0"], input="not json", capture_output=True, text=True)
         self.assertEqual(result.returncode, 2)
         self.assertNotIn("Traceback", result.stderr)
+
+    def test_patch_upserts_without_losing_unmentioned_rows(self):
+        state, _ = d.publish(self.project, self.state["run"], self.snapshot, 0)
+        changed = {**self.snapshot["tasks"][3], "status": "done"}
+        state, _ = d.patch_snapshot(self.project, state["run"], {"tasks": [changed]}, 1)
+        self.assertEqual(len(state["snapshot"]["tasks"]), 6)
+        self.assertEqual(state["snapshot"]["tasks"][3]["status"], "done")
+        self.assertEqual(state["snapshot"]["questions"], self.snapshot["questions"])
+        self.assertEqual(state["revision"], 2)
+
+    def test_stale_and_invalid_patches_preserve_state(self):
+        d.publish(self.project, self.state["run"], self.snapshot, 0)
+        before = (self.path / "state.json").read_bytes()
+        for patch, revision in [({"summary": "New"}, 0), ({"tasks": [{"id": "keyboard", "status": "done"}]}, 1), ({"unknown": True}, 1)]:
+            with self.assertRaises(ValueError):
+                d.patch_snapshot(self.project, self.state["run"], patch, revision)
+        self.assertEqual(before, (self.path / "state.json").read_bytes())
+
+    def test_history_records_transitions_and_is_bounded(self):
+        state, _ = d.publish(self.project, self.state["run"], self.snapshot, 0)
+        next_snapshot = copy.deepcopy(self.snapshot)
+        next_snapshot["tasks"][3]["status"] = "done"
+        state, _ = d.publish(self.project, state["run"], next_snapshot, 1)
+        event = state["history"][-1]
+        self.assertEqual((event["before"], event["after"], event["kind"]), ("doing", "done", "status"))
+        self.assertEqual(event["at"], state["updated_at"])
+        state["history"] = [event] * 100
+        d.write_json(self.path / "state.json", state)
+        state, _ = d.publish(self.project, state["run"], next_snapshot, 2)
+        self.assertEqual(len(state["history"]), 100)
+        self.assertEqual(state["history"][-1]["kind"], "confirmed")
+
+    def test_version_one_runs_upgrade_without_invented_history(self):
+        self.state.pop("history")
+        self.state["version"] = 1
+        d.write_json(self.path / "state.json", self.state)
+        state, _ = d.publish(self.project, self.state["run"], self.snapshot, 0)
+        self.assertEqual(state["version"], 2)
+        self.assertTrue(all(e["revision"] == 1 for e in state["history"]))
+
+    def test_workspace_index_tracks_separate_runs_and_bad_state(self):
+        second, _ = d.init(self.project, "Second run")
+        self.assertEqual(len(d.list_runs(self.project)["runs"]), 2)
+        index = self.project / ".dashboard/index.html"
+        self.assertIn("Second run", index.read_text(encoding="utf-8"))
+        (self.path / "state.json").write_text("invalid")
+        inventory = d.list_runs(self.project)
+        self.assertEqual(inventory["unreadable"], [self.state["run"]])
+        self.assertEqual(inventory["runs"][0]["run"], second["run"])
+
+    def test_overview_lock_does_not_undo_successful_publish(self):
+        with d.lock(self.project / ".dashboard"):
+            state, _ = d.publish(self.project, self.state["run"], self.snapshot, 0)
+        self.assertEqual(state["revision"], 1)
+        d.refresh_index(self.project, strict=True)
+
+    def test_removal_is_recorded_in_history(self):
+        before = copy.deepcopy(self.snapshot)
+        self.snapshot["deliverables"].pop()
+        events = d.changes(before, self.snapshot, 2, d.now())
+        self.assertEqual(events[0]["kind"], "removed")
+        self.assertEqual(events[0]["panel"], "deliverables")
+
+    def test_status_and_list_commands_return_machine_readable_data(self):
+        for command, extra in [("status", [self.state["run"]]), ("list", [])]:
+            result = subprocess.run([sys.executable, str(d.__file__), "--project", str(self.project), command, *extra], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            parsed = json.loads(result.stdout)
+            self.assertIsInstance(parsed, dict)
 
 
 if __name__ == "__main__":

@@ -14,7 +14,7 @@ project in which it was originally created.
    the README banner is designed for a wide layout.
 6. Enable private vulnerability reporting and review GitHub Actions results.
 7. Keep `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` versions in
-   sync, then create a `v0.1.0` tag/release when ready.
+   sync, then create a `v0.2.0` tag/release when ready.
 
 The Claude marketplace uses a relative source, so it works from a clone without
 hard-coded account names. Once hosted, users can add `OWNER/task-lantern` with

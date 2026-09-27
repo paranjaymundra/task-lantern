@@ -19,10 +19,11 @@ SKILL.md, not the user's working directory. Python 3.10+ is required.
    the protocol. If neither exists, ask once: “Dark or light, dense or airy, and
    which accent color? Remember this across projects?” Ask in the main chat;
    background agents must not wait for a user answer. Continue with temporary
-   dark/airy/lime defaults. Do not save temporary choices as a user's preference.
+   light/dense/terracotta defaults. Do not save temporary choices as a user's preference.
    Save an actual answer locally, or at user scope if they chose to remember it.
 3. Run `init --title ...`, retain the returned run ID, then publish the real plan.
    Each separate task/session gets its own run. Share the resulting HTML path.
+   `.dashboard/index.html` is the automatically generated overview of project runs.
 4. If the host allows background delegation, launch dashboard-builder with the
    run directory, current task brief, and confirmed style. The main session
    continues immediately. Use medium effort where supported; leave the main
@@ -32,11 +33,14 @@ SKILL.md, not the user's working directory. Python 3.10+ is required.
 ## Maintain
 
 - Publish after each meaningful step, new blocker, question, deliverable, or
-  change of plan. Read the latest state revision first. Preserve historical rows
+  change of plan. Read the latest state revision first. For a small change, use
+  `patch` with complete rows by ID; omitted rows are preserved. Use `status` and
+  `list` for machine-readable inspection. Full `publish` replaces the snapshot. Preserve historical rows
   and stable IDs within a run; mark blockers resolved and questions answered.
 - Only the main agent publishes state and HTML. The designer writes only
   `presentation.json` and optional `theme.css` inside this run. After it finishes,
-  run `render`; rendering does not advance the progress timestamp.
+  run `render`; rendering does not advance the progress timestamp. Every publication records
+  derived changes in a bounded 100-event history; do not fabricate past events.
 - Record facts from the session. Do not infer completion from elapsed time,
   invent tests or links, or make up event timestamps. The publisher uses the OS
   clock. Step counts are not estimates of remaining time.
@@ -61,7 +65,7 @@ Use the bundled dashboard-design skill when available; otherwise read
 [design guidance](references/design.md). Prefer the user's chosen installed
 design skill if they specify one; do not install dependencies on their behalf.
 Choose information order and CSS to suit the work while keeping all four panels.
-Preserve readable contrast, mobile layouts, text status labels, refresh controls,
+Preserve readable contrast, mobile layouts, text status labels, refresh controls, navigation, search, exports, the Developer view,
 and the truthful timestamps and counts.
 
 Keep task data under `.dashboard/<run>/`. Save only style choices in persistent

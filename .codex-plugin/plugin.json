@@ -1,6 +1,6 @@
 {
   "name": "task-lantern",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Offline progress dashboards for long-running agent tasks.",
   "license": "MIT",
   "skills": "./skills/",

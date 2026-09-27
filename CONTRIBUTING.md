@@ -11,6 +11,7 @@ Python 3.10+ is enough for the core:
 python3 -m unittest discover -s tests -v
 python3 scripts/demo.py
 python3 scripts/demo.py --theme light --output examples/demo-light.html
+python3 scripts/demo.py --theme dark --output examples/demo-dark.html
 ```
 
 For UI changes, open both demos, check a phone width and keyboard focus, and run
@@ -41,3 +42,9 @@ question, a required decision, and a final state. Also try the main-agent-only
 fallback. Record the host version and any deviations from the instructions.
 
 Contributions are licensed under the repository's MIT license.
+
+The browser suite now checks the Developer view, keyboard search, filters,
+decision order, export downloads, clipboard fallback, safe external links,
+UI persistence, file refresh, stale/terminal states, and the multi-run overview.
+Source CSS and JavaScript are under the skill’s `assets/`; the renderer embeds
+them in the standalone HTML. Never add network dependencies to generated pages.

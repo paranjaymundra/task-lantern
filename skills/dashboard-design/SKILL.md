@@ -16,6 +16,6 @@ Write the handed-off run's `presentation.json`: `eyebrow` (short contextual text
 from it. Prefer system fonts, readable contrast, generous title hierarchy,
 quiet metadata, visible keyboard focus, and phone-width stacking.
 
-Preserve status labels, facts, timestamps, refresh controls, and stale-update
+Preserve navigation, search, exports, Developer view, status labels, facts, timestamps, refresh controls, and stale-update
 notices. Don't hide problems, fabricate progress, fetch external assets, or edit
 state.json/index.html. Return the design paths to the main agent for rendering.

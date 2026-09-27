@@ -1,7 +1,7 @@
 # Graphics provenance
 
 - `hero.png`: original AI-generated artwork created with the built-in OpenAI image generation tool for Task Lantern. No reference images supplied.
-- `dashboard-dark.png`, `dashboard-light.png`, `dashboard-mobile.png`: real Chrome screenshots of the generated fictional demo, captured by `tests/browser.mjs`.
+- `dashboard-dark.png`, `dashboard-light.png`, `dashboard-mobile.png`, `dashboard-developer.png`, `dashboard-workspace.png`: real Chrome screenshots of the generated fictional demo, captured by `tests/browser.mjs`.
 - `workflow.svg` and `logo.svg`: original editable vector graphics authored for this repository.
 
 The artwork and graphics are distributed under the repository's MIT license to the extent rights can be granted. No external stock assets or third-party logos are included.

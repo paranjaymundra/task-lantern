@@ -27,7 +27,7 @@ one HTML file shows you where things stand.
 **No server. No account. No runtime dependencies beyond Python.**
 Your existing coding agent does the work; Task Lantern adds the view.
 
-![A real Task Lantern dashboard showing a fictional search redesign with progress, questions, blockers, and deliverables](docs/assets/dashboard-dark.png)
+![A real Task Lantern dashboard showing a fictional search redesign with progress, questions, blockers, and deliverables](docs/assets/dashboard-light.png)
 
 *Actual generated dashboard. Demo project and deliverables are fictional.*
 
@@ -38,7 +38,11 @@ Your existing coding agent does the work; Task Lantern adds the view.
 | **The plan** | Completed steps, active work, upcoming steps, and deliberately skipped work. |
 | **Your input** | Questions waiting on you and the exact default for each optional choice. |
 | **What’s stuck** | Blockers, why they matter, and what can continue. |
-| **Ready to inspect** | Deliverables and their local paths or URLs, displayed as text. |
+| **Ready to inspect** | Deliverables and their local paths or URLs. Copy local paths or open HTTP(S) links. |
+
+The **Overview, Plan, Decisions, Activity, and Developer** views keep different
+levels of detail within reach. Search tasks, filter by status, or press `/` to
+jump to search. Required decisions appear before optional preferences.
 
 The page refreshes every **10 seconds** while work is active. It displays the
 last real progress timestamp and calls out stale updates. Pause refresh whenever
@@ -136,21 +140,55 @@ on every task; explicitly invoke it when you want a dashboard.
 
 On first use, the main agent asks about **dark or light**, **dense or airy**, and
 **an accent color**. It can remember your answer for the project or, if you choose,
-across projects. While you decide, it uses temporary dark/airy/lime defaults.
+across projects. While you decide, it uses temporary light/compact/terracotta defaults.
 
 The designer chooses the panel order and composition for your task. A build can
 lead with the plan; a stuck integration can lead with blockers; a review can
 lead with deliverables. The renderer supplies a reliable base, and the designer
 can customize its CSS without rewriting the publishing logic.
 
-| Light | Mobile |
+| Dark mode | Mobile |
 | --- | --- |
-| ![Light theme dashboard](docs/assets/dashboard-light.png) | ![Mobile dashboard](docs/assets/dashboard-mobile.png) |
+| ![Dark theme dashboard](docs/assets/dashboard-dark.png) | ![Mobile dashboard](docs/assets/dashboard-mobile.png) |
 
-Project preferences take precedence over user preferences. Only confirmed style
+Project preferences take precedence over user preferences. Browser theme and
+density switches are local viewing preferences and do not edit the agent’s saved style. Only confirmed style
 choices belong in persistent memory. Task details stay in the run directory.
 You can supply your own installed design skill, but none is required: a small
 dashboard-design skill is included.
+
+## Built for the developer at the keyboard
+
+![Developer workspace with raw state, a patch example, and copyable commands](docs/assets/dashboard-developer.png)
+
+- **Inspect the source.** See the current snapshot, schema version, and revision.
+- **Update just what changed.** The `patch` command upserts complete rows by ID;
+  omitted tasks, decisions, and artifacts stay intact. Revision checks still apply.
+- **Follow the history.** The last 100 publication events record additions,
+  removals, status transitions, and other changes using the real clock.
+- **Take a handoff with you.** Export Markdown or the full JSON state. Copy a
+  concise update, artifact path, question, or CLI command. Nothing gets sent automatically.
+- **Keep multiple runs separate.** `.dashboard/index.html` lists your project’s
+  runs, progress, pending decisions, and blockers. Search by title or phase.
+- **Stay in your flow.** Theme and density controls, keyboard search, persistent
+  view/filter/scroll state, and clipboard fallback all work offline.
+
+```sh
+# Inspect a run and its current revision
+python3 /path/to/dashboard.py --project . status RUN_ID
+
+# Apply complete rows from patch.json, preserving omitted rows
+python3 /path/to/dashboard.py --project . patch RUN_ID --input patch.json --expected-revision 2
+
+# List project runs as machine-readable JSON
+python3 /path/to/dashboard.py --project . list
+```
+
+The Developer view supplies commands with your real script/project paths and
+current revision. Demo commands deliberately use example paths. Commands shown
+in the UI use POSIX shell quoting; use Git Bash or WSL on Windows.
+
+See the [CLI and patch guide](docs/developer-guide.md) for a complete example.
 
 ## How it works
 
@@ -164,7 +202,8 @@ dashboard-design skill is included.
 4. **Stay in the loop.** Open the HTML file. Reply to questions in your agent
    chat; the page is a read-only view.
 5. **Finish cleanly.** The final snapshot records the actual outcome and stops
-   automatic refresh.
+   automatic refresh. Refresh also waits while you are typing or using a dialog;
+your view, filters, and scroll position survive a reload.
 
 Think of the main agent as someone building a treehouse. The designer makes the
 noticeboard. The noticeboard tells you which pieces are built, what tools are
@@ -174,6 +213,7 @@ gives the builder permission to spend your money or knock down your house.
 ```text
 your-project/
 └── .dashboard/
+    ├── index.html             # Overview of all project runs
     ├── preferences.json       # Optional project style
     └── <unique-run-id>/
         ├── state.json         # Authoritative facts, revision, timestamps
@@ -204,7 +244,7 @@ reports and whether an action is authorized.
 - The generated page makes **no network requests** and has no analytics, remote
   fonts, CDN dependencies, or server. It uses a restrictive content security policy.
 - Task text is rendered as text, not executable HTML. Deliverable paths are
-  shown without turning arbitrary input into clickable links.
+  copyable; only validated HTTP(S) URLs without embedded credentials become links.
 - Add `.dashboard/` to your project's `.gitignore` if you want to keep task data
   out of Git. Task Lantern doesn't change your ignore rules automatically.
 - Agent file boundaries are **instructions, not a filesystem sandbox**. The host's
@@ -214,7 +254,7 @@ reports and whether an action is authorized.
 - Background execution, model availability, and custom-agent discovery depend
   on your host/version. The main-agent workflow remains available.
 - Python CLI and browser behavior are tested. Full autonomous Claude/Codex sessions
-  are not covered by the automated suite, so treat this as an early `0.1.0` release.
+  are not covered by the automated suite, so treat this as an early `0.2.0` release.
 
 ## Develop and contribute
 
@@ -222,6 +262,7 @@ reports and whether an action is authorized.
 python3 -m unittest discover -s tests -v
 python3 scripts/demo.py
 python3 scripts/demo.py --theme light --output examples/demo-light.html
+python3 scripts/demo.py --theme dark --output examples/demo-dark.html
 ```
 
 Optional real-browser checks and screenshots require Node 22+ and Chrome:
@@ -235,7 +276,8 @@ Set `CHROME_PATH` if Chrome is not in its default macOS location or named
 
 The suite covers state validation, required decisions, safe completion, stale
 writes, lock contention, HTML escaping, style precedence, and install behavior.
-GitHub Actions runs the Python tests on Linux, macOS, and Windows.
+GitHub Actions runs the Python tests on Linux, macOS, and Windows, plus the
+real-browser interaction suite on Linux.
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) for the small number of invariants that
 keep this tool dependable, and [the release guide](docs/releasing.md) for publishing.

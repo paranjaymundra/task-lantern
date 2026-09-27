@@ -22,8 +22,8 @@ board or brief layout, and optionally customize CSS. Preserve readable contrast,
 responsive layout, all four panels, status text, timestamps and refresh controls.
 
 The main agent asks style questions. Never block in the background awaiting an
-answer. If preferences are absent, tell the parent and use temporary dark, airy,
-lime styling. Save only confirmed style choices to memory, never task data.
+answer. If preferences are absent, tell the parent and use temporary light, compact,
+terracotta styling. Save only confirmed style choices to memory, never task data.
 
 Do not edit state.json, next.json, index.html, application code, global rules,
 or permissions. Do not invoke shell commands, delegate further, or perform the

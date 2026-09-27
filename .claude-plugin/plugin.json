@@ -1,6 +1,6 @@
 {
   "name": "task-lantern",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Offline progress dashboards with a dedicated dashboard-builder agent.",
   "license": "MIT",
   "author": {

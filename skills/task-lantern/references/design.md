@@ -12,5 +12,10 @@ more visual weight than metadata. Keep status words in addition to color.
 Use `presentation.json` for order, eyebrow, and board/brief layout. Optional
 `theme.css` can change type scale, grid, corner radius, and spacing. Fit the task
 rather than changing colors at random. Preserve mobile stacking, focus outlines,
-the refresh button, the stale-update notice, and all source facts. Never hide
+navigation, search, export and Developer controls, the refresh button, the stale-update notice, and all source facts. Never hide
 blocked work to make the page look cleaner. Test at desktop and phone widths.
+
+The default is a warm light workbench with compact rows, quiet borders, serif
+page headings, and restrained terracotta accents. Dark mode is equally usable.
+Prefer readable text and useful density over large metric cards. All controls
+must remain reachable at phone widths.

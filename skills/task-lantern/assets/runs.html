@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"
+    />
+    <title>Workspace · Task Lantern</title>
+    <style>
+      :root{color-scheme:light}*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;background:#f6f5f1;color:#272923;font:13px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}main{max-width:1100px;padding:40px 28px;margin:auto}header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #dedfd5;padding-bottom:20px}.brand{font:25px Georgia,serif;letter-spacing:-1px}.local{font:10px ui-monospace,monospace;color:#72756c}h1{font:38px Georgia,serif;margin:40px 0 12px}p{color:#72756c}input{font:inherit;padding:10px 12px;width:100%;border:1px solid #dedfd5;border-radius:4px;background:#fffefa;margin:24px 0 16px}input:focus-visible,a:focus-visible{outline:2px solid #ae5630;outline-offset:3px}.run{display:grid;grid-template-columns:1fr 120px 110px;gap:20px;border-top:1px solid #dedfd5;padding:20px 0;align-items:center}.run a{color:inherit;text-decoration:none;font-weight:550;font-size:15px}.run a:hover{text-decoration:underline;text-underline-offset:4px}.meta{font:10px/1.8 ui-monospace,monospace;color:#72756c;margin-top:5px}.status{font-size:11px;text-transform:capitalize}.attention{font-size:11px;color:#885b1c}.count{font:18px Georgia,serif}.count span{display:block;font:10px -apple-system,sans-serif;color:#72756c}.empty{padding:30px 0;color:#72756c}footer{font-size:11px;color:#72756c;border-top:1px solid #dedfd5;padding-top:20px;margin-top:20px}@media(max-width:600px){main{padding:25px 20px}.run{grid-template-columns:1fr auto;gap:12px}.run .status{grid-column:1/-1}h1{font-size:32px}.local{display:none}}
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="brand">Task Lantern</div>
+        <span class="local">YOUR LOCAL WORKSPACE</span>
+      </header>
+      <h1>Pick up where you left off.</h1>
+      <p>Every run, its last recorded state, and what still needs attention.</p>
+      <label
+        ><span class="local">FIND A RUN</span
+        ><input
+          id="search"
+          type="search"
+          placeholder="Search runs by name or status…"
+          aria-label="Search runs"
+      /></label>
+      <div id="runs"></div>
+      <p id="empty" class="empty" hidden>
+        No matching runs. Start a new run with the init command.
+      </p>
+      <footer id="footer"></footer>
+    </main>
+    <script id="data" type="application/json">
+      @@RUNS@@
+    </script>
+    <script>
+      'use strict';const inventory=JSON.parse(document.getElementById('data').textContent),list=document.getElementById('runs');function node(tag,text,cls){const e=document.createElement(tag);e.textContent=text;if(cls)e.className=cls;return e;}const rows=[];for(const run of inventory.runs){const row=node('article','','run'),title=node('div',''),link=node('a',run.title);link.href=encodeURIComponent(run.run)+'/index.html';title.append(link,node('div','r'+run.revision+' · '+new Date(run.updated_at).toLocaleString(),'meta'));const status=node('div',run.phase,'status');status.append(node('div',run.questions+' decisions · '+run.blockers+' blockers','attention'));const count=node('div',run.done+' / '+run.total,'count');count.append(node('span','steps complete'));row.append(title,status,count);list.append(row);rows.push({row,run});}function filter(){const q=document.getElementById('search').value.toLowerCase();let shown=0;for(const {row,run} of rows){row.hidden=!(run.title+' '+run.phase).toLowerCase().includes(q);if(!row.hidden)shown++;}document.getElementById('empty').hidden=shown>0;}document.getElementById('search').addEventListener('input',filter);filter();document.getElementById('footer').textContent=inventory.runs.length+' runs · Generated from local state files.'+(inventory.unreadable.length?' '+inventory.unreadable.length+' unreadable run(s) excluded; inspect their state files.':'')+' Reload this page after your agent publishes.';
+    </script>
+  </body>
+</html>
