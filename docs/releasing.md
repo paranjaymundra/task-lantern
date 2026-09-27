@@ -17,12 +17,13 @@ Work from this standalone repository; it has no dependency on another project.
 4. Review the diff and screenshots. Never include private `.dashboard/` runs,
    personal preferences, credentials, or real private task data.
 5. Commit and push the release changes. Confirm all GitHub Actions jobs pass.
-6. Create a tag matching the manifest version, such as `v0.2.1`, and publish a
+6. Create a tag matching the manifest version, such as `v0.2.2`, and publish a
    GitHub release describing behavior changes, migration notes, validation, and
    limits. Do not tag a version that already exists.
 
-Use `docs/assets/hero.png` for the README banner. GitHub social previews may crop
-it. Keep screenshot assets current when UI changes, and retain their provenance
+The README uses `docs/assets/hero.svg`; `hero.png` is its portable raster export.
+Use `docs/assets/social-preview.png` (1280 × 640) for GitHub social sharing.
+Keep screenshot assets current when UI changes, and retain their provenance
 in [the asset notes](assets/README.md). Review repository security settings and
 enable private vulnerability reporting when available.
 

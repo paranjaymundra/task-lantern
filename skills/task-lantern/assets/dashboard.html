@@ -39,8 +39,8 @@
           <button data-view="developer" class="dev-nav">Developer</button>
         </nav>
         <div class="side-bottom">
-          <div class="local-label">A file, not a service.</div>
-          <p>Runs locally. No accounts.<br />No background network calls.</p>
+          <div class="local-label">Local progress dashboard</div>
+          <p>Saved in your project.<br />No background network calls.</p>
           <div class="side-controls">
             <button id="theme" aria-label="Switch color theme">Dark mode</button
             ><button id="density" aria-label="Toggle row density">
@@ -62,6 +62,18 @@
           </div>
         </header>
         <div class="page">
+          <aside
+            id="demo-note"
+            class="demo-note"
+            aria-label="About this demo"
+            hidden
+          >
+            <strong>Interactive demo</strong>
+            <span
+              >Fictional task data. No agent is running. Try the views, filters,
+              and exports.</span
+            >
+          </aside>
           <section class="run-heading">
             <div class="eyebrow" id="eyebrow"></div>
             <div class="title-row">

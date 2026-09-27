@@ -1233,6 +1233,22 @@ dialog > p {
   }
 }
 
+.demo-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--muted);
+}
+.demo-note strong {
+  color: var(--accent);
+  font-weight: 600;
+}
+
 
     </style>
   </head>
@@ -1262,8 +1278,8 @@ dialog > p {
           <button data-view="developer" class="dev-nav">Developer</button>
         </nav>
         <div class="side-bottom">
-          <div class="local-label">A file, not a service.</div>
-          <p>Runs locally. No accounts.<br />No background network calls.</p>
+          <div class="local-label">Local progress dashboard</div>
+          <p>Saved in your project.<br />No background network calls.</p>
           <div class="side-controls">
             <button id="theme" aria-label="Switch color theme">Dark mode</button
             ><button id="density" aria-label="Toggle row density">
@@ -1285,6 +1301,18 @@ dialog > p {
           </div>
         </header>
         <div class="page">
+          <aside
+            id="demo-note"
+            class="demo-note"
+            aria-label="About this demo"
+            hidden
+          >
+            <strong>Interactive demo</strong>
+            <span
+              >Fictional task data. No agent is running. Try the views, filters,
+              and exports.</span
+            >
+          </aside>
           <section class="run-heading">
             <div class="eyebrow" id="eyebrow"></div>
             <div class="title-row">
@@ -1530,11 +1558,12 @@ dialog > p {
       <textarea id="copy-text" readonly aria-label="Text to copy"></textarea>
     </dialog>
     <script id="state" type="application/json">
-      {"version": 2, "run": "20260927-080927-43124639", "revision": 2, "started_at": "2026-09-27T08:09:27+00:00", "updated_at": "2026-09-27T08:09:27+00:00", "history": [{"revision": 1, "at": "2026-09-27T08:09:27+00:00", "panel": "run", "label": "title", "before": "Task Lantern demo", "after": "A better search experience.", "kind": "updated"}, {"revision": 1, "at": "2026-09-27T08:09:27+00:00", "panel": "run", "label": "summary", "before": "Preparing the plan.", "after": "Mapping the search flow and planning the implementation.", "kind": "updated"}, {"revision": 1, "at": "2026-09-27T08:09:27+00:00", "panel": "tasks", "label": "Map the current search flow", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:09:27+00:00", "panel": "tasks", "label": "Design the result states", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:09:27+00:00", "panel": "tasks", "label": "Build the search interface", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:09:27+00:00", "panel": "tasks", "label": "Verify keyboard navigation", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:09:27+00:00", "panel": "tasks", "label": "Prepare the release preview", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:09:27+00:00", "panel": "tasks", "label": "Write the handoff", "before": "", "after": "todo", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:09:27+00:00", "panel": "run", "label": "summary", "before": "Mapping the search flow and planning the implementation.", "after": "The core search flow is ready. Keyboard navigation is being checked while the release preview waits on access.", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T08:09:27+00:00", "panel": "tasks", "label": "Map the current search flow", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:09:27+00:00", "panel": "tasks", "label": "Design the result states", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:09:27+00:00", "panel": "tasks", "label": "Build the search interface", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:09:27+00:00", "panel": "tasks", "label": "Verify keyboard navigation", "before": "todo", "after": "doing", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:09:27+00:00", "panel": "tasks", "label": "Prepare the release preview", "before": "todo", "after": "blocked", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:09:27+00:00", "panel": "tasks", "label": "Write the handoff", "before": "", "after": "Details changed", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T08:09:27+00:00", "panel": "questions", "label": "Should result rows be more compact?", "before": "", "after": "pending", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:09:27+00:00", "panel": "questions", "label": "Publish the preview when access is ready?", "before": "", "after": "pending", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:09:27+00:00", "panel": "blockers", "label": "Preview access is missing", "before": "", "after": "open", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:09:27+00:00", "panel": "deliverables", "label": "Interactive search preview", "before": "", "after": "preview/search.html", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:09:27+00:00", "panel": "deliverables", "label": "Design decisions", "before": "", "after": "docs/search-decisions.md", "kind": "added"}], "style": {"theme": "dark", "density": "dense", "accent": "#ae5630"}, "snapshot": {"title": "A better search experience.", "summary": "The core search flow is ready. Keyboard navigation is being checked while the release preview waits on access.", "phase": "active", "tasks": [{"id": "audit", "title": "Map the current search flow", "status": "done", "detail": "Found three friction points across desktop and mobile."}, {"id": "design", "title": "Design the result states", "status": "done", "detail": "Empty, loading, and no-result states are covered."}, {"id": "build", "title": "Build the search interface", "status": "done", "detail": "The local preview is ready to inspect."}, {"id": "keyboard", "title": "Verify keyboard navigation", "status": "doing", "detail": "Checking focus order and Escape behavior."}, {"id": "release", "title": "Prepare the release preview", "status": "blocked", "detail": "Waiting for access to the preview environment."}, {"id": "handoff", "title": "Write the handoff", "status": "todo", "detail": "Include validation results and remaining decisions."}], "questions": [{"id": "density", "question": "Should result rows be more compact?", "status": "pending", "requires_answer": false, "default": "Keep the current airy spacing. Easy to change later.", "answer": ""}, {"id": "publish", "question": "Publish the preview when access is ready?", "status": "pending", "requires_answer": true, "default": "Keep the preview local and continue the handoff until you approve publication.", "answer": ""}], "blockers": [{"id": "access", "title": "Preview access is missing", "status": "open", "detail": "Release preparation is waiting. Local checks can continue."}], "deliverables": [{"id": "preview", "title": "Interactive search preview", "path": "preview/search.html", "detail": "Desktop and mobile states, ready for review."}, {"id": "notes", "title": "Design decisions", "path": "docs/search-decisions.md", "detail": "The rationale behind the new result layout."}]}, "home_href": "", "demo": true, "presentation": {"eyebrow": "SEARCH REDESIGN / DEMO PROJECT", "order": ["tasks", "questions", "blockers", "deliverables"], "layout": "board"}, "commands": {"status": "python3 /path/to/dashboard.py --project /path/to/project status 20260927-080927-43124639", "patch": "python3 /path/to/dashboard.py --project /path/to/project patch 20260927-080927-43124639 --input patch.json --expected-revision 2", "render": "python3 /path/to/dashboard.py --project /path/to/project render 20260927-080927-43124639"}}
+      {"version": 2, "run": "20260927-085121-5411c4a0", "revision": 2, "started_at": "2026-09-27T08:51:21+00:00", "updated_at": "2026-09-27T08:51:21+00:00", "history": [{"revision": 1, "at": "2026-09-27T08:51:21+00:00", "panel": "run", "label": "title", "before": "Task Lantern demo", "after": "A better search experience.", "kind": "updated"}, {"revision": 1, "at": "2026-09-27T08:51:21+00:00", "panel": "run", "label": "summary", "before": "Preparing the plan.", "after": "Mapping the search flow and planning the implementation.", "kind": "updated"}, {"revision": 1, "at": "2026-09-27T08:51:21+00:00", "panel": "tasks", "label": "Map the current search flow", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:51:21+00:00", "panel": "tasks", "label": "Design the result states", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:51:21+00:00", "panel": "tasks", "label": "Build the search interface", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:51:21+00:00", "panel": "tasks", "label": "Verify keyboard navigation", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:51:21+00:00", "panel": "tasks", "label": "Prepare the release preview", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:51:21+00:00", "panel": "tasks", "label": "Write the handoff", "before": "", "after": "todo", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:51:21+00:00", "panel": "run", "label": "summary", "before": "Mapping the search flow and planning the implementation.", "after": "The core search flow is ready. Keyboard navigation is being checked while the release preview waits on access.", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T08:51:21+00:00", "panel": "tasks", "label": "Map the current search flow", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:51:21+00:00", "panel": "tasks", "label": "Design the result states", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:51:21+00:00", "panel": "tasks", "label": "Build the search interface", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:51:21+00:00", "panel": "tasks", "label": "Verify keyboard navigation", "before": "todo", "after": "doing", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:51:21+00:00", "panel": "tasks", "label": "Prepare the release preview", "before": "todo", "after": "blocked", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:51:21+00:00", "panel": "tasks", "label": "Write the handoff", "before": "", "after": "Details changed", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T08:51:21+00:00", "panel": "questions", "label": "Should result rows be more compact?", "before": "", "after": "pending", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:51:21+00:00", "panel": "questions", "label": "Publish the preview when access is ready?", "before": "", "after": "pending", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:51:21+00:00", "panel": "blockers", "label": "Preview access is missing", "before": "", "after": "open", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:51:21+00:00", "panel": "deliverables", "label": "Interactive search preview", "before": "", "after": "preview/search.html", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:51:21+00:00", "panel": "deliverables", "label": "Design decisions", "before": "", "after": "docs/search-decisions.md", "kind": "added"}], "style": {"theme": "dark", "density": "dense", "accent": "#ae5630"}, "snapshot": {"title": "A better search experience.", "summary": "The core search flow is ready. Keyboard navigation is being checked while the release preview waits on access.", "phase": "active", "tasks": [{"id": "audit", "title": "Map the current search flow", "status": "done", "detail": "Found three friction points across desktop and mobile."}, {"id": "design", "title": "Design the result states", "status": "done", "detail": "Empty, loading, and no-result states are covered."}, {"id": "build", "title": "Build the search interface", "status": "done", "detail": "The local preview is ready to inspect."}, {"id": "keyboard", "title": "Verify keyboard navigation", "status": "doing", "detail": "Checking focus order and Escape behavior."}, {"id": "release", "title": "Prepare the release preview", "status": "blocked", "detail": "Waiting for access to the preview environment."}, {"id": "handoff", "title": "Write the handoff", "status": "todo", "detail": "Include validation results and remaining decisions."}], "questions": [{"id": "density", "question": "Should result rows be more compact?", "status": "pending", "requires_answer": false, "default": "Keep the current airy spacing. Easy to change later.", "answer": ""}, {"id": "publish", "question": "Publish the preview when access is ready?", "status": "pending", "requires_answer": true, "default": "Keep the preview local and continue the handoff until you approve publication.", "answer": ""}], "blockers": [{"id": "access", "title": "Preview access is missing", "status": "open", "detail": "Release preparation is waiting. Local checks can continue."}], "deliverables": [{"id": "preview", "title": "Interactive search preview", "path": "preview/search.html", "detail": "Desktop and mobile states, ready for review."}, {"id": "notes", "title": "Design decisions", "path": "docs/search-decisions.md", "detail": "The rationale behind the new result layout."}]}, "home_href": "", "demo": true, "presentation": {"eyebrow": "SEARCH REDESIGN / DEMO PROJECT", "order": ["tasks", "questions", "blockers", "deliverables"], "layout": "board"}, "commands": {"status": "python3 /path/to/dashboard.py --project /path/to/project status 20260927-085121-5411c4a0", "patch": "python3 /path/to/dashboard.py --project /path/to/project patch 20260927-085121-5411c4a0 --input patch.json --expected-revision 2", "render": "python3 /path/to/dashboard.py --project /path/to/project render 20260927-085121-5411c4a0"}}
     </script>
     <script>
       "use strict";
 const state = JSON.parse(document.getElementById("state").textContent);
+const isDemo = state.demo === true;
 const data = state.snapshot,
   history = state.history || [];
 const $ = (id) => document.getElementById(id);
@@ -1606,6 +1635,7 @@ $("density").addEventListener("click", () => {
 });
 appearance();
 document.documentElement.style.setProperty("--accent", state.style.accent);
+$("demo-note").hidden = !isDemo;
 $("title").textContent = data.title;
 $("summary").textContent = data.summary;
 $("eyebrow").textContent = state.presentation.eyebrow;
@@ -2105,6 +2135,8 @@ function markdown() {
     lines.push(
       "- " + a.title + ": " + a.path + (a.detail ? " — " + a.detail : ""),
     );
+  if (isDemo)
+    lines.splice(2, 0, "_Demo: fictional task data. No agent is running._", "");
   return lines.join("\n") + "\n";
 }
 function download(name, text, type) {
@@ -2133,7 +2165,8 @@ $("export-json").addEventListener("click", () => {
 });
 $("copy-summary").addEventListener("click", () =>
   copy(
-    data.title +
+    (isDemo ? "Demo: fictional task data.\n" : "") +
+      data.title +
       "\n" +
       data.summary +
       "\n" +
@@ -2153,15 +2186,17 @@ $("copy-summary").addEventListener("click", () =>
 );
 const terminal = ["complete", "paused"].includes(data.phase);
 function refreshLabel() {
-  $("refresh").textContent = terminal
-    ? "Refresh now"
-    : ui.paused
-      ? "Resume"
-      : "Pause";
+  $("refresh").textContent = isDemo
+    ? "Reload demo"
+    : terminal
+      ? "Refresh now"
+      : ui.paused
+        ? "Resume"
+        : "Pause";
   $("refresh").setAttribute("aria-pressed", String(!!ui.paused));
 }
 $("refresh").addEventListener("click", () => {
-  if (terminal) {
+  if (terminal || isDemo) {
     location.reload();
     return;
   }
@@ -2171,6 +2206,13 @@ $("refresh").addEventListener("click", () => {
   freshness();
 });
 function freshness() {
+  if (isDemo) {
+    $("freshness").textContent = "Sample data";
+    $("freshness").title =
+      "This fictional demo is static. Real runs refresh after the agent publishes updates.";
+    $("duration").hidden = true;
+    return;
+  }
   const seconds = Math.max(
     0,
     Math.floor((Date.now() - updated.getTime()) / 1000),
@@ -2214,6 +2256,7 @@ setInterval(() => {
   if (
     !ui.paused &&
     !terminal &&
+    !isDemo &&
     !document.querySelector("dialog[open]") &&
     !["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)
   ) {

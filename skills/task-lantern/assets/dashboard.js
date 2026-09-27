@@ -1,5 +1,6 @@
 "use strict";
 const state = JSON.parse(document.getElementById("state").textContent);
+const isDemo = state.demo === true;
 const data = state.snapshot,
   history = state.history || [];
 const $ = (id) => document.getElementById(id);
@@ -71,6 +72,7 @@ $("density").addEventListener("click", () => {
 });
 appearance();
 document.documentElement.style.setProperty("--accent", state.style.accent);
+$("demo-note").hidden = !isDemo;
 $("title").textContent = data.title;
 $("summary").textContent = data.summary;
 $("eyebrow").textContent = state.presentation.eyebrow;
@@ -570,6 +572,8 @@ function markdown() {
     lines.push(
       "- " + a.title + ": " + a.path + (a.detail ? " — " + a.detail : ""),
     );
+  if (isDemo)
+    lines.splice(2, 0, "_Demo: fictional task data. No agent is running._", "");
   return lines.join("\n") + "\n";
 }
 function download(name, text, type) {
@@ -598,7 +602,8 @@ $("export-json").addEventListener("click", () => {
 });
 $("copy-summary").addEventListener("click", () =>
   copy(
-    data.title +
+    (isDemo ? "Demo: fictional task data.\n" : "") +
+      data.title +
       "\n" +
       data.summary +
       "\n" +
@@ -618,15 +623,17 @@ $("copy-summary").addEventListener("click", () =>
 );
 const terminal = ["complete", "paused"].includes(data.phase);
 function refreshLabel() {
-  $("refresh").textContent = terminal
-    ? "Refresh now"
-    : ui.paused
-      ? "Resume"
-      : "Pause";
+  $("refresh").textContent = isDemo
+    ? "Reload demo"
+    : terminal
+      ? "Refresh now"
+      : ui.paused
+        ? "Resume"
+        : "Pause";
   $("refresh").setAttribute("aria-pressed", String(!!ui.paused));
 }
 $("refresh").addEventListener("click", () => {
-  if (terminal) {
+  if (terminal || isDemo) {
     location.reload();
     return;
   }
@@ -636,6 +643,13 @@ $("refresh").addEventListener("click", () => {
   freshness();
 });
 function freshness() {
+  if (isDemo) {
+    $("freshness").textContent = "Sample data";
+    $("freshness").title =
+      "This fictional demo is static. Real runs refresh after the agent publishes updates.";
+    $("duration").hidden = true;
+    return;
+  }
   const seconds = Math.max(
     0,
     Math.floor((Date.now() - updated.getTime()) / 1000),
@@ -679,6 +693,7 @@ setInterval(() => {
   if (
     !ui.paused &&
     !terminal &&
+    !isDemo &&
     !document.querySelector("dialog[open]") &&
     !["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)
   ) {

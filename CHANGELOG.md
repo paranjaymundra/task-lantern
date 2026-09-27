@@ -1,7 +1,14 @@
 # Changelog
 
-## Unreleased
+## 0.2.1
 
+- Added a read-only native installation check with missing/changed-file reports.
+- Added `scripts/demo.py --open` and explicit fictional-data labels in the demo
+  and its Markdown exports; sample pages no longer show misleading stale warnings.
+- Added an editable warm-toned brand set, social preview, and compact product capture.
+- Added onboarding tests for both user-scope installs and an installed publisher.
+- Fixed the manual test's missing project-directory step and improved the CLI error.
+- Added issue forms and a contributor-oriented repository map.
 - Made global installation the primary README path for Codex and Claude Code.
 - Added installation scopes, verification, update/removal procedures, and troubleshooting.
 - Added hands-on demo, publisher, and host-session test instructions.

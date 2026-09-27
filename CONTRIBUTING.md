@@ -15,7 +15,7 @@ python3 scripts/demo.py --theme dark --output examples/demo-dark.html
 ```
 
 For UI changes, open both demos, check a phone width and keyboard focus, and run
-`node tests/browser.mjs` with Node 22+ and Chrome. It captures README screenshots
+`node tests/browser.mjs` with Node 22+ and Chrome. It captures README screenshots, exports the SVG brand assets to PNG,
 and verifies that a file opened directly from disk picks up changes on refresh.
 Keep demo projects clearly labeled as fictional. Do not add credentials or
 personal `.dashboard/` data to commits.
@@ -52,3 +52,17 @@ decision order, export downloads, clipboard fallback, safe external links,
 UI persistence, file refresh, stale/terminal states, and the multi-run overview.
 Source CSS and JavaScript are under the skill’s `assets/`; the renderer embeds
 them in the standalone HTML. Never add network dependencies to generated pages.
+
+## Repository map
+
+- `skills/task-lantern/scripts/dashboard.py`: validation, revisions, publishing, and CLI.
+- `skills/task-lantern/assets/`: the HTML, CSS, and JavaScript embedded in each run.
+- `scripts/install.py`: preview, native installation, and read-only installation checks.
+- `tests/`: standard-library Python tests and isolated Chrome interaction checks.
+- `docs/assets/`: editable SVG artwork and actual product captures. Change vector
+  sources first; `node tests/browser.mjs` regenerates their PNG exports.
+
+New contributors can start with a reproducible host-integration report, a
+platform-specific installation check, or a small accessibility improvement.
+Keep proposed features tied to an actual long-task workflow. Do not add
+fabricated activity or progress to make a dashboard look busy.

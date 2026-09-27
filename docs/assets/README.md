@@ -1,13 +1,40 @@
-# Graphics provenance
+# Brand assets and screenshots
 
-- `hero.png`: original AI-generated artwork created with the built-in OpenAI image generation tool for Task Lantern. No reference images supplied.
-- `dashboard-dark.png`, `dashboard-light.png`, `dashboard-mobile.png`, `dashboard-developer.png`, `dashboard-workspace.png`: real Chrome screenshots of the generated fictional demo, captured by `tests/browser.mjs`.
-- `workflow.svg` and `logo.svg`: original editable vector graphics authored for this repository.
+The visual system matches the dashboard: warm paper (`#f6f5f1`), charcoal
+(`#272923`), and terracotta (`#ae5630`). SVG files are editable source artwork,
+with no external fonts or images. Prefer SVG in documentation and PNG where
+an upload form requires it.
 
-The artwork and graphics are distributed under the repository's MIT license to the extent rights can be granted. No external stock assets or third-party logos are included.
+| Asset | Use |
+| --- | --- |
+| [hero.svg](hero.svg) / [hero.png](hero.png) | README banner, 1600 × 560. |
+| [logo.svg](logo.svg) | Standalone lantern mark, 128 × 128. |
+| [social-preview.svg](social-preview.svg) / [social-preview.png](social-preview.png) | Repository social preview or announcement, 1280 × 640. |
+| [workflow.svg](workflow.svg) | Explains agent facts → publisher → local HTML. |
+| [dashboard-overview.png](dashboard-overview.png) | Compact viewport capture for the README. |
+| `dashboard-light.png`, `dashboard-dark.png`, `dashboard-mobile.png`, `dashboard-developer.png`, `dashboard-workspace.png` | Full product reference captures. |
 
-## Hero generation prompt
+The brand artwork is original, code-authored vector work created for this
+repository. PNG brand images are browser renderings of the SVG sources. Product
+images are real Chrome screenshots of the generated fictional demo, not mockups.
+The demo's timestamps come from the system clock at generation time.
 
-Use case: ads-marketing. Asset type: wide GitHub README hero banner for an open-source developer tool named Task Lantern. Primary request: a beautifully art-directed editorial banner, 3:1 wide landscape. Background deep charcoal #141916 with subtle paper grain. A sculptural contemporary portable lantern on the right, translucent frosted glass with a soft pale lime glow #c7ed84, grounded on a dark surface. Its light reveals a few fine branching route lines and small milestone dots, metaphor for seeing progress during long AI coding tasks. Left half clean negative space with large sophisticated ivory typography reading exactly 'Task Lantern' and smaller subtitle exactly 'Long tasks. Clear progress.' Very refined Swiss editorial composition, warm precise lighting, spacious margins, premium open-source design-tool aesthetic. The lantern should feel tactile, minimal, elegant. No screenshots, no fake dashboards, no additional text, no logos from other companies, no watermark. Keep all text fully legible and within safe margins.
+## Regenerate
 
-Regenerate demo screenshots with the commands in CONTRIBUTING.md. The banner is artwork, not a product screenshot.
+From the repository root, with Python 3.10+, Node 22+, and Chrome:
+
+```sh
+python3 scripts/demo.py
+python3 scripts/demo.py --theme light --output examples/demo-light.html
+python3 scripts/demo.py --theme dark --output examples/demo-dark.html
+node tests/browser.mjs
+```
+
+Set `CHROME_PATH` when needed. Inspect the results before committing; browser
+font rendering can differ by platform. Keep screenshots labeled as fictional
+sample work and never replace them with captures of private task data.
+
+All assets are distributed under the repository's MIT license to the extent
+rights can be granted. No stock art or third-party product logos are included.
+The earlier green lantern banner in Git history was AI-generated; the current
+banner, logo, workflow, and social preview are editable vector graphics.

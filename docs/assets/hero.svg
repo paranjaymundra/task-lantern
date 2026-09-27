@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="560" viewBox="0 0 1600 560" role="img" aria-labelledby="title desc">
+<title id="title">Task Lantern — Keep the work in view.</title>
+<desc id="desc">Offline progress dashboards for Claude Code and Codex. Warm paper, charcoal lettering, and a terracotta lantern connected to four signals: progress, blockers, decisions, and deliverables.</desc>
+<rect width="1600" height="560" fill="#f6f5f1"/>
+<path d="M0 1H1600M0 559H1600M978 0V560" stroke="#d9d9ce"/>
+<g transform="translate(65 48)" fill="none" stroke="#ae5630" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 18V11a10 10 0 0 1 20 0v7M7 21h30M8 25v20a5 5 0 0 0 5 5h18a5 5 0 0 0 5-5V25M5 55h34"/>
+<path d="M22 29c-1 6-6 8-6 13a6 6 0 0 0 12 0c0-4-3-8-6-13z" fill="#ae5630" stroke="none"/>
+</g>
+<text x="130" y="89" fill="#272923" font-family="Georgia,serif" font-size="38" letter-spacing="-1">Task Lantern</text>
+<text x="67" y="233" fill="#272923" font-family="Georgia,serif" font-size="88" letter-spacing="-3">Keep the work</text>
+<text x="67" y="328" fill="#ae5630" font-family="Georgia,serif" font-size="88" letter-spacing="-3">in view.</text>
+<g font-family="system-ui,-apple-system,Segoe UI,sans-serif" fill="#5e6358" font-size="23">
+<text x="70" y="389">Local progress dashboards for long agent tasks.</text>
+</g>
+<path d="M70 444H901" stroke="#d9d9ce"/>
+<g font-family="ui-monospace,Consolas,monospace" font-size="16" letter-spacing="1" fill="#5e6358">
+<text x="70" y="489">CLAUDE CODE + CODEX</text><text x="672" y="489">OPEN SOURCE / MIT</text>
+</g>
+<g fill="none" stroke="#d9d9ce">
+<path d="M1021 80H1558M1021 160H1558M1021 240H1558M1021 320H1558M1021 400H1558M1021 480H1558"/>
+<path d="M1060 44V516M1140 44V516M1220 44V516M1300 44V516M1380 44V516M1460 44V516M1540 44V516"/>
+</g>
+<rect x="1095" y="155" width="200" height="266" rx="100" fill="#eee0d7"/>
+<g fill="none" stroke="#ae5630" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+<path d="M1153 231v-32a42 42 0 0 1 84 0v32M1129 243h132M1134 257v97a20 20 0 0 0 20 20h82a20 20 0 0 0 20-20v-97M1124 393h142"/>
+<path d="M1195 270c-3 19-22 32-22 52a22 22 0 0 0 44 0c0-17-12-35-22-52z" fill="#ae5630" stroke="none"/>
+</g>
+<g fill="none" stroke="#888d7f" stroke-width="1.5">
+<path d="M1195 147v-39h162M1255 258h103M1274 365h84M1195 421v51h164"/>
+</g>
+<g fill="#fffefa" stroke="#d0d3c7">
+<rect x="1338" y="84" width="182" height="49" rx="4"/>
+<rect x="1338" y="234" width="182" height="49" rx="4"/>
+<rect x="1338" y="341" width="182" height="49" rx="4"/>
+<rect x="1338" y="448" width="182" height="49" rx="4"/>
+</g>
+<circle cx="1362" cy="109" r="4" fill="#3d6956"/>
+<circle cx="1362" cy="259" r="4" fill="#a04235"/>
+<circle cx="1362" cy="366" r="4" fill="#885b1c"/>
+<circle cx="1362" cy="473" r="4" fill="#ae5630"/>
+<g font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="17" fill="#373b32">
+<text x="1376" y="115">Progress</text><text x="1376" y="265">Blockers</text>
+<text x="1376" y="372">Decisions</text><text x="1376" y="479">Deliverables</text>
+</g>
+<text x="1021" y="37" fill="#686e60" font-family="ui-monospace,Consolas,monospace" font-size="12" letter-spacing="2">FOUR SIGNALS. ONE LOCAL FILE.</text>
+</svg>

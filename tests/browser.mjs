@@ -163,6 +163,16 @@ try {
       captureBeyondViewport: true,
     });
     await writeFile(join(assets, out), Buffer.from(data, "base64"));
+    if (file === "demo-light.html") {
+      const preview = await call("Page.captureScreenshot", {
+        format: "png",
+        captureBeyondViewport: false,
+      });
+      await writeFile(
+        join(assets, "dashboard-overview.png"),
+        Buffer.from(preview.data, "base64"),
+      );
+    }
   }
   await call("Emulation.setDeviceMetricsOverride", {
     width: 1440,
@@ -195,6 +205,29 @@ try {
   await writeFile(
     join(assets, "dashboard-developer.png"),
     Buffer.from(developerImage.data, "base64"),
+  );
+  assert.equal(
+    await evaluate('document.querySelector("#freshness").textContent'),
+    "Sample data",
+  );
+  assert.equal(
+    await evaluate('document.querySelector("#refresh").textContent'),
+    "Reload demo",
+  );
+  assert.equal(
+    await evaluate('!document.querySelector("#demo-note").hidden'),
+    true,
+  );
+  assert.ok(await evaluate('markdown().includes("fictional task data")'));
+  // Switch to a non-demo fixture for live refresh/pause and stale-state checks.
+  const demoSource = await readFile(join(root, "examples/demo.html"), "utf8");
+  const liveSource = demoSource.replace(/("demo"\s*:\s*)true/, "$1false");
+  const liveFixture = join(profile, "live-test.html");
+  await writeFile(liveFixture, liveSource);
+  await load(liveFixture);
+  assert.equal(
+    await evaluate('document.querySelector("#demo-note").hidden'),
+    true,
   );
   await evaluate(
     'document.dispatchEvent(new KeyboardEvent("keydown",{key:"/",bubbles:true}))',
@@ -317,7 +350,7 @@ try {
     await evaluate('document.querySelector("#refresh").textContent'),
     "Resume",
   );
-  const source = await readFile(join(root, "examples/demo.html"), "utf8");
+  const source = liveSource;
   const fixture = join(profile, "refresh-test.html");
   await writeFile(fixture, source);
   await load(fixture);
@@ -430,6 +463,39 @@ try {
     join(assets, "dashboard-workspace.png"),
     Buffer.from(workspaceImage.data, "base64"),
   );
+  // Raster exports of the editable vector brand assets, useful for social previews.
+  for (const [name, width, height] of [
+    ["hero", 1600, 560],
+    ["social-preview", 1280, 640],
+  ]) {
+    await call("Emulation.setDeviceMetricsOverride", {
+      width,
+      height,
+      deviceScaleFactor: 1,
+      mobile: false,
+    });
+    await call("Page.navigate", {
+      url: pathToFileURL(join(assets, name + ".svg")).href,
+    });
+    for (let n = 0; n < 50; n++) {
+      await sleep(50);
+      if (
+        await evaluate(
+          'document.readyState === "complete" && document.documentElement.tagName === "svg"',
+        )
+      )
+        break;
+    }
+    assert.equal(await evaluate("document.documentElement.tagName"), "svg");
+    const capture = await call("Page.captureScreenshot", {
+      format: "png",
+      captureBeyondViewport: false,
+    });
+    await writeFile(
+      join(assets, name + ".png"),
+      Buffer.from(capture.data, "base64"),
+    );
+  }
   assert.deepEqual(network, [], "Dashboard made network requests");
   assert.deepEqual(errors, [], "Browser runtime errors");
   console.log(

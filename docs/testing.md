@@ -5,10 +5,10 @@ agent. The first two do not make model calls.
 
 ## 1. Explore the demo
 
-From a local clone, open `examples/demo.html` in your browser. On macOS:
+From a local clone, generate and open a demo:
 
 ```sh
-open examples/demo.html
+python3 scripts/demo.py --open
 ```
 
 On other systems, use your file manager's “Open with” browser action.
@@ -32,6 +32,7 @@ Run these from the Task Lantern repository. They create an isolated project in
 `.dashboard/smoke-project`, which this repository already ignores:
 
 ```sh
+python3 -c "from pathlib import Path; Path('.dashboard/smoke-project').mkdir(parents=True, exist_ok=True)"
 python3 skills/task-lantern/scripts/dashboard.py --project .dashboard/smoke-project init --title "My first dashboard"
 ```
 
@@ -110,6 +111,6 @@ For browser interactions, use Node 22+ and Chrome:
 node tests/browser.mjs
 ```
 
-The browser suite launches an isolated Chrome profile and regenerates screenshot
-assets. Set `CHROME_PATH` when Chrome isn't at its default macOS path or available
+The browser suite launches an isolated Chrome profile and regenerates screenshots
+and PNG exports of the editable SVG brand assets. Set `CHROME_PATH` when Chrome isn't at its default macOS path or available
 as `google-chrome`. No npm install is needed. See [Contributing](../CONTRIBUTING.md).

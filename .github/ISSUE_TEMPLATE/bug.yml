@@ -1,0 +1,39 @@
+name: Bug report
+description: Something did not work during setup or a task.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: "Please redact task details, local paths, and secrets. Use SECURITY.md for sensitive vulnerability reports."
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Host and version, OS, Python version, and browser if relevant.
+      placeholder: "Codex / Claude Code version …, macOS …, Python …, Chrome …"
+    validations:
+      required: true
+  - type: dropdown
+    id: installation
+    attributes:
+      label: Installation method
+      options:
+        - Codex native — user scope
+        - Codex native — project scope
+        - Claude plugin
+        - Claude native
+        - Source checkout / demo
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Include the command or prompt, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Redacted error or screenshot
+      description: A minimal snapshot or error is more useful than a full private run. Native installs can use scripts/install.py with --check.

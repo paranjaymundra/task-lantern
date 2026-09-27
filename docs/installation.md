@@ -1,6 +1,6 @@
 # Installation and maintenance
 
-For most people, use the [global install in the README](../README.md#install-globally).
+For most people, use the [global install in the README](../README.md#install-once-use-across-projects).
 “Global” means available to your user across local projects, not to every user on
 the machine or automatically on remote hosts. Install in the environment where
 your agent runs, including a container or remote machine if applicable.
@@ -80,6 +80,19 @@ edit the installed agent file to choose another supported model; preserve your
 customizations when updating.
 
 ## Verify the installation
+
+For native installs, compare installed files with your source checkout:
+
+```sh
+python3 scripts/install.py --host codex --scope user --with-agent --check
+```
+
+Use `--host claude` for native Claude skills, or your original project scope.
+Exit code 0 means expected files match; 1 means missing or different files;
+2 means an argument or filesystem error. Intentional customizations also count
+as differences. This command never writes files, ignores extra installed files,
+and cannot prove that the host loaded the skills. Plugin installations use
+Claude's own plugin management instead.
 
 Start a fresh host session in a disposable project. Invoke the appropriate
 command above with this prompt:

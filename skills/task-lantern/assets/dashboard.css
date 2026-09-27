@@ -1221,3 +1221,19 @@ dialog > p {
     font-size: 21px;
   }
 }
+
+.demo-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+  color: var(--muted);
+}
+.demo-note strong {
+  color: var(--accent);
+  font-weight: 600;
+}

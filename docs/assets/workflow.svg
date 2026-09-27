@@ -1,8 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="280" viewBox="0 0 1200 280" role="img" aria-labelledby="title desc">
-<title id="title">One task, two roles, one clear view</title><desc id="desc">The main agent works and publishes facts. The dashboard builder designs the presentation. Both feed one offline HTML dashboard.</desc>
-<rect width="1200" height="280" rx="18" fill="#141916"/>
-<g fill="#1d2420" stroke="#354039"><rect x="36" y="36" width="350" height="90" rx="12"/><rect x="36" y="152" width="350" height="90" rx="12"/><rect x="550" y="70" width="240" height="140" rx="12"/><rect x="930" y="70" width="234" height="140" rx="12"/></g>
-<g fill="none" stroke="#c7ed84" stroke-width="2"><path d="M386 81H460V120H550M386 197H460V160H550M790 140H918"/><path d="m908 133 10 7-10 7"/></g>
-<g font-family="system-ui,-apple-system,sans-serif" fill="#eef2e9"><text x="60" y="74" font-size="20">Main agent</text><text x="60" y="190" font-size="20">Dashboard builder</text><text x="578" y="119" font-size="20">Local publisher</text><text x="957" y="119" font-size="20">Your dashboard</text></g>
-<g font-family="system-ui,-apple-system,sans-serif" fill="#a6b3a9" font-size="14"><text x="60" y="102">Does the work. Records the facts.</text><text x="60" y="218">Designs the view. Runs alongside.</text><text x="578" y="151">Validates + timestamps</text><text x="578" y="175">One writer. Real progress.</text><text x="957" y="151">One HTML file</text><text x="957" y="175">Refreshes every 10s</text></g>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="420" viewBox="0 0 1400 420" role="img" aria-labelledby="title desc">
+<title id="title">From agent work to a local dashboard</title>
+<desc id="desc">The main agent publishes facts. The optional designer supplies presentation. The Python publisher validates and timestamps those inputs, producing one offline HTML dashboard. You answer in the agent chat.</desc>
+<rect width="1400" height="420" fill="#f6f5f1"/>
+<g font-family="ui-monospace,Consolas,monospace" font-size="13" letter-spacing="1.5" fill="#686e60">
+<text x="38" y="40">01 / YOUR AGENT SESSION</text><text x="561" y="40">02 / LOCAL PUBLISHER</text><text x="1044" y="40">03 / YOUR BROWSER</text>
+</g>
+<g stroke="#d6d9cc" fill="#fffefa">
+<rect x="38" y="70" width="370" height="117" rx="5"/>
+<rect x="38" y="223" width="370" height="117" rx="5"/>
+<rect x="561" y="123" width="306" height="166" rx="5"/>
+<rect x="1044" y="123" width="318" height="166" rx="5"/>
+</g>
+<path d="M38 71v115" stroke="#ae5630" stroke-width="3"/>
+<g font-family="Georgia,serif" font-size="26" fill="#272923">
+<text x="62" y="112">Main agent</text><text x="62" y="265">Dashboard designer</text>
+<text x="584" y="164">Validate + publish</text><text x="1068" y="164">One HTML file</text>
+</g>
+<g font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="16" fill="#646b5b">
+<text x="62" y="148">Does the work. Records actual progress.</text>
+<text x="62" y="301">Optional. Styles the view in the background.</text>
+<text x="584" y="202">Checks revisions and decisions.</text><text x="584" y="233">Uses the real system clock.</text>
+<text x="1068" y="202">Open beside your editor.</text><text x="1068" y="233">Refreshes during active work.</text>
+</g>
+<g stroke="#89917d" stroke-width="2" fill="none">
+<path d="M408 129h76v55h64M408 282h76v-55h64M867 206h163"/>
+<path d="M539 178l9 6-9 6M539 221l9 6-9 6M1021 200l9 6-9 6"/>
+</g>
+<g font-family="ui-monospace,Consolas,monospace" font-size="12" fill="#646b5b">
+<text x="422" y="114">FACTS</text><text x="420" y="304">DESIGN</text><text x="903" y="192">OFFLINE</text>
+</g>
+<path d="M38 375H1362" stroke="#d6d9cc"/>
+<text x="38" y="405" fill="#646b5b" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="15">Read progress in the browser. Answer questions in your agent chat. Required decisions wait for you.</text>
 </svg>

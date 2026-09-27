@@ -50,7 +50,10 @@ def write_json(path, data):
 
 
 def dashboard_root(project):
-    root = Path(project).resolve() / ".dashboard"
+    project_path = Path(project).resolve()
+    if not project_path.is_dir():
+        raise ValueError(f"Project directory does not exist: {project_path}. Create it first, or use --project with an existing directory.")
+    root = project_path / ".dashboard"
     if root.is_symlink():
         raise ValueError(".dashboard must not be a symlink")
     root.mkdir(exist_ok=True)

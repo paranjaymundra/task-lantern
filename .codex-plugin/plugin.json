@@ -1,6 +1,6 @@
 {
   "name": "task-lantern",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Offline progress dashboards for long-running agent tasks.",
   "license": "MIT",
   "skills": "./skills/",
@@ -11,7 +11,7 @@
     "defaultPrompt": [
       "Use Task Lantern to track this long task."
     ],
-    "brandColor": "#c7ed84",
+    "brandColor": "#ae5630",
     "longDescription": "Local HTML progress dashboards for long agent tasks, with saved style preferences and explicit decision defaults.",
     "developerName": "Task Lantern contributors",
     "capabilities": [

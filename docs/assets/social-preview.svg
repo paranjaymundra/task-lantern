@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+<title id="title">Task Lantern — Keep the work in view.</title><desc id="desc">Local progress dashboards for Claude Code and Codex. Open source, MIT licensed.</desc>
+<rect width="1280" height="640" fill="#f6f5f1"/>
+<path d="M62 118H1218M62 529H1218M922 160V491" stroke="#d5d8cc"/>
+<text x="64" y="82" fill="#272923" font-family="Georgia,serif" font-size="36">Task Lantern</text>
+<text x="923" y="77" fill="#656c5b" font-family="ui-monospace,Consolas,monospace" font-size="16">OPEN SOURCE / MIT</text>
+<g font-family="Georgia,serif" font-size="83" letter-spacing="-3">
+<text x="62" y="256" fill="#272923">Keep the work</text><text x="62" y="351" fill="#ae5630">in view.</text>
+</g>
+<g font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="25" fill="#626a58">
+<text x="66" y="420">Local progress dashboards for</text><text x="66" y="458">Claude Code and Codex.</text>
+</g>
+<g transform="translate(952 198) scale(3.8)" fill="none" stroke="#ae5630" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M17 22V13a12 12 0 0 1 24 0v9M10 26h38M12 30v26a6 6 0 0 0 6 6h22a6 6 0 0 0 6-6V30M10 69h38"/>
+<path d="M29 33c-1 6-7 10-7 16a7 7 0 0 0 14 0c0-5-4-11-7-16z" fill="#ae5630" stroke="none"/>
+</g>
+<g fill="#656c5b" font-family="ui-monospace,Consolas,monospace" font-size="16">
+<text x="66" y="580">PROGRESS / BLOCKERS / DECISIONS / DELIVERABLES</text><text x="836" y="580">github.com/paranjaymundra/task-lantern</text>
+</g>
+</svg>

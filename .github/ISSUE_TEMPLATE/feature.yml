@@ -1,0 +1,18 @@
+name: Workflow improvement
+description: A concrete way to make long agent tasks easier to follow.
+title: "[Idea]: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What task were you trying to follow?
+      description: Explain where the current dashboard or setup got in your way.
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: What would help?
+      description: Describe the behavior and any workaround you use today.
+    validations:
+      required: true

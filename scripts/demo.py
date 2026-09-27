@@ -5,6 +5,7 @@ import copy
 import importlib.util
 from pathlib import Path
 import tempfile
+import webbrowser
 
 ROOT = Path(__file__).resolve().parent.parent
 spec = importlib.util.spec_from_file_location("dashboard", ROOT / "skills/task-lantern/scripts/dashboard.py")
@@ -16,6 +17,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", default=str(ROOT / "examples/demo.html"))
     parser.add_argument("--theme", choices=["dark", "light"], default="light")
+    parser.add_argument("--open", action="store_true", help="Open the generated demo in your default browser")
     args = parser.parse_args()
     with tempfile.TemporaryDirectory() as project:
         root = dashboard.dashboard_root(project)
@@ -35,6 +37,8 @@ def main():
         output.parent.mkdir(parents=True, exist_ok=True)
         dashboard.atomic_write(output, dashboard.render_html(path, state))
         print(output)
+        if args.open and not webbrowser.open(output.as_uri()):
+            print("Could not open a browser automatically. Open the path above manually.")
 
 
 if __name__ == "__main__":
