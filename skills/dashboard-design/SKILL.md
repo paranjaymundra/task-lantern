@@ -8,7 +8,7 @@ description: Design the presentation of a Task Lantern progress dashboard using 
 Keep the default experience one readable dashboard. The summary must answer:
 what is being worked on, how much is complete, what is blocked, and what needs
 an answer (including the default or waiting behavior). Threads from registered
-projects live in the collapsible right sidebar. Details open below the summary,
+projects live in the collapsible left sidebar. Details open below the summary,
 inside the same page. Never replace that structure with tabs or separate views.
 
 Use the user's confirmed theme, density and accent. A task-specific change may

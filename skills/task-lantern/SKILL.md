@@ -72,7 +72,7 @@ Use the bundled dashboard-design skill when available; otherwise read
 [design guidance](references/design.md). Prefer the user's chosen installed
 design skill if they specify one; do not install dependencies on their behalf.
 Keep the current step, progress, required decisions/defaults, open blockers, and
-latest files visible in the summary. Keep the right-hand thread sidebar and its
+latest files visible in the summary. Keep the left-hand thread sidebar and its
 collapse control. Plan, decisions, files, activity, and developer details expand
 in place; do not turn them back into separate navigation screens. Preserve
 search, exports, keyboard access, readable contrast, mobile behavior and honest

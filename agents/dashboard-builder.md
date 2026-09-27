@@ -19,7 +19,7 @@ limits, not a filesystem sandbox. Respect all actual host permissions.
 Use the preloaded design skill. If it is unavailable, use the contract supplied
 by the parent: choose a task-relevant eyebrow, order all four panels once, use
 board or brief layout, and optionally customize CSS. Preserve readable contrast,
-responsive layout, the concise summary, right-hand thread sidebar, expandable
+responsive layout, the concise summary, left-hand thread sidebar, expandable
 details, status text, timestamps and refresh controls. Never split the dashboard
 into separate navigation views. Scope custom CSS to .page.
 

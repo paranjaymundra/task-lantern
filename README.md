@@ -15,7 +15,7 @@
   <a href="CONTRIBUTING.md">Contribute</a>
 </p>
 
-**One dashboard for every thread you’re tracking.** Task Lantern brings agent-published progress from different projects into one local HTML workspace. Pick a thread in the right sidebar, see what it is working on and what needs you, then expand the details only when you want them.
+**One dashboard for every thread you’re tracking.** Task Lantern brings agent-published progress from different projects into one local HTML workspace. Pick a thread in the left sidebar, see what it is working on and what needs you, then expand the details only when you want them.
 
 Keep it beside your editor while Claude Code and Codex work. The summary shows the current step, completed work, questions with defaults, blockers, and recent files. Collapse the sidebar to focus. No server, extra account, or telemetry.
 
@@ -23,7 +23,7 @@ Keep it beside your editor while Claude Code and Codex work. The summary shows t
 
 *Real browser capture. The demo task and deliverables are fictional.*
 
-[Watch the 16-second product demo](brag-output-2026-09-27-100647/brag.mp4) · [Video source and rebuild instructions](brag-output-2026-09-27-100647/README.md)
+[Watch the 16-second narrated demo](brag-output-2026-09-27-103630/brag.mp4) · [Video source and rebuild instructions](brag-output-2026-09-27-103630/README.md)
 
 ## Install once, use across projects
 
@@ -62,7 +62,7 @@ Use dashboard-builder in the background if available. Share the dashboard path.
 
 The plugin includes the skills and designer. The Claude designer uses Opus at medium effort; the main session keeps its own model settings. See [installation options](docs/installation.md) for native Claude skills, project-only installs, or the simpler main-agent workflow.
 
-**Next:** open the `dashboard` path the agent shares. By default it is `~/.local/share/task-lantern/index.html` (`$XDG_DATA_HOME/task-lantern/index.html` when set). Keep this one file open; new tracked threads appear in its right sidebar. Answer questions in your agent chat. For automatic selection on tasks with more than five steps or an expected duration over 30 minutes, add the [optional long-task rule](docs/long-task-rule.md). Installing globally does not add that rule automatically.
+**Next:** open the `dashboard` path the agent shares. By default it is `~/.local/share/task-lantern/index.html` (`$XDG_DATA_HOME/task-lantern/index.html` when set). Keep this one file open; new tracked threads appear in its left sidebar. Answer questions in your agent chat. For automatic selection on tasks with more than five steps or an expected duration over 30 minutes, add the [optional long-task rule](docs/long-task-rule.md). Installing globally does not add that rule automatically.
 
 ## Try the demo
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1
+
+- Moved the thread sidebar and mobile drawer to the left.
+- Refreshed the demo, screenshots, and product video with a narrated walkthrough.
+
 ## 0.3.0
 
 - One self-contained workspace across registered projects, with a collapsible right-hand thread sidebar.

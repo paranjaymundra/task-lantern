@@ -2,7 +2,7 @@
 
 Make the summary readable at a glance: current step, completed/total steps,
 next step, urgent decision with waiting/default behavior, blockers, and recent
-files. Threads stay in the collapsible right sidebar. Deeper plan, decisions,
+files. Threads stay in the collapsible left sidebar. Deeper plan, decisions,
 files, activity and developer information opens in place below the summary.
 Keep details closed by default. Preserve separate per-thread state.
 

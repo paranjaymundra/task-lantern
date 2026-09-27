@@ -104,7 +104,7 @@ Do not change application files.
 ```
 
 Open the returned `dashboard` path (normally `~/.local/share/task-lantern/index.html`).
-You should see the thread summary and its entry in the right sidebar. Expand Plan
+You should see the thread summary and its entry in the left sidebar. Expand Plan
 or Developer details without leaving the page. `.dashboard/index.html` is a
 project-only workspace; `.dashboard/<run-id>/index.html` remains a portable thread. A missing designer does not prevent this check.
 [Continue with the full manual test](testing.md).

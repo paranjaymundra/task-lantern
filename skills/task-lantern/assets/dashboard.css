@@ -219,7 +219,7 @@ input::placeholder {
 }
 .workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 302px;
+  grid-template-columns: 302px minmax(0, 1fr);
   align-items: start;
   min-height: calc(100vh - 66px);
 }
@@ -844,7 +844,7 @@ footer {
   height: 100vh;
   height: calc(100dvh - 66px);
   background: var(--sidebar);
-  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
   padding: 25px 17px 18px;
   display: flex;
   flex-direction: column;
@@ -1178,7 +1178,7 @@ textarea {
     padding: 27px 26px 22px;
   }
   .workspace {
-    grid-template-columns: minmax(0, 1fr) 270px;
+    grid-template-columns: 270px minmax(0, 1fr);
   }
   .at-a-glance {
     grid-template-columns: 1fr;
@@ -1237,13 +1237,13 @@ textarea {
   }
   .thread-sidebar {
     position: fixed;
-    right: 0;
+    left: 0;
     top: 58px;
     height: calc(100dvh - 58px);
     width: min(330px, 88vw);
     z-index: 12;
-    border-left: 1px solid var(--line);
-    box-shadow: -12px 0 35px #00000012;
+    border-right: 1px solid var(--line);
+    box-shadow: 12px 0 35px #00000012;
   }
   .workspace:not(.sidebar-closed) #sidebar-backdrop {
     display: block;

@@ -18,7 +18,7 @@ available, also pass `--thread-id ID`; repeated init in the same host/project
 resumes its existing run without replacing its facts. Without it, retain and
 reuse the returned run ID in the session. Identical titles do not merge threads.
 
-The right sidebar selects a tracked thread without navigating away. The summary
+The left sidebar selects a tracked thread without navigating away. The summary
 stays concise; Plan, Decisions & blockers, Files & links, Activity, and Developer
 details expand in place. All start closed. The shared workspace reloads every
 10 seconds even when the selected thread is complete, so other threads can
@@ -105,7 +105,7 @@ Save as `presentation.json`. Include each panel once. Layout is `board` (two
 summary columns) or `brief` (stacked). `order` orders expandable sections;
 questions and blockers share one section. `eyebrow` supplies the title tooltip.
 Current work and urgent decisions stay in the summary regardless of detail order.
-Scope custom CSS to `.page`; preserve the right thread sidebar and progressive
+Scope custom CSS to `.page`; preserve the left thread sidebar and progressive
 disclosure. The publisher rebuilds the shared workspace after rendering.
 
 Optional `theme.css` is inlined. Use it for typography, spacing, borders, and
