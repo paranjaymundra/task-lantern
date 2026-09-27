@@ -10,12 +10,13 @@ paths permitted by the host. The Codex adapter inherits host controls.
 
 The renderer embeds escaped JSON and creates DOM text nodes. A content security
 policy blocks external resources, connections, and forms. Custom CSS is trusted
-local code; don't accept it from an untrusted source. External deliverable links are restricted to HTTP(S) without embedded credentials.
+local code; don't accept it from an untrusted source. External deliverable links
+are restricted to HTTP(S) without embedded credentials.
 Markdown/JSON exports can contain task details, history, and local paths; review
 them before sharing. The browser never applies decisions or writes the state.
 
-Local filesystem checks
-reject common symlink mistakes, but do not defend against a hostile local process
+Local filesystem checks reject common symlink mistakes, but do not defend
+against a hostile local process
 racing file operations or replacing parent directories.
 
 Task snapshots can contain sensitive work details. Keep `.dashboard/` out of

@@ -36,6 +36,10 @@ runtime requirement.
 
 ## Trying the skills
 
+Follow [Test it yourself](docs/testing.md) for copyable smoke-test commands and
+a sample agent task. See [installation maintenance](docs/installation.md) when
+testing changes against installed copies.
+
 Use a disposable project and a realistic multi-step task. Check a first run with
 no saved style, a second run with saved preferences, a blocker, an optional
 question, a required decision, and a final state. Also try the main-agent-only

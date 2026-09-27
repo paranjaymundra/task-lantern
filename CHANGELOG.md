@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Made global installation the primary README path for Codex and Claude Code.
+- Added installation scopes, verification, update/removal procedures, and troubleshooting.
+- Added hands-on demo, publisher, and host-session test instructions.
+- Clarified optional global rules, installed-copy updates, and current limitations.
+
 ## 0.2.0
 
 - Replaced the large card layout with a warm light workbench, dark mode, compact

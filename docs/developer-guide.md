@@ -94,13 +94,9 @@ defers refreshing while an input is focused or a dialog is open.
 
 ## Updating an older installation
 
-For a Claude marketplace installation, update the plugin through Claude Code.
-For a native installation, back up your installed `task-lantern` and
-`dashboard-design` skill directories and optional dashboard-builder file, remove
-those installed copies, then run the installer again. The installer intentionally
-refuses to overwrite existing files; do not delete your backup until you have
-checked any customizations. The source repository and `.dashboard/` task data
-are separate and should be retained.
+Follow the [installation maintenance guide](installation.md#update) for exact
+plugin commands or the native backup-and-reinstall procedure. Updating the source
+clone alone does not update installed native copies. Keep existing run data.
 
 Existing version 1 state files work with the new renderer. The next publication
 upgrades the envelope to version 2 and begins recording history. Older events

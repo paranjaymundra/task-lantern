@@ -3,288 +3,188 @@
 </p>
 
 <p align="center">
-  <strong>A little light on your agent’s long-running work.</strong><br>
-  Offline progress dashboards for Claude Code and Codex.
+  <strong>A local progress dashboard for Claude Code and Codex.</strong><br>
+  See what’s done, what’s stuck, and what needs your decision.
 </p>
 
 <p align="center">
-  <a href="#quick-start">Quick start</a> ·
-  <a href="#what-you-see">What you see</a> ·
-  <a href="#make-it-yours">Make it yours</a> ·
-  <a href="#how-it-works">How it works</a> ·
+  <a href="https://github.com/paranjaymundra/task-lantern/actions/workflows/ci.yml"><img src="https://github.com/paranjaymundra/task-lantern/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
+  · <a href="LICENSE">MIT licensed</a>
+  · Python 3.10+
+</p>
+
+<p align="center">
+  <a href="#install-globally">Install</a> ·
+  <a href="#try-it-first">Demo</a> ·
+  <a href="#the-workbench">Features</a> ·
+  <a href="docs/testing.md">Test it yourself</a> ·
+  <a href="docs/installation.md">Setup & troubleshooting</a> ·
   <a href="CONTRIBUTING.md">Contribute</a>
 </p>
 
----
+Task Lantern is a pair of agent skills, an optional dashboard designer, and a
+Python publisher. Your coding agent records its progress; Task Lantern turns
+those updates into a single HTML file you can open beside your editor.
 
-You give your coding agent a big task. It gets to work. Twenty minutes later,
-you want to know: **What’s done? What’s stuck? Does it need me?**
+Use it for refactors, migrations, debugging investigations, and other work with
+several moving parts. It runs locally without a server, telemetry, or extra
+service account. Your coding agent’s normal usage costs still apply.
 
-Task Lantern gives that work a small, readable home. A portable skill keeps the
-facts current, an optional dashboard-builder agent handles presentation, and
-one HTML file shows you where things stand.
+## Install globally
 
-**No server. No account. No runtime dependencies beyond Python.**
-Your existing coding agent does the work; Task Lantern adds the view.
+**Install once for your user, then use it in any project on that machine.**
+Each project keeps its own dashboards in `.dashboard/`. No `sudo` is needed.
+You need Python 3.10+, a JavaScript-enabled browser, and Claude Code or Codex.
+On Windows, use `py -3` if `python3` is unavailable.
 
-![A real Task Lantern dashboard showing a fictional search redesign with progress, questions, blockers, and deliverables](docs/assets/dashboard-light.png)
-
-*Actual generated dashboard. Demo project and deliverables are fictional.*
-
-## What you see
-
-| At a glance | What it tells you |
-| --- | --- |
-| **The plan** | Completed steps, active work, upcoming steps, and deliberately skipped work. |
-| **Your input** | Questions waiting on you and the exact default for each optional choice. |
-| **What’s stuck** | Blockers, why they matter, and what can continue. |
-| **Ready to inspect** | Deliverables and their local paths or URLs. Copy local paths or open HTTP(S) links. |
-
-The **Overview, Plan, Decisions, Activity, and Developer** views keep different
-levels of detail within reach. Search tasks, filter by status, or press `/` to
-jump to search. Required decisions appear before optional preferences.
-
-The page refreshes every **10 seconds** while work is active. It displays the
-last real progress timestamp and calls out stale updates. Pause refresh whenever
-you want. Completed and paused runs stop refreshing automatically.
-
-## Quick start
-
-You need **Python 3.10+**, a browser with JavaScript, and Claude Code or Codex.
-Clone the repository and enter its folder:
+### Codex
 
 ```sh
 git clone https://github.com/paranjaymundra/task-lantern.git
 cd task-lantern
-```
-
-The Python publisher uses only the standard library. Your agent's normal usage
-costs still apply; a designer subagent is optional.
-
-### Just show me the dashboard
-
-Double-click [`examples/demo.html`](examples/demo.html) after downloading the
-repository. GitHub's file viewer displays HTML source, so open your local copy.
-To regenerate the demo with a fresh timestamp:
-
-```sh
-python3 scripts/demo.py
-```
-
-### Codex
-
-Preview the installation, then apply it:
-
-```sh
-python3 scripts/install.py --host codex --scope user --with-agent
 python3 scripts/install.py --host codex --scope user --with-agent --apply
 ```
 
-This installs the two skills under `~/.agents/skills/` and the optional designer
-under `~/.codex/agents/`. It never changes your global rules or permissions.
-Start a new session if the skills or agent do not appear, then say:
+This copies the skills to `~/.agents/skills/` and the optional designer to
+`~/.codex/agents/`. Omit `--apply` to preview the exact paths first.
+Start a new Codex session in the project you want to work on, then prompt:
 
 ```text
-Use $task-lantern for this task. Have dashboard-builder customize the dashboard
-in the background while you keep working.
+Use $task-lantern to track this task: [describe your task].
+Use dashboard-builder in the background if available. Share the dashboard path.
 ```
-
-For a project-only install, replace `--scope user` with
-`--scope project --project /path/to/project`. Omit `--with-agent` for the simpler
-single-agent workflow. Hosts without custom-agent support use the same skill
-and renderer in the main session.
 
 ### Claude Code
 
-Try the plugin without a permanent installation:
-
-```sh
-claude --plugin-dir /absolute/path/to/task-lantern
-```
-
-Then invoke:
-
-```text
-/task-lantern:task-lantern Track this task and use dashboard-builder in the background.
-```
-
-For a persistent plugin installation:
-
 ```sh
 claude plugin marketplace add paranjaymundra/task-lantern
-claude plugin install task-lantern@task-lantern-marketplace
+claude plugin install task-lantern@task-lantern-marketplace --scope user
 ```
 
-Alternatively, install native skills and the agent without a marketplace:
+Start a new Claude Code session in your project, then prompt:
 
-```sh
-python3 scripts/install.py --host claude --scope user --with-agent --apply
+```text
+/task-lantern:task-lantern Track this task: [describe your task]. Use dashboard-builder in the background if available and share the dashboard path.
 ```
 
-Native installation uses `/task-lantern`. Choose one installation method to
-avoid duplicate skills. The Claude designer uses `model: opus`, `effort: medium`,
-user memory, and the bundled dashboard-design skill. You can change the model
-in its agent file to suit your budget. The main session keeps its own settings.
+Prefer native Claude skills, a project-only install, or no designer subagent?
+See [installation options](docs/installation.md). Choose one method per host to
+avoid duplicate skills. The bundled Claude designer uses Opus at medium effort;
+the native agent file can be customized for your budget.
 
-### Enable it for long tasks
+### Use it for long tasks automatically
 
-For automatic selection on tasks with **more than five steps or an expected
-duration over 30 minutes**, add the [optional rule](docs/long-task-rule.md) to
-your project's `AGENTS.md` or `CLAUDE.md`.
+Global installation makes the skill available everywhere. To ask your agent to
+select it for tasks with **more than five steps or an expected duration over
+30 minutes**, add the [optional long-task rule](docs/long-task-rule.md) to your
+user-level instructions. Installation does not edit those instructions.
+This trigger is guidance to the agent; explicit invocation is the reliable way
+to request a dashboard for a particular task.
 
-This is an instruction-based trigger. It is not a hook or a background daemon.
-Installing the package does not rewrite your instructions or guarantee selection
-on every task; explicitly invoke it when you want a dashboard.
+## Try it first
 
-## Make it yours
+After cloning, double-click [`examples/demo.html`](examples/demo.html).
+GitHub shows HTML source; open the downloaded file in your browser.
+**No agent session or installation is needed to explore the demo.**
 
-On first use, the main agent asks about **dark or light**, **dense or airy**, and
-**an accent color**. It can remember your answer for the project or, if you choose,
-across projects. While you decide, it uses temporary light/compact/terracotta defaults.
+![Actual dashboard: a fictional search redesign with tasks, decisions, blockers, and deliverables](docs/assets/dashboard-light.png)
 
-The designer chooses the panel order and composition for your task. A build can
-lead with the plan; a stuck integration can lead with blockers; a review can
-lead with deliverables. The renderer supplies a reliable base, and the designer
-can customize its CSS without rewriting the publishing logic.
+*Actual generated dashboard; the sample task and deliverables are fictional.*
 
-| Dark mode | Mobile |
+Try the Plan filters, Decisions view, dark mode, and Export menu. Open Developer
+to inspect the underlying state. For a real session and a local publisher test,
+follow [Test it yourself](docs/testing.md).
+
+## The workbench
+
+| View | What you get |
 | --- | --- |
-| ![Dark theme dashboard](docs/assets/dashboard-dark.png) | ![Mobile dashboard](docs/assets/dashboard-mobile.png) |
+| **Overview** | Progress, attention needed, blockers, and deliverables. |
+| **Plan** | Searchable tasks, status filters, and `/` to jump to search. |
+| **Decisions** | Required answers first; optional choices show their default action. |
+| **Activity** | The last 100 publication events, stamped with the real system clock. |
+| **Developer** | Raw snapshot, schema version, revision, patch example, and copyable commands. |
 
-Project preferences take precedence over user preferences. Browser theme and
-density switches are local viewing preferences and do not edit the agent’s saved style. Only confirmed style
-choices belong in persistent memory. Task details stay in the run directory.
-You can supply your own installed design skill, but none is required: a small
-dashboard-design skill is included.
+- **Open it anywhere.** One offline HTML file, responsive layout, light/dark
+  themes, and compact/airy density.
+- **Keep following along.** Active pages refresh every 10 seconds, preserve your
+  view and filters, and flag stale updates. Refresh waits while you type or use
+  a dialog; completed and paused runs stop refreshing.
+- **Share a handoff.** Export Markdown or JSON, copy a status summary, copy a
+  local artifact path, or open a validated HTTP(S) deliverable link.
+- **Track separate runs.** `.dashboard/index.html` lists runs within your project.
+- **Publish safely.** Revision checks reject stale updates. Patches preserve
+  omitted rows; the CLI validates decisions and completion before saving.
 
-## Built for the developer at the keyboard
+<details>
+<summary>Developer view, dark mode, and mobile screenshots</summary>
 
-![Developer workspace with raw state, a patch example, and copyable commands](docs/assets/dashboard-developer.png)
+![Developer view with state inspection and CLI commands](docs/assets/dashboard-developer.png)
 
-- **Inspect the source.** See the current snapshot, schema version, and revision.
-- **Update just what changed.** The `patch` command upserts complete rows by ID;
-  omitted tasks, decisions, and artifacts stay intact. Revision checks still apply.
-- **Follow the history.** The last 100 publication events record additions,
-  removals, status transitions, and other changes using the real clock.
-- **Take a handoff with you.** Export Markdown or the full JSON state. Copy a
-  concise update, artifact path, question, or CLI command. Nothing gets sent automatically.
-- **Keep multiple runs separate.** `.dashboard/index.html` lists your project’s
-  runs, progress, pending decisions, and blockers. Search by title or phase.
-- **Stay in your flow.** Theme and density controls, keyboard search, persistent
-  view/filter/scroll state, and clipboard fallback all work offline.
+![Dark theme](docs/assets/dashboard-dark.png)
 
-```sh
-# Inspect a run and its current revision
-python3 /path/to/dashboard.py --project . status RUN_ID
+<img src="docs/assets/dashboard-mobile.png" alt="Mobile dashboard" width="320">
 
-# Apply complete rows from patch.json, preserving omitted rows
-python3 /path/to/dashboard.py --project . patch RUN_ID --input patch.json --expected-revision 2
+</details>
 
-# List project runs as machine-readable JSON
-python3 /path/to/dashboard.py --project . list
-```
-
-The Developer view supplies commands with your real script/project paths and
-current revision. Demo commands deliberately use example paths. Commands shown
-in the UI use POSIX shell quoting; use Git Bash or WSL on Windows.
-
-See the [CLI and patch guide](docs/developer-guide.md) for a complete example.
+On first use, the agent asks for your theme, density, and accent color. Confirmed
+preferences can stay with the project or be remembered across projects. The
+optional designer adjusts panel order and CSS to fit the work. Browser appearance
+controls change your local view; they do not overwrite saved agent preferences.
 
 ## How it works
 
-![The main agent publishes facts while dashboard-builder designs the presentation, producing one offline HTML dashboard](docs/assets/workflow.svg)
+![The main agent publishes facts; dashboard-builder designs presentation; the publisher produces offline HTML](docs/assets/workflow.svg)
 
-1. **Start the work.** The main agent creates a run and publishes the real plan.
-2. **Make it readable.** The optional designer customizes presentation in the
-   background. The main agent keeps working.
-3. **Keep it honest.** After each meaningful step, the main agent publishes a
-   full snapshot. The publisher stamps it using the system clock.
-4. **Stay in the loop.** Open the HTML file. Reply to questions in your agent
-   chat; the page is a read-only view.
-5. **Finish cleanly.** The final snapshot records the actual outcome and stops
-   automatic refresh. Refresh also waits while you are typing or using a dialog;
-your view, filters, and scroll position survive a reload.
-
-Think of the main agent as someone building a treehouse. The designer makes the
-noticeboard. The noticeboard tells you which pieces are built, what tools are
-missing, and what color the builder will choose if you don't pick one. It never
-gives the builder permission to spend your money or knock down your house.
+1. The main agent creates a run and publishes the plan.
+2. If supported, `dashboard-builder` customizes presentation in the background.
+3. The main agent publishes verified progress after meaningful steps.
+4. You open the HTML file and answer questions in the agent chat.
+5. The final snapshot records the outcome and stops automatic refresh.
 
 ```text
-your-project/
-└── .dashboard/
-    ├── index.html             # Overview of all project runs
-    ├── preferences.json       # Optional project style
-    └── <unique-run-id>/
-        ├── state.json         # Authoritative facts, revision, timestamps
-        ├── next.json          # Main agent's next snapshot
-        ├── presentation.json  # Optional designer composition
-        ├── theme.css          # Optional designer styling
-        └── index.html         # Double-click this
+your-project/.dashboard/
+├── index.html             # All runs in this project
+├── preferences.json       # Optional project style
+└── <run-id>/
+    ├── state.json         # Facts, revision, timestamps, recent history
+    ├── presentation.json  # Optional panel composition
+    ├── theme.css          # Optional custom styling
+    └── index.html         # Open this in your browser
 ```
 
-Each run is separate. Revision checks reject stale writers, and file replacement
-keeps readers from seeing partially written HTML. The main agent publishes;
-the designer never edits the state. See the [protocol](skills/task-lantern/references/protocol.md)
-for the schema, commands, and recovery behavior.
+The page is read-only: it does not accept answers or control the agent. Optional
+preferences can use a reversible default; required decisions stay pending until
+answered. Silence does not authorize actions. The agent can continue independent
+work while waiting.
 
-## Defaults are not approvals
+## Scope and limits
 
-An optional preference can have a reversible default: “Keep the current spacing.”
-A required decision stays pending: “Keep the preview local until publication is
-approved.” The agent continues independent work where possible.
+Task Lantern reflects what the agent publishes. It does not watch processes,
+inspect Git automatically, infer test results, restart stopped agents, or promise
+an ETA. Refreshing the page reloads the latest published snapshot.
 
-The publisher rejects a required question marked `defaulted`, and refuses a
-completed run that still has unfinished tasks, open blockers, or pending questions.
-Those checks help catch mistakes; the main agent still owns the truth of what it
-reports and whether an action is authorized.
+The generated dashboard has no network requests, analytics, or remote assets.
+Your host’s normal model/data handling still applies. Add `.dashboard/` to your
+project’s `.gitignore` when task data should stay out of Git; the installer does
+not change your ignore rules. Review exported data before sharing it.
 
-## Privacy and practical limits
+Designer file boundaries are instructions, not an OS sandbox. Host permissions
+remain in force. Background execution and agent discovery depend on your host.
+The main-agent workflow works without a designer. See [security](SECURITY.md).
 
-- The generated page makes **no network requests** and has no analytics, remote
-  fonts, CDN dependencies, or server. It uses a restrictive content security policy.
-- Task text is rendered as text, not executable HTML. Deliverable paths are
-  copyable; only validated HTTP(S) URLs without embedded credentials become links.
-- Add `.dashboard/` to your project's `.gitignore` if you want to keep task data
-  out of Git. Task Lantern doesn't change your ignore rules automatically.
-- Agent file boundaries are **instructions, not a filesystem sandbox**. The host's
-  permissions remain the enforcement boundary. See [SECURITY.md](SECURITY.md).
-- This is a snapshot publisher, not a process monitor. If the agent stops updating,
-  the page shows stale progress; refreshing does not restart the agent.
-- Background execution, model availability, and custom-agent discovery depend
-  on your host/version. The main-agent workflow remains available.
-- Python CLI and browser behavior are tested. Full autonomous Claude/Codex sessions
-  are not covered by the automated suite, so treat this as an early `0.2.0` release.
+This is an early **0.2.0** project. Python behavior is tested on Linux, macOS,
+and Windows; browser interactions are tested in Chrome. Full autonomous
+Claude/Codex sessions are not covered by the automated suite.
 
-## Develop and contribute
+## Documentation and contributing
 
-```sh
-python3 -m unittest discover -s tests -v
-python3 scripts/demo.py
-python3 scripts/demo.py --theme light --output examples/demo-light.html
-python3 scripts/demo.py --theme dark --output examples/demo-dark.html
-```
+- [Installation, updates, removal, and troubleshooting](docs/installation.md)
+- [Test the demo, publisher, and agent workflow](docs/testing.md)
+- [CLI, patches, exports, and state migration](docs/developer-guide.md)
+- [Snapshot schema and publishing protocol](skills/task-lantern/references/protocol.md)
+- [Contributing and local checks](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [Releasing](docs/releasing.md)
 
-Optional real-browser checks and screenshots require Node 22+ and Chrome:
-
-```sh
-node tests/browser.mjs
-```
-
-Set `CHROME_PATH` if Chrome is not in its default macOS location or named
-`google-chrome` on your PATH. No npm install is needed.
-
-The suite covers state validation, required decisions, safe completion, stale
-writes, lock contention, HTML escaping, style precedence, and install behavior.
-GitHub Actions runs the Python tests on Linux, macOS, and Windows, plus the
-real-browser interaction suite on Linux.
-
-Read [CONTRIBUTING.md](CONTRIBUTING.md) for the small number of invariants that
-keep this tool dependable, and [the release guide](docs/releasing.md) for publishing.
-
-## License and credits
-
-[MIT](LICENSE). Built around the idea that long agent tasks should be easy to
-follow. Claude Code and Codex are products of their respective owners; this is
-an independent project. The hero is AI-generated artwork; the dashboard images
-are real browser captures. [Graphics provenance and prompt](docs/assets/README.md).
+[MIT](LICENSE). An independent project for Claude Code and Codex. The banner is
+AI-generated; dashboard screenshots are real browser captures.
+[Graphics provenance](docs/assets/README.md).

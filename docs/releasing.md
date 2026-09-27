@@ -1,32 +1,40 @@
-# Publishing Task Lantern
+# Releasing Task Lantern
 
-This directory is a standalone repository. It contains no dependency on the
-project in which it was originally created.
+The public repository is [paranjaymundra/task-lantern](https://github.com/paranjaymundra/task-lantern).
+Work from this standalone repository; it has no dependency on another project.
 
-1. Run the checks in CONTRIBUTING.md and inspect both demos.
-2. Review staged files. Never include `.dashboard/`, user preferences, or secrets.
-3. Create a GitHub repository named `task-lantern` and push this directory's Git
-   history. A public repository is a deliberate publishing action.
-4. Set the repository description to “Offline progress dashboards for long-running
-   Claude Code and Codex tasks.” Suggested topics: `agent-skills`, `claude-code`,
-   `codex`, `developer-tools`, `dashboard`.
-5. Use `docs/assets/hero.png` for the README. GitHub social previews may crop it;
-   the README banner is designed for a wide layout.
-6. Enable private vulnerability reporting and review GitHub Actions results.
-7. Keep `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` versions in
-   sync, then create a `v0.2.0` tag/release when ready.
+## Prepare a release
 
-The Claude marketplace uses a relative source, so it works from a clone without
-hard-coded account names. Once hosted, users can add `OWNER/task-lantern` with
-`claude plugin marketplace add`, then install
-`task-lantern@task-lantern-marketplace`.
+1. Run the checks in [Contributing](../CONTRIBUTING.md), inspect both themes,
+   and run the [manual host checks](testing.md#3-try-an-agent-session). Record
+   host versions and any known limitations.
+2. Update `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` to the same
+   version. Move the relevant Unreleased changelog entries into a versioned section.
+   Update version-specific README claims when needed.
+3. Check fresh installs and updates through the documented routes. Claude plugins
+   need a version bump for changed release contents; keep docs-only edits distinct
+   from claims of a new runtime release.
+4. Review the diff and screenshots. Never include private `.dashboard/` runs,
+   personal preferences, credentials, or real private task data.
+5. Commit and push the release changes. Confirm all GitHub Actions jobs pass.
+6. Create a tag matching the manifest version, such as `v0.2.1`, and publish a
+   GitHub release describing behavior changes, migration notes, validation, and
+   limits. Do not tag a version that already exists.
 
-The Codex compatibility manifest is included for plugin packaging. The README's
-native skill installer is the tested local installation route. Submitting to a
-host's public plugin directory is a separate process; the repo does not claim
-to be listed or approved there.
+Use `docs/assets/hero.png` for the README banner. GitHub social previews may crop
+it. Keep screenshot assets current when UI changes, and retain their provenance
+in [the asset notes](assets/README.md). Review repository security settings and
+enable private vulnerability reporting when available.
 
-Configuration references checked while preparing this release:
+## Distribution
+
+Claude users add `paranjaymundra/task-lantern` as a marketplace, then install
+`task-lantern@task-lantern-marketplace`. Its relative plugin source also works
+from a clone. Codex's documented installation path uses the native skill
+installer. The Codex manifest is included for plugin packaging; this repository
+does not claim listing or approval in a host's public plugin directory.
+
+Configuration references:
 
 - [Claude subagents](https://code.claude.com/docs/en/sub-agents)
 - [Claude plugin manifest](https://code.claude.com/docs/en/plugins-reference)
