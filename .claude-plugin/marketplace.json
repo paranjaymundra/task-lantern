@@ -7,10 +7,10 @@
     {
       "name": "task-lantern",
       "source": "./",
-      "description": "Offline dashboards for long agent tasks."
+      "description": "One offline workspace for tracked coding-agent threads."
     }
   ],
   "metadata": {
-    "description": "Task Lantern: offline progress dashboards for long agent tasks."
+    "description": "Task Lantern: progress, decisions, and files across your tracked threads."
   }
 }

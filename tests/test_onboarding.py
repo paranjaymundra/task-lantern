@@ -20,7 +20,7 @@ class OnboardingTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory(prefix="lantern onboarding ")
         self.addCleanup(self.tmp.cleanup)
         self.base = Path(self.tmp.name)
-        self.env = {**os.environ, "XDG_CONFIG_HOME": str(self.base / "config")}
+        self.env = {**os.environ, "XDG_CONFIG_HOME": str(self.base / "config"), "XDG_DATA_HOME": str(self.base / "data")}
 
     def cli(self, script, *args, expected=0):
         result = subprocess.run([sys.executable, str(script), *map(str, args)],

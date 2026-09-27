@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.3.0
+
+- One self-contained workspace across registered projects, with a collapsible right-hand thread sidebar.
+- A concise current-step summary; plan, decisions, files, activity and developer data expand in place.
+- Search/filter threads, retain selection and per-thread detail state, and export only the selected thread.
+- Actual host thread IDs can resume an existing run; concurrent workspace registrations are serialized.
+- Portable thread pages and project-only workspaces remain available. No host chat-history scanning or server.
+- Multi-project demo, updated documentation, and browser/CLI coverage for the unified workflow.
+
+
 ## 0.2.1
 
 - Added a read-only native installation check with missing/changed-file reports.

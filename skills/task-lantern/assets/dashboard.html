@@ -7,304 +7,315 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"
     />
-    <title>@@TITLE@@ · Task Lantern</title>
+    <title>Task Lantern · Workspace</title>
     <style>
       @@CSS@@
-      @@CUSTOM_CSS@@
     </style>
+    <style id="thread-style"></style>
   </head>
   <body>
-    <a class="skip" href="#main">Skip to work</a>
+    <a class="skip" href="#main">Skip to dashboard</a>
     <noscript
-      >Enable JavaScript to view this offline dashboard. The source data is in
-      state.json beside this file.</noscript
+      >Enable JavaScript to view this offline workspace. Task state remains in
+      each project's .dashboard folder.</noscript
     >
-    <div class="shell">
-      <aside class="sidebar">
-        <div class="brand">Task Lantern<span>LOCAL WORKSPACE</span></div>
-        <div class="side-label">WORKSPACE</div>
-        <a id="all-runs" class="all-runs" href="../index.html"
-          >All runs <span aria-hidden="true">↗</span></a
+    <header class="app-header">
+      <a
+        class="brand"
+        href="#"
+        id="home"
+        aria-label="Task Lantern, back to summary"
+        ><svg viewBox="0 0 24 28" aria-hidden="true">
+          <path
+            d="M7 7V5a5 5 0 0 1 10 0v2M4 10h16M5 13v10h14V13M3 27h18M12 12c0 4-3 4-3 7a3 3 0 0 0 6 0c0-2-2-4-3-7Z"
+          /></svg
+        ><span>Task Lantern</span></a
+      >
+      <span class="workspace-label" id="workspace-label">Your workspace</span>
+      <div class="header-actions">
+        <span class="local-indicator"><i></i> Local file</span
+        ><button id="theme" aria-label="Switch color theme">Dark mode</button
+        ><button
+          id="toggle-threads"
+          aria-controls="thread-sidebar"
+          aria-expanded="true"
         >
-        <div class="side-label">THIS RUN</div>
-        <nav id="navigation" aria-label="Run views">
-          <button data-view="overview" aria-current="page">Overview</button>
-          <button data-view="plan">Plan <span id="nav-tasks"></span></button>
-          <button data-view="decisions">
-            Decisions <span id="nav-decisions"></span>
-          </button>
-          <button data-view="activity">
-            Activity <span id="nav-activity"></span>
-          </button>
-          <button data-view="developer" class="dev-nav">Developer</button>
-        </nav>
-        <div class="side-bottom">
-          <div class="local-label">Local progress dashboard</div>
-          <p>Saved in your project.<br />No background network calls.</p>
-          <div class="side-controls">
-            <button id="theme" aria-label="Switch color theme">Dark mode</button
-            ><button id="density" aria-label="Toggle row density">
-              Roomier
-            </button>
-          </div>
-        </div>
-      </aside>
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <rect x="2" y="3" width="16" height="14" rx="2" />
+            <path d="M13 3v14" /></svg
+          >Threads <span id="thread-count"></span>
+        </button>
+      </div>
+    </header>
+    <div class="workspace" id="workspace">
       <main id="main" tabindex="-1">
-        <header class="topbar">
-          <div class="breadcrumb">
-            <span>Workspace</span><span aria-hidden="true">/</span
-            ><span id="run-short"></span>
-          </div>
-          <div class="top-actions">
-            <span id="freshness" role="status"></span
-            ><button id="refresh" aria-pressed="false">Pause</button
-            ><button id="export">Export</button>
-          </div>
-        </header>
         <div class="page">
-          <aside
-            id="demo-note"
-            class="demo-note"
-            aria-label="About this demo"
+          <div id="demo-note" class="demo-note" hidden>
+            <strong>Interactive demo</strong
+            ><span>Sample threads. No agent is running.</span>
+          </div>
+          <div
+            id="workspace-warning"
+            class="workspace-warning"
+            role="status"
             hidden
-          >
-            <strong>Interactive demo</strong>
-            <span
-              >Fictional task data. No agent is running. Try the views, filters,
-              and exports.</span
-            >
-          </aside>
-          <section class="run-heading">
-            <div class="eyebrow" id="eyebrow"></div>
-            <div class="title-row">
+          ></div>
+          <div id="workspace-empty" class="workspace-empty" hidden>
+            <div class="eyebrow">YOUR WORK, IN VIEW</div>
+            <h1>No tracked threads yet.</h1>
+            <p>
+              Ask your coding agent to use Task Lantern on a task. Its thread
+              will appear here after the first publication.
+            </p>
+            <code>Use Task Lantern to track this task.</code>
+          </div>
+          <div id="thread-content">
+            <section class="thread-heading">
+              <div class="heading-meta">
+                <span id="project-label"></span
+                ><span class="meta-divider">/</span><span id="host-label"></span
+                ><span id="phase" class="phase"></span>
+              </div>
               <h1 id="title"></h1>
-              <span id="phase" class="phase"></span>
-            </div>
-            <p id="summary" class="summary"></p>
-            <div class="run-meta">
-              <span id="started"></span><span id="revision"></span
-              ><span id="duration"></span>
-            </div>
-          </section>
-          <section
-            class="attention"
-            id="attention"
-            aria-label="Attention needed"
-          ></section>
-          <div class="overview-strip" id="overview-strip">
-            <div class="progress-group">
-              <span class="overline">PLAN PROGRESS</span>
-              <div class="progress-line">
-                <strong id="completion"></strong
-                ><span id="progress-note"></span>
+              <p id="summary" class="summary"></p>
+              <div class="run-meta">
+                <span id="freshness" role="status"></span
+                ><span id="revision"></span
+                ><button id="refresh" aria-pressed="false">Pause refresh</button
+                ><button id="export">Export</button>
               </div>
-              <progress id="progress" aria-label="Tasks completed"></progress>
-            </div>
-            <div class="strip-metric">
-              <strong id="doing-count"></strong><span>in progress</span>
-            </div>
-            <div class="strip-metric">
-              <strong id="question-count"></strong><span>awaiting input</span>
-            </div>
-            <div class="strip-metric">
-              <strong id="artifact-count"></strong><span>deliverables</span>
-            </div>
-          </div>
-          <div class="view-heading" id="view-heading" hidden>
-            <h2 id="view-title"></h2>
-            <p id="view-description"></p>
-          </div>
-          <div class="workspace-grid" id="workspace-grid">
-            <section
-              class="panel task-panel"
-              id="tasks"
-              aria-labelledby="tasks-title"
-            >
-              <div class="section-head">
-                <div>
-                  <h2 id="tasks-title">The plan</h2>
-                  <span class="section-caption">Tasks and status.</span>
+            </section>
+            <section class="at-a-glance" aria-label="Thread at a glance">
+              <div class="current-card">
+                <div class="card-label">
+                  <span id="current-label">WORKING ON</span
+                  ><span id="step-position"></span>
                 </div>
-                <span id="task-total" class="count-label"></span>
+                <button
+                  id="current-task"
+                  class="current-task"
+                  data-detail="plan"
+                ></button>
+                <p id="current-detail"></p>
+                <div class="progress-caption">
+                  <strong id="completion"></strong
+                  ><button data-detail="plan" class="text-button">
+                    See plan <span aria-hidden="true">↗</span>
+                  </button>
+                </div>
+                <div
+                  id="segments"
+                  class="segments"
+                  aria-label="Task progress"
+                ></div>
+                <progress
+                  id="progress"
+                  class="sr-only"
+                  aria-label="Tasks completed"
+                ></progress>
+                <div class="up-next">
+                  <span>UP NEXT</span><strong id="next-task"></strong>
+                </div>
               </div>
-              <div class="task-tools">
-                <label class="search-box"
-                  ><span class="sr-only">Search tasks</span
-                  ><input
-                    id="task-search"
-                    type="search"
-                    placeholder="Find a task…"
-                    autocomplete="off"
-                  /><kbd>/</kbd></label
-                ><label
-                  ><span class="sr-only">Filter task status</span
-                  ><select id="task-filter">
-                    <option value="all">All statuses</option>
-                    <option value="open">Unfinished</option>
-                    <option value="doing">In progress</option>
-                    <option value="blocked">Blocked</option>
-                    <option value="done">Completed</option>
-                    <option value="todo">Not started</option>
-                    <option value="skipped">Skipped</option>
-                  </select></label
+              <div class="attention-card">
+                <div class="card-label">
+                  <span id="attention-label">NEEDS YOU</span
+                  ><span id="attention-count"></span>
+                </div>
+                <div id="attention-preview"></div>
+                <button
+                  data-detail="decisions"
+                  id="review-decisions"
+                  class="text-button"
                 >
-              </div>
-              <div id="task-list"></div>
-              <div id="task-empty" class="empty" hidden>
-                No tasks match. Try another search or status.
-              </div>
-              <div
-                id="task-result"
-                class="section-foot"
-                aria-live="polite"
-              ></div>
-            </section>
-            <div class="right-column" id="right-column">
-              <section
-                class="panel decisions-panel"
-                id="questions"
-                aria-labelledby="questions-title"
-              >
-                <div class="section-head">
-                  <div>
-                    <h2 id="questions-title">Decisions</h2>
-                    <span class="section-caption"
-                      >Your input, where it matters.</span
-                    >
-                  </div>
-                  <span id="decision-total" class="count-label"></span>
-                </div>
-                <div id="question-list"></div>
-              </section>
-              <section
-                class="panel blocker-panel"
-                id="blockers"
-                aria-labelledby="blockers-title"
-              >
-                <div class="section-head">
-                  <h2 id="blockers-title">Blockers</h2>
-                  <span id="blocker-total" class="count-label"></span>
-                </div>
-                <div id="blocker-list"></div>
-              </section>
-            </div>
-            <section
-              class="panel deliverable-panel"
-              id="deliverables"
-              aria-labelledby="deliverables-title"
-            >
-              <div class="section-head">
-                <div>
-                  <h2 id="deliverables-title">Ready to inspect</h2>
-                  <span class="section-caption"
-                    >Published files and links.</span
-                  >
-                </div>
-                <span id="deliverable-total" class="count-label"></span>
-              </div>
-              <div id="deliverable-list"></div>
-            </section>
-            <section
-              class="panel activity-panel"
-              id="activity"
-              aria-labelledby="activity-title"
-            >
-              <div class="section-head">
-                <div>
-                  <h2 id="activity-title">Activity</h2>
-                  <span class="section-caption"
-                    >Recorded changes, from the publisher.</span
-                  >
-                </div>
-                <span class="count-label" id="activity-total"></span>
-              </div>
-              <div id="activity-list"></div>
-              <button class="text-button" id="all-activity">
-                See all activity
-              </button>
-            </section>
-          </div>
-          <section id="developer" hidden>
-            <div class="dev-stats" id="dev-stats"></div>
-            <div class="dev-grid">
-              <section class="panel">
-                <div class="section-head">
-                  <h2>Work with this run</h2>
-                  <span class="count-label">CLI</span>
-                </div>
-                <p class="dev-intro">
-                  Run these commands in your terminal. Publishing still requires
-                  the current revision.
-                </p>
-                <div id="commands"></div>
-                <p class="command-note">
-                  Commands use POSIX shell quoting. On Windows, use Git Bash or
-                  WSL. Patch accepts complete rows by ID; omitted rows stay
-                  intact.
-                </p>
-              </section>
-              <section class="panel">
-                <div class="section-head">
-                  <h2>Patch example</h2>
-                  <button id="copy-patch" class="text-button">Copy JSON</button>
-                </div>
-                <p class="dev-intro">
-                  Save as <code>patch.json</code>, edit the values, then use the
-                  patch command. Copying never changes the run.
-                </p>
-                <pre id="patch-example" tabindex="0"></pre>
-              </section>
-            </div>
-            <section class="panel snapshot-panel">
-              <div class="section-head">
-                <div>
-                  <h2>Current snapshot</h2>
-                  <span class="section-caption"
-                    >Exact published source. Read-only.</span
-                  >
-                </div>
-                <button id="copy-snapshot" class="text-button">
-                  Copy JSON
+                  Review decisions <span aria-hidden="true">↗</span>
                 </button>
               </div>
-              <pre id="snapshot-json" tabindex="0"></pre>
             </section>
-          </section>
-          <footer>
-            <span id="updated"></span
-            ><span
-              >Reply in your agent chat. This dashboard never executes your
-              decisions.</span
-            >
-          </footer>
+            <button
+              id="blocker-preview"
+              class="blocker-preview"
+              data-detail="decisions"
+              hidden
+            ></button>
+            <div class="deliverables-preview" id="deliverables-preview"></div>
+            <div class="detail-heading">
+              <span>A CLOSER LOOK</span><span>Open only what you need</span>
+            </div>
+            <div id="detail-stack" class="detail-stack">
+              <details id="plan-details" data-section="plan">
+                <summary>
+                  <span class="detail-name">Plan</span
+                  ><span id="plan-meta" class="detail-meta"></span
+                  ><span class="chevron"></span>
+                </summary>
+                <div class="detail-body" id="tasks">
+                  <div class="task-tools">
+                    <label class="search-box"
+                      ><span class="sr-only">Search tasks</span
+                      ><input
+                        id="task-search"
+                        type="search"
+                        placeholder="Find a step…"
+                        autocomplete="off"
+                      /><kbd>/</kbd></label
+                    ><label
+                      ><span class="sr-only">Filter task status</span
+                      ><select id="task-filter">
+                        <option value="all">All statuses</option>
+                        <option value="open">Unfinished</option>
+                        <option value="doing">In progress</option>
+                        <option value="blocked">Blocked</option>
+                        <option value="done">Completed</option>
+                        <option value="todo">Not started</option>
+                        <option value="skipped">Skipped</option>
+                      </select></label
+                    >
+                  </div>
+                  <div id="task-list"></div>
+                  <div id="task-empty" class="empty" hidden>
+                    No matching steps.
+                  </div>
+                  <div
+                    id="task-result"
+                    class="section-foot"
+                    aria-live="polite"
+                  ></div>
+                </div>
+              </details>
+              <details id="decisions-details" data-section="decisions">
+                <summary>
+                  <span class="detail-name">Decisions &amp; blockers</span
+                  ><span id="decisions-meta" class="detail-meta"></span
+                  ><span class="chevron"></span>
+                </summary>
+                <div class="detail-body">
+                  <div id="question-list"></div>
+                  <div id="blocker-list"></div>
+                </div>
+              </details>
+              <details id="deliverables-details" data-section="deliverables">
+                <summary>
+                  <span class="detail-name">Files &amp; links</span
+                  ><span id="deliverables-meta" class="detail-meta"></span
+                  ><span class="chevron"></span>
+                </summary>
+                <div class="detail-body" id="deliverable-list"></div>
+              </details>
+              <details id="activity-details" data-section="activity">
+                <summary>
+                  <span class="detail-name">Activity</span
+                  ><span id="activity-meta" class="detail-meta"></span
+                  ><span class="chevron"></span>
+                </summary>
+                <div class="detail-body" id="activity-list"></div>
+              </details>
+              <details id="developer-details" data-section="developer">
+                <summary>
+                  <span class="detail-name">Developer details</span
+                  ><span class="detail-meta">State, CLI &amp; JSON</span
+                  ><span class="chevron"></span>
+                </summary>
+                <div class="detail-body" id="developer">
+                  <div class="dev-stats" id="dev-stats"></div>
+                  <h2 class="section-title">Work with this thread</h2>
+                  <div id="commands"></div>
+                  <p class="command-note">
+                    Commands use POSIX quoting (Git Bash or WSL on Windows).
+                    Copying a command never executes it. Re-read the current
+                    revision before publishing.
+                  </p>
+                  <details class="nested-detail">
+                    <summary>Patch example</summary>
+                    <div class="code-head">
+                      <span>Complete rows are merged by ID.</span
+                      ><button id="copy-patch">Copy JSON</button>
+                    </div>
+                    <pre id="patch-example" tabindex="0"></pre>
+                  </details>
+                  <details class="nested-detail">
+                    <summary>Published snapshot</summary>
+                    <div class="code-head">
+                      <span>Read-only source data.</span
+                      ><button id="copy-snapshot">Copy JSON</button>
+                    </div>
+                    <pre id="snapshot-json" tabindex="0"></pre>
+                  </details>
+                </div>
+              </details>
+            </div>
+            <footer>
+              <span id="updated"></span
+              ><span>Answer in your agent chat. Updates appear here.</span>
+            </footer>
+          </div>
         </div>
       </main>
+      <button
+        id="sidebar-backdrop"
+        aria-label="Close thread sidebar"
+        hidden
+      ></button>
+      <aside
+        id="thread-sidebar"
+        class="thread-sidebar"
+        aria-label="Tracked threads"
+      >
+        <div class="sidebar-heading">
+          <div>
+            <h2>Threads</h2>
+            <p id="sidebar-caption">Across your projects</p>
+          </div>
+          <button id="close-threads" aria-label="Collapse threads">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="m7 5 5 5-5 5" />
+            </svg>
+          </button>
+        </div>
+        <label class="thread-search"
+          ><svg viewBox="0 0 20 20" aria-hidden="true">
+            <circle cx="8" cy="8" r="5" />
+            <path d="m12 12 5 5" /></svg
+          ><span class="sr-only">Find a thread or project</span
+          ><input
+            id="thread-search"
+            type="search"
+            placeholder="Find a thread or project…"
+            autocomplete="off"
+        /></label>
+        <div class="thread-filters" aria-label="Filter threads">
+          <button data-thread-filter="all" aria-pressed="true">All</button
+          ><button data-thread-filter="active" aria-pressed="false">
+            Active</button
+          ><button data-thread-filter="attention" aria-pressed="false">
+            Needs you
+          </button>
+        </div>
+        <nav id="thread-list" aria-label="Choose a tracked thread"></nav>
+        <p id="no-threads" class="empty" hidden>No matching threads.</p>
+        <div class="sidebar-footer">
+          <span class="scope-indicator">Only threads you’ve enabled</span>
+          <p>Snapshots from your agents. No server required.</p>
+          <button id="density">Roomier rows</button>
+        </div>
+      </aside>
     </div>
     <div id="toast" role="status" aria-live="polite" hidden></div>
     <dialog id="export-dialog" aria-labelledby="export-title">
       <div class="dialog-head">
-        <div>
-          <div class="overline">TAKE THE WORK WITH YOU</div>
-          <h2 id="export-title">Export this run</h2>
-        </div>
-        <button id="close-export" aria-label="Close export dialog">
-          Close
-        </button>
+        <h2 id="export-title">Export this thread</h2>
+        <button id="close-export">Close</button>
       </div>
-      <p>
-        A snapshot of the published state. Review task details before sharing.
-      </p>
+      <p>Only this thread is exported. Review its details before sharing.</p>
       <button id="export-markdown" class="export-choice">
         <strong>Markdown handoff</strong
-        ><span>Plan, decisions, blockers, and deliverables.</span></button
+        ><span>Plan, decisions, blockers, and files.</span></button
       ><button id="export-json" class="export-choice">
-        <strong>Full state · JSON</strong
-        ><span
-          >Current snapshot and the recorded activity journal.</span
-        ></button
+        <strong>Published state · JSON</strong
+        ><span>Snapshot and recorded activity.</span></button
       ><button id="copy-summary" class="export-choice">
         <strong>Copy a short update</strong
-        ><span>Paste a concise status into your own message.</span>
+        ><span>A concise status for your own message.</span>
       </button>
     </dialog>
     <dialog id="copy-dialog" aria-labelledby="copy-title">
@@ -312,10 +323,7 @@
         <h2 id="copy-title">Copy this text</h2>
         <button id="close-copy">Close</button>
       </div>
-      <p>
-        Your browser blocked automatic clipboard access. Select and copy the
-        text below.
-      </p>
+      <p>Automatic clipboard access is unavailable. Select and copy below.</p>
       <textarea id="copy-text" readonly aria-label="Text to copy"></textarea>
     </dialog>
     <script id="state" type="application/json">

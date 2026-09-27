@@ -1,21 +1,21 @@
 # Dashboard design
 
-Make the next useful thing obvious. During implementation lead with the plan;
-during a blocked integration lead with the blocker; during review lead with the
-deliverables or questions. Keep all four panels, even if an empty state is useful.
+Make the summary readable at a glance: current step, completed/total steps,
+next step, urgent decision with waiting/default behavior, blockers, and recent
+files. Threads stay in the collapsible right sidebar. Deeper plan, decisions,
+files, activity and developer information opens in place below the summary.
+Keep details closed by default. Preserve separate per-thread state.
 
-Use the saved light/dark, density, and accent preferences. Accent colors decorate
-progress and rules; avoid using arbitrary accent colors for body text. Use the
-system font stack offline. Give the task title, current phase, and next decision
-more visual weight than metadata. Keep status words in addition to color.
+Use confirmed light/dark, density and accent preferences. Prefer system fonts,
+clear headings, quiet metadata, visible focus outlines, and words alongside
+status colors. Do not hide blockers to make the page look cleaner. Keep the
+summary useful at laptop widths and stack it naturally on phones. The mobile
+thread drawer must be closable with both its button and Escape.
 
-Use `presentation.json` for order, eyebrow, and board/brief layout. Optional
-`theme.css` can change type scale, grid, corner radius, and spacing. Fit the task
-rather than changing colors at random. Preserve mobile stacking, focus outlines,
-navigation, search, export and Developer controls, the refresh button, the stale-update notice, and all source facts. Never hide
-blocked work to make the page look cleaner. Test at desktop and phone widths.
-
-The default is a warm light workbench with compact rows, quiet borders, serif
-page headings, and restrained terracotta accents. Dark mode is equally usable.
-Prefer readable text and useful density over large metric cards. All controls
-must remain reachable at phone widths.
+The compatible presentation contract has `order`, `eyebrow` and `layout`.
+Order controls detail sections; questions/blockers share one. Eyebrow provides
+title context via its tooltip. Board gives two summary columns; brief stacks
+them. Scope optional theme CSS to `.page`, leaving workspace controls intact.
+Preserve search, selected-thread exports, real publication times and stale
+notices. The default uses warm paper, clear sans-serif content, a serif brand,
+restrained terracotta and compact rows. Avoid oversized metric tiles.

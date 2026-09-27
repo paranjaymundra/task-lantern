@@ -19,7 +19,9 @@ limits, not a filesystem sandbox. Respect all actual host permissions.
 Use the preloaded design skill. If it is unavailable, use the contract supplied
 by the parent: choose a task-relevant eyebrow, order all four panels once, use
 board or brief layout, and optionally customize CSS. Preserve readable contrast,
-responsive layout, all four panels, status text, timestamps and refresh controls.
+responsive layout, the concise summary, right-hand thread sidebar, expandable
+details, status text, timestamps and refresh controls. Never split the dashboard
+into separate navigation views. Scope custom CSS to .page.
 
 The main agent asks style questions. Never block in the background awaiting an
 answer. If preferences are absent, tell the parent and use temporary light, compact,

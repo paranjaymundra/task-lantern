@@ -1,7 +1,7 @@
 # Brand assets and screenshots
 
-The visual system matches the dashboard: warm paper (`#f6f5f1`), charcoal
-(`#272923`), and terracotta (`#ae5630`). SVG files are editable source artwork,
+The visual system matches the dashboard: warm paper (`#f7f6f2`), charcoal
+(`#282b26`), and terracotta (`#ae5630`). SVG files are editable source artwork,
 with no external fonts or images. Prefer SVG in documentation and PNG where
 an upload form requires it.
 
@@ -12,6 +12,7 @@ an upload form requires it.
 | [social-preview.svg](social-preview.svg) / [social-preview.png](social-preview.png) | Repository social preview or announcement, 1280 × 640. |
 | [workflow.svg](workflow.svg) | Explains agent facts → publisher → local HTML. |
 | [dashboard-overview.png](dashboard-overview.png) | Compact viewport capture for the README. |
+| `dashboard-decisions.png`, `dashboard-focus.png`, `dashboard-mobile-threads.png` | Inline decisions, focused workspace, and mobile thread drawer. |
 | `dashboard-light.png`, `dashboard-dark.png`, `dashboard-mobile.png`, `dashboard-developer.png`, `dashboard-workspace.png` | Full product reference captures. |
 
 The brand artwork is original, code-authored vector work created for this

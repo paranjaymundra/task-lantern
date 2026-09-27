@@ -1,7 +1,7 @@
 {
   "name": "task-lantern",
-  "version": "0.2.1",
-  "description": "Offline progress dashboards for long-running agent tasks.",
+  "version": "0.3.0",
+  "description": "One offline workspace for tracked coding-agent threads across projects.",
   "license": "MIT",
   "skills": "./skills/",
   "interface": {
@@ -12,7 +12,7 @@
       "Use Task Lantern to track this long task."
     ],
     "brandColor": "#ae5630",
-    "longDescription": "Local HTML progress dashboards for long agent tasks, with saved style preferences and explicit decision defaults.",
+    "longDescription": "One local HTML workspace for tracked agent threads across projects, with clear progress, decision defaults, and expandable developer details.",
     "developerName": "Task Lantern contributors",
     "capabilities": [
       "Write"

@@ -13,10 +13,11 @@ python3 scripts/demo.py --open
 
 On other systems, use your file manager's “Open with” browser action.
 
-- In **Plan**, search for a task and filter by status. Try `/` to focus search.
-- In **Decisions**, check that required answers appear before optional choices.
+- Switch projects in the **Threads** sidebar; collapse it to focus.
+- Expand **Plan**, search for a task and filter by status. Try `/` to focus search.
+- Expand **Decisions & blockers**, check that required answers appear before optional choices.
 - Switch to dark mode and try a narrow browser window.
-- In **Developer**, inspect the JSON and revision, then copy a command.
+- Expand **Developer details**, inspect the JSON and revision, then copy a command.
 - Export Markdown and JSON. These are local downloads with fictional demo data.
 
 Demo commands contain example paths. Do not run them unchanged.
@@ -28,8 +29,9 @@ python3 scripts/demo.py --output /absolute/path/to/scratch/demo.html
 
 ## 2. Verify real local publishing
 
-Run these from the Task Lantern repository. They create an isolated project in
-`.dashboard/smoke-project`, which this repository already ignores:
+Run these from the Task Lantern repository. They create a sample project in
+`.dashboard/smoke-project`, which this repository already ignores, and register
+that test thread in your local shared workspace:
 
 ```sh
 python3 -c "from pathlib import Path; Path('.dashboard/smoke-project').mkdir(parents=True, exist_ok=True)"
@@ -64,7 +66,10 @@ page should pick up the change within 10 seconds while refresh is active and
 no input/dialog has focus. Repeating that same revision-1 command should fail
 with a revision conflict and preserve revision 2.
 
-Remove only `.dashboard/smoke-project` and `.dashboard/smoke-patch.json` when done.
+When done, remove the smoke thread’s project/run entry from the local
+`task-lantern/threads.json` registry, then run `workspace` to rebuild. Remove only
+`.dashboard/smoke-project` and `.dashboard/smoke-patch.json` from this repository.
+If a referenced project is removed first, the workspace reports it as unreadable.
 
 ## 3. Try an agent session
 
@@ -87,7 +92,8 @@ Check that the dashboard reflects actual work, the optional question has a
 specific default, the publication decision stays pending, and no publishing
 happens without your approval. Answer in the chat. To finish without publishing,
 say “Keep this local; skip GitHub publication and finish the run.” The final
-page should match that outcome and stop refreshing.
+thread should match that outcome. The shared workspace keeps refreshing to
+notice other tracked threads; the portable terminal-thread page stops.
 
 For the optional designer, repeat with “Have dashboard-builder customize the
 presentation in the background while you continue.” If the host cannot delegate,

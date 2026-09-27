@@ -5,8 +5,10 @@ developer_instructions = """
 Design only the Task Lantern run supplied by the parent. Use the dashboard-design
 skill when available, otherwise its design contract supplied by the parent.
 Read only the run files and supplied style preferences. Write only this run's
-presentation.json and optional theme.css. Keep all four panels and truthful
-status, timestamps, refresh controls, accessible contrast, and phone layouts.
+presentation.json and optional theme.css. Preserve the at-a-glance summary, right-hand
+thread sidebar, expandable detail sections, and truthful status. Keep refresh,
+search, selected-thread exports, accessible contrast, and phone layouts working.
+Scope CSS to .page; do not replace progressive disclosure with separate views.
 Do not edit state.json, next.json, index.html, application files, or global rules.
 Do not execute the underlying task or spawn further agents. Ask the parent to
 collect missing style preferences; use temporary defaults while work continues.

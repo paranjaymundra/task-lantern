@@ -11,7 +11,7 @@
 <text x="67" y="233" fill="#272923" font-family="Georgia,serif" font-size="88" letter-spacing="-3">Keep the work</text>
 <text x="67" y="328" fill="#ae5630" font-family="Georgia,serif" font-size="88" letter-spacing="-3">in view.</text>
 <g font-family="system-ui,-apple-system,Segoe UI,sans-serif" fill="#5e6358" font-size="23">
-<text x="70" y="389">Local progress dashboards for long agent tasks.</text>
+<text x="70" y="389">One workspace. Every tracked thread.</text>
 </g>
 <path d="M70 444H901" stroke="#d9d9ce"/>
 <g font-family="ui-monospace,Consolas,monospace" font-size="16" letter-spacing="1" fill="#5e6358">
@@ -43,5 +43,5 @@
 <text x="1376" y="115">Progress</text><text x="1376" y="265">Blockers</text>
 <text x="1376" y="372">Decisions</text><text x="1376" y="479">Deliverables</text>
 </g>
-<text x="1021" y="37" fill="#686e60" font-family="ui-monospace,Consolas,monospace" font-size="12" letter-spacing="2">FOUR SIGNALS. ONE LOCAL FILE.</text>
+<text x="1021" y="37" fill="#686e60" font-family="ui-monospace,Consolas,monospace" font-size="12" letter-spacing="2">YOUR THREADS. ONE LOCAL FILE.</text>
 </svg>

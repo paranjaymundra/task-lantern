@@ -6,9 +6,24 @@ The main session is the only publisher. Run the script using its absolute path:
 python3 /path/to/task-lantern/skills/task-lantern/scripts/dashboard.py --project /path/to/project init --title 'Ship the search redesign'
 ```
 
-The JSON result contains `run`, `revision`, and `dashboard`. Open `dashboard` in
-a browser or double-click it. No web server, fetch requests, or external assets
-are needed. The browser reloads the whole HTML every 10 seconds while active.
+The JSON result contains `run`, `revision`, `dashboard`, `thread_dashboard`, and
+`project_dashboard`. Open `dashboard`: this is the shared cross-project workspace,
+`${XDG_DATA_HOME:-~/.local/share}/task-lantern/index.html`. The registry next to it
+stores only opted-in project/run references; embedded snapshots are regenerated
+from their authoritative state files. No host chat directories are scanned.
+No web server, fetch requests, or external assets are needed.
+
+Pass `--host codex` or `--host claude` at init. When the real host thread ID is
+available, also pass `--thread-id ID`; repeated init in the same host/project
+resumes its existing run without replacing its facts. Without it, retain and
+reuse the returned run ID in the session. Identical titles do not merge threads.
+
+The right sidebar selects a tracked thread without navigating away. The summary
+stays concise; Plan, Decisions & blockers, Files & links, Activity, and Developer
+details expand in place. All start closed. The shared workspace reloads every
+10 seconds even when the selected thread is complete, so other threads can
+update or appear. A portable single-thread file stops automatic reloads when
+its phase is complete or paused.
 
 Write a **complete snapshot** to `.dashboard/<run>/next.json`, read `state.json`
 for its revision, and publish. Use structured file tools or quoted heredocs;
@@ -87,9 +102,11 @@ contract. It can read the run's state and its own style memory. It may write:
 ```
 
 Save as `presentation.json`. Include each panel once. Layout is `board` (two
-columns, responsive) or `brief` (one column). Without this file, the plan leads the layout and the attention strip surfaces
-required decisions and open blockers. A custom order persists
-until the designer changes it; recheck its usefulness as the task evolves.
+summary columns) or `brief` (stacked). `order` orders expandable sections;
+questions and blockers share one section. `eyebrow` supplies the title tooltip.
+Current work and urgent decisions stay in the summary regardless of detail order.
+Scope custom CSS to `.page`; preserve the right thread sidebar and progressive
+disclosure. The publisher rebuilds the shared workspace after rendering.
 
 Optional `theme.css` is inlined. Use it for typography, spacing, borders, and
 composition; no angle brackets, external resources, or hidden status panels.
@@ -117,8 +134,11 @@ the merged result. Read and merge after a revision conflict.
 
 `status RUN_ID` prints the full envelope as JSON. `list` prints the project run
 inventory plus unreadable run IDs. `index` regenerates `.dashboard/index.html`.
-The overview is also refreshed after init/publish/patch. If overview generation
-fails, the run publication remains valid and a warning explains recovery.
+The project workspace and shared workspace refresh after init/publish/patch/render.
+`workspace` rebuilds the global HTML from its registered threads. If a derived
+workspace cannot refresh, the run publication remains valid and a warning explains
+recovery. Registry updates are serialized; each thread retains its own revision
+lock. Unreadable or moved threads are reported instead of silently forgotten.
 
 Envelope version 2 includes `history`: the latest 100 derived change events.
 Each event has revision, at (UTC), panel, label, before, after, and kind. Kinds are
@@ -126,8 +146,10 @@ added, removed, status, updated, or confirmed. This is a change journal, not ful
 historical snapshots. Version 1 runs are readable and gain history on their next
 publication; earlier events are not invented.
 
-The browser provides read-only Developer inspection, search, status filters,
+The expandable Developer details provide read-only inspection. The page has search, status filters,
 Markdown/JSON exports, and local appearance controls. It never writes state or
 applies an answer. Copyable commands are POSIX shell commands. The page suspends
-refresh while an input has focus or a dialog is open and restores view/filter/
-scroll state across reloads when browser storage is available.
+refresh while an input has focus, a dialog is open, or the page is backgrounded.
+It restores the selected thread, each thread’s expanded sections, filters and
+scroll position across reloads when browser storage is available. JSON and
+Markdown export only the selected thread, never the entire shared workspace.

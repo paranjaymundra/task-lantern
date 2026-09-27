@@ -103,9 +103,10 @@ workflow for this check. Publish two planned steps and share the HTML path.
 Do not change application files.
 ```
 
-Open the returned `.dashboard/<run-id>/index.html`. You should see the steps,
-a real update time, and the Developer view. `.dashboard/index.html` should list
-the run. A missing designer does not prevent this check.
+Open the returned `dashboard` path (normally `~/.local/share/task-lantern/index.html`).
+You should see the thread summary and its entry in the right sidebar. Expand Plan
+or Developer details without leaving the page. `.dashboard/index.html` is a
+project-only workspace; `.dashboard/<run-id>/index.html` remains a portable thread. A missing designer does not prevent this check.
 [Continue with the full manual test](testing.md).
 
 ## Update
@@ -152,6 +153,9 @@ If you added the long-task rule, remove that paragraph from your instructions.
 Restart the host afterward.
 
 Uninstalling native files does not delete dashboards or style preferences.
+The shared HTML and registry stay in `$XDG_DATA_HOME/task-lantern/` or
+`~/.local/share/task-lantern/`; that directory contains private published task
+data and can be kept for reinstalling. Project `.dashboard/` files are separate.
 Project styles live in `.dashboard/preferences.json`; user styles live in
 `$XDG_CONFIG_HOME/task-lantern/preferences.json` or
 `~/.config/task-lantern/preferences.json`. Keep them for reinstalling, or remove
@@ -169,7 +173,7 @@ is separate from these publisher preferences.
 | Designer is unavailable | Omit background delegation and use the main-agent workflow. Check your host's custom-agent support separately. |
 | HTML opens as source | Open the local downloaded file in a browser, not GitHub's source viewer or a text editor. |
 | Progress is stale | Ask the main agent to publish its actual current state. Refresh does not inspect running work. |
-| Refresh appears paused | Check the pause control, focused input, open dialog, or a complete/paused run. |
+| Refresh appears paused | Check the pause control, focused input, open dialog, or background tab. Portable complete/paused threads stop refreshing; shared workspaces keep checking. |
 | Decision cannot be answered on the page | Answer in the host chat; the agent publishes the answer. The dashboard is read-only. |
 | Command not found: `python3` | Install Python 3.10+ in the agent's environment; on Windows try `py -3`. |
 

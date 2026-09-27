@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/hero.svg" alt="Task Lantern — Keep the work in view. Local progress dashboards for Claude Code and Codex." width="100%">
+  <img src="docs/assets/hero.svg" alt="Task Lantern — One workspace. Every tracked thread. For Claude Code and Codex." width="100%">
 </p>
 
 <p align="center">
@@ -15,17 +15,19 @@
   <a href="CONTRIBUTING.md">Contribute</a>
 </p>
 
-**Know what your coding agent finished, what’s stuck, and what needs you.** Task Lantern turns agent-published updates into a local HTML dashboard you can keep beside your editor. Open the file, scan the plan, and get back to work.
+**One dashboard for every thread you’re tracking.** Task Lantern brings agent-published progress from different projects into one local HTML workspace. Pick a thread in the right sidebar, see what it is working on and what needs you, then expand the details only when you want them.
 
-Useful for a refactor spanning several modules, a migration with blocked steps, or a debugging session you need to hand off. Your agent publishes the facts; the page keeps them readable. No server, extra account, or telemetry.
+Keep it beside your editor while Claude Code and Codex work. The summary shows the current step, completed work, questions with defaults, blockers, and recent files. Collapse the sidebar to focus. No server, extra account, or telemetry.
 
-![Task Lantern's actual workbench: plan progress on the left, decisions and blockers on the right](docs/assets/dashboard-overview.png)
+![One Task Lantern workspace: selected-thread progress, decisions, and a collapsible thread sidebar across projects](docs/assets/dashboard-overview.png)
 
 *Real browser capture. The demo task and deliverables are fictional.*
 
+[Watch the 16-second product demo](brag-output-2026-09-27-100647/brag.mp4) · [Video source and rebuild instructions](brag-output-2026-09-27-100647/README.md)
+
 ## Install once, use across projects
 
-You need **Python 3.10+**, a browser with JavaScript, and **Codex or Claude Code**. Global means your user on this machine; each project keeps its own `.dashboard/`. Your coding agent’s normal usage costs apply. No `sudo` or `pip install` needed.
+You need **Python 3.10+**, a browser with JavaScript, and **Codex or Claude Code**. Global means your user on this machine; each project keeps its authoritative state in `.dashboard/`, and tracked threads appear in one local workspace. Your coding agent’s normal usage costs apply. No `sudo` or `pip install` needed.
 
 ### Codex
 
@@ -60,7 +62,7 @@ Use dashboard-builder in the background if available. Share the dashboard path.
 
 The plugin includes the skills and designer. The Claude designer uses Opus at medium effort; the main session keeps its own model settings. See [installation options](docs/installation.md) for native Claude skills, project-only installs, or the simpler main-agent workflow.
 
-**Next:** open the `.dashboard/<run-id>/index.html` path the agent shares. Answer questions in your agent chat. For automatic selection on tasks with more than five steps or an expected duration over 30 minutes, add the [optional long-task rule](docs/long-task-rule.md). Installing globally does not add that rule automatically.
+**Next:** open the `dashboard` path the agent shares. By default it is `~/.local/share/task-lantern/index.html` (`$XDG_DATA_HOME/task-lantern/index.html` when set). Keep this one file open; new tracked threads appear in its right sidebar. Answer questions in your agent chat. For automatic selection on tasks with more than five steps or an expected duration over 30 minutes, add the [optional long-task rule](docs/long-task-rule.md). Installing globally does not add that rule automatically.
 
 ## Try the demo
 
@@ -72,26 +74,34 @@ python3 scripts/demo.py --open
 
 Or double-click [`examples/demo.html`](examples/demo.html) after downloading the repository. GitHub's source viewer will not run the HTML. The demo requires no agent session or installation; it is clearly labeled sample data.
 
-Try **Plan → search and filter**, **Decisions → required vs. optional**, and **Developer → inspect the JSON**. Switch themes or export a Markdown handoff. Follow [Test it yourself](docs/testing.md) to publish a real local update and watch the page refresh.
+Try switching between the five sample threads. Collapse **Threads** to focus, click **See plan** to expand the steps, or open **Developer details** for commands and JSON. Switch themes or export a Markdown handoff for the selected thread. Follow [Test it yourself](docs/testing.md) to publish a real local update and watch the page refresh.
 
 ## Inside the workbench
 
-| View | What it helps you do |
+| What you see | What it helps you do |
 | --- | --- |
-| **Overview** | See completed work, active steps, blockers, and deliverables together. |
-| **Plan** | Search tasks, filter statuses, and find unfinished work. Press `/` to search. |
-| **Decisions** | See required answers first and the default for each optional preference. |
-| **Activity** | Follow the last 100 publication events with real timestamps. |
-| **Developer** | Inspect raw state and revision; copy CLI commands and patch examples. |
+| **Thread sidebar** | Switch across registered projects. Search by project/title, filter active or attention-needed threads, or collapse it. |
+| **At-a-glance summary** | See the current step, progress, next step, pending decision/default, and blockers immediately. |
+| **Plan** | Expand all steps, search or filter statuses. Click a progress segment to jump to its step. |
+| **Decisions & blockers** | Expand required answers, optional defaults, and reported blockers. |
+| **Files & links** | Inspect published artifacts and copy their paths. |
+| **Activity / Developer details** | Expand recorded changes, revision, CLI commands, and JSON when needed. |
 
-Active runs refresh every **10 seconds** and flag stale publications. Refresh waits while you type or use a dialog, and stops for completed or paused runs. Theme, density, view, and filters stay within reach without leaving the page.
+The workspace refreshes every **10 seconds** and flags stale publications. It
+preserves your selected thread, open sections, filters and scroll position.
+Refresh waits while you type, use a dialog, or background the page. Completed
+threads remain available while other threads keep updating. Each thread's
+portable HTML is also retained for use on its own.
 
-Export Markdown or JSON for a handoff. Copy artifact paths, open validated HTTP(S) links, or browse all runs in `.dashboard/index.html`. Partial updates preserve omitted rows, and revision checks reject stale writers.
+Export Markdown or JSON for the selected thread. Task data stays separate across
+projects, and stale revision checks prevent an older publisher from overwriting
+newer facts. Only threads initialized with Task Lantern appear here; it does not
+import your entire chat history.
 
 <details>
-<summary><strong>See the Developer view, dark theme, and mobile layout</strong></summary>
+<summary><strong>See the expanded details, dark theme, and mobile layout</strong></summary>
 
-![Developer view: current state, CLI commands, and a patch example](docs/assets/dashboard-developer.png)
+![Expanded developer details in the same dashboard](docs/assets/dashboard-developer.png)
 
 ![Dark theme](docs/assets/dashboard-dark.png)
 
@@ -99,17 +109,17 @@ Export Markdown or JSON for a handoff. Copy artifact paths, open validated HTTP(
 
 </details>
 
-On first use, the agent asks for your theme, density, and accent color. Save confirmed choices for one project or across projects. The optional designer adjusts panel order and CSS to the task; the built-in view works without it.
+On first use, the agent asks for your theme, density, and accent color. Save confirmed choices for one project or across projects. The optional designer can adjust detail order and presentation; the unified dashboard works without it.
 
 ## How it works
 
 ![The main agent publishes facts; the optional designer supplies presentation; a local publisher generates one offline HTML file](docs/assets/workflow.svg)
 
-Task Lantern bundles **two skills**, an **optional designer subagent**, and a **Python publisher**. The main agent creates a plan, publishes after meaningful steps, and records the actual outcome when finished. The designer handles presentation in the background where supported. Task state stays in the project:
+Task Lantern bundles **two skills**, an **optional designer subagent**, and a **Python publisher**. The main agent creates a plan, publishes after meaningful steps, and records the actual outcome when finished. The designer handles presentation in the background where supported. Authoritative task state stays in its project; the publisher rebuilds one shared HTML from registered threads:
 
 ```text
 .dashboard/
-├── index.html             # Browse this project's runs
+├── index.html             # Unified dashboard for this project
 ├── preferences.json       # Optional project style
 └── <run-id>/
     ├── state.json         # Facts, revision, timestamps, history
@@ -117,6 +127,11 @@ Task Lantern bundles **two skills**, an **optional designer subagent**, and a **
     ├── theme.css          # Optional styling
     └── index.html         # Your standalone dashboard
 ```
+
+The shared file and `threads.json` registry live in `~/.local/share/task-lantern/`
+(or `$XDG_DATA_HOME/task-lantern/`). They contain local project references and
+published task data, so treat that folder as private workspace data. The file
+works offline and can be opened with a double-click.
 
 The browser is read-only. Optional choices can have reversible defaults; required decisions remain pending until answered. The agent can continue independent work while it waits. Silence does not authorize an action.
 

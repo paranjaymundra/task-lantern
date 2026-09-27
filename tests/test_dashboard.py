@@ -28,7 +28,7 @@ class DashboardTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.project = Path(self.tmp.name)
-        self.env = patch.dict(os.environ, {"XDG_CONFIG_HOME": str(self.project / "config")})
+        self.env = patch.dict(os.environ, {"XDG_CONFIG_HOME": str(self.project / "config"), "XDG_DATA_HOME": str(self.project / "data")})
         self.env.start()
         self.addCleanup(self.env.stop)
         self.state, self.path = d.init(self.project, "Example")
@@ -103,7 +103,7 @@ class DashboardTests(unittest.TestCase):
         rendered = d.render_html(self.path, self.state)
         self.assertNotIn('<script>alert', rendered)
         payload = rendered.split('<script id="state" type="application/json">')[1].split('</script>')[0]
-        self.assertEqual(json.loads(payload)["snapshot"]["title"], attack)
+        self.assertEqual(json.loads(payload)["threads"][0]["snapshot"]["title"], attack)
 
     def test_render_does_not_fake_fresh_progress(self):
         before = (self.path / "state.json").read_bytes()

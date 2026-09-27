@@ -7,28 +7,27 @@
       http-equiv="Content-Security-Policy"
       content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"
     />
-    <title>A better search experience. · Task Lantern</title>
+    <title>Task Lantern · Workspace</title>
     <style>
       :root {
   color-scheme: light;
-  --bg: #f6f5f1;
+  --bg: #f7f6f2;
   --surface: #fffefa;
   --sidebar: #eeede7;
-  --text: #272923;
-  --muted: #72756c;
-  --faint: #92958b;
-  --line: #dedfd5;
+  --text: #282b26;
+  --muted: #686c61;
+  --line: #dedfd6;
   --accent: #ae5630;
-  --accent-bg: #eee0d7;
-  --green: #3d6956;
-  --green-bg: #e7eee8;
-  --amber: #885b1c;
-  --amber-bg: #f2eadc;
-  --red: #a04235;
-  --red-bg: #f5e7e1;
-  --code: #eeeee8;
+  --accent-bg: #f3e7de;
+  --green: #41674e;
+  --green-bg: #e8eee7;
+  --amber: #825b24;
+  --amber-bg: #f5eddd;
+  --red: #9e4439;
+  --red-bg: #f4e8e3;
+  --code: #f0f0e9;
   --row: 15px;
-  --radius: 5px;
+  --radius: 8px;
 }
 * {
   box-sizing: border-box;
@@ -38,7 +37,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font:
-    13px/1.55 -apple-system,
+    14px/1.5 -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
@@ -46,45 +45,65 @@ body {
 }
 body.dark {
   color-scheme: dark;
-  --bg: #1c1e1b;
-  --surface: #232620;
-  --sidebar: #171a16;
-  --text: #e8eadf;
-  --muted: #a4a99b;
-  --faint: #858d7b;
-  --line: #383e31;
+  --bg: #1c1f1b;
+  --surface: #242821;
+  --sidebar: #191c17;
+  --text: #eceee5;
+  --muted: #aeb5a4;
+  --line: #3a4033;
   --accent-bg: #3b3026;
-  --green: #a7c2aa;
-  --green-bg: #29372b;
-  --amber: #dabc83;
-  --amber-bg: #393324;
-  --red: #dcaa99;
-  --red-bg: #3c2e28;
-  --code: #1b2019;
+  --green: #accbad;
+  --green-bg: #2c3b2d;
+  --amber: #e0c693;
+  --amber-bg: #3b3527;
+  --red: #edb3a3;
+  --red-bg: #402e28;
+  --code: #1a1e17;
 }
 body.airy {
   --row: 22px;
+}
+[hidden] {
+  display: none !important;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+h1 {
+  font-size: 32px;
+  line-height: 1.18;
+  font-weight: 620;
+  letter-spacing: -1.1px;
+  overflow-wrap: anywhere;
+}
+h2 {
+  font-size: 15px;
+  font-weight: 650;
+}
+h3 {
+  font-size: 14px;
+  font-weight: 600;
+}
+p {
+  color: var(--muted);
 }
 button,
 input,
 select,
 textarea {
   font: inherit;
-}
-button,
-a,
-input,
-select,
-textarea {
-  -webkit-tap-highlight-color: transparent;
+  color: inherit;
 }
 button {
-  color: var(--text);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: transparent;
-  padding: 6px 11px;
   cursor: pointer;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 6px 10px;
+  background: transparent;
+  min-height: 32px;
 }
 button:hover {
   background: var(--sidebar);
@@ -94,7 +113,8 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
-pre:focus-visible {
+pre:focus-visible,
+summary:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
@@ -102,256 +122,163 @@ a {
   color: inherit;
   text-underline-offset: 3px;
 }
-button,
-select {
-  min-height: 32px;
+svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
 }
-p {
-  margin: 0;
-  color: var(--muted);
-}
-[hidden] {
-  display: none !important;
-}
-h1,
-h2,
-h3 {
-  margin: 0;
-}
-h2 {
-  font-size: 14px;
-  font-weight: 650;
-  letter-spacing: -0.1px;
-}
-h3 {
-  font-size: 13px;
-  font-weight: 600;
+button svg {
+  vertical-align: middle;
 }
 pre,
 code,
 kbd,
-.mono,
-.overline,
 .eyebrow,
-.count-label,
-.side-label {
+.card-label,
+.detail-heading,
+.up-next > span {
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
 }
 pre {
   margin: 0;
-  font-size: 11px;
-  line-height: 1.8;
+  background: var(--code);
+  padding: 20px;
+  font-size: 12px;
+  line-height: 1.7;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  color: var(--text);
 }
-.shell {
-  display: grid;
-  grid-template-columns: 202px minmax(0, 1fr);
-  min-height: 100vh;
+code {
+  overflow-wrap: anywhere;
 }
-.sidebar {
-  background: var(--sidebar);
-  border-right: 1px solid var(--line);
-  padding: 28px 18px;
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-.brand {
-  font:
-    25px/1.2 Georgia,
-    "Times New Roman",
-    serif;
-  letter-spacing: -1px;
-  margin-bottom: 42px;
-  padding-left: 10px;
-}
-.brand span {
-  display: block;
-  font:
-    9px/1.8 ui-monospace,
-    monospace;
-  letter-spacing: 0.12em;
-  color: var(--muted);
-  margin-top: 9px;
-}
-.side-label {
-  font-size: 9px;
-  letter-spacing: 0.11em;
-  color: var(--muted);
-  padding-left: 10px;
-  margin: 0 0 8px;
-}
-.all-runs {
-  display: flex;
-  justify-content: space-between;
-  text-decoration: none;
-  padding: 7px 10px;
-  margin-bottom: 26px;
-  font-size: 12px;
-}
-.all-runs:hover {
-  text-decoration: underline;
-}
-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-nav button {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  text-align: left;
-  border: 0;
-  padding: 8px 10px;
-  font-size: 12px;
-  color: var(--muted);
-  border-radius: 4px;
-}
-nav button[aria-current="page"] {
-  background: var(--surface);
-  color: var(--text);
-  box-shadow: 0 1px 2px #00000006;
-  font-weight: 600;
-}
-nav button span {
-  font:
-    10px ui-monospace,
-    monospace;
-  min-width: 18px;
-  text-align: center;
-  color: var(--muted);
-}
-nav .dev-nav {
-  margin-top: 16px;
-  border-top: 1px solid var(--line);
-  border-radius: 0;
-  padding-top: 16px;
-}
-.side-bottom {
-  margin-top: auto;
-  padding: 32px 10px 0;
-}
-.local-label {
-  font-size: 11px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-.side-bottom p {
-  font-size: 10px;
-  line-height: 1.8;
-}
-.side-controls {
-  display: flex;
-  gap: 6px;
-  margin-top: 18px;
-}
-.side-controls button {
-  font-size: 10px;
-  padding: 5px 6px;
-  white-space: nowrap;
-}
-.topbar {
-  height: 63px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--line);
-  padding: 0 38px;
-  gap: 15px;
-  background: var(--bg);
-}
-.breadcrumb,
-.top-actions {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-}
-.breadcrumb {
-  font-size: 11px;
-  color: var(--muted);
+input {
   min-width: 0;
 }
-.breadcrumb span:last-child {
-  color: var(--text);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.top-actions {
-  gap: 8px;
-  flex-shrink: 0;
-}
-.top-actions button {
-  font-size: 11px;
-  min-height: 29px;
-  padding: 4px 10px;
-}
-#freshness {
-  font-size: 10px;
+input::placeholder {
   color: var(--muted);
-  margin-right: 8px;
+  opacity: 1;
 }
-#freshness.stale {
-  color: var(--amber);
-}
-.page {
-  max-width: 1370px;
-  padding: 33px 38px 25px;
-  margin: auto;
-}
-.run-heading {
-  margin-bottom: 24px;
-}
-.eyebrow,
-.overline {
-  font-size: 9px;
-  letter-spacing: 0.13em;
-  color: var(--muted);
-}
-.eyebrow {
-  margin-bottom: 10px;
-}
-.title-row {
+.app-header {
+  height: 66px;
+  border-bottom: 1px solid var(--line);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  padding: 0 30px;
+  gap: 26px;
+  background: var(--bg);
+  position: relative;
+  z-index: 4;
 }
-h1 {
-  font:
-    37px/1.18 Georgia,
-    "Times New Roman",
-    serif;
-  letter-spacing: -1.2px;
-}
-.summary {
-  margin-top: 12px;
-  max-width: 850px;
-  font-size: 12px;
-  line-height: 1.8;
-}
-.run-meta {
+.brand {
   display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-  margin-top: 15px;
+  gap: 11px;
+  align-items: center;
+  text-decoration: none;
+  white-space: nowrap;
   font:
-    10px ui-monospace,
-    monospace;
+    23px Georgia,
+    serif;
+  letter-spacing: -0.7px;
+}
+.brand svg {
+  width: 22px;
+  height: 28px;
+  color: var(--accent);
+}
+.workspace-label {
+  font-size: 12px;
   color: var(--muted);
+  border-left: 1px solid var(--line);
+  padding-left: 24px;
+}
+.header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.header-actions button {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.local-indicator {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-right: 12px;
+}
+.local-indicator i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+#thread-count {
+  font-size: 10px;
+  background: var(--sidebar);
+  border-radius: 3px;
+  padding: 0 5px;
+}
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 302px;
+  align-items: start;
+  min-height: calc(100vh - 66px);
+}
+.workspace.sidebar-closed {
+  grid-template-columns: minmax(0, 1fr);
+}
+.workspace.sidebar-closed .thread-sidebar {
+  display: none;
+}
+main {
+  min-width: 0;
+}
+.page {
+  max-width: 1130px;
+  margin: auto;
+  padding: 32px 42px 22px;
+}
+.thread-heading {
+  margin-bottom: 25px;
+}
+.heading-meta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.meta-divider {
+  color: var(--line);
 }
 .phase {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-size: 10px;
-  padding: 4px 9px;
+  padding: 2px 7px;
+  border-radius: 4px;
   background: var(--green-bg);
   color: var(--green);
-  border-radius: 3px;
-  white-space: nowrap;
+  margin-left: 4px;
+}
+.phase:before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
 }
 .phase.blocked {
   background: var(--red-bg);
@@ -361,206 +288,387 @@ h1 {
   background: var(--amber-bg);
   color: var(--amber);
 }
-.attention {
+.summary {
+  margin-top: 10px;
+  max-width: 870px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.run-meta {
   display: flex;
   align-items: center;
-  gap: 20px;
-  justify-content: space-between;
-  padding: 11px 15px;
-  margin-bottom: 24px;
-  background: var(--amber-bg);
-  border-left: 2px solid var(--amber);
+  gap: 14px;
+  color: var(--muted);
   font-size: 11px;
-  color: var(--text);
+  margin-top: 15px;
+  flex-wrap: wrap;
 }
-.attention strong {
-  font-weight: 600;
-}
-.attention .attention-meta {
-  margin-left: 8px;
-  color: var(--muted);
-}
-.attention button {
+.run-meta button {
+  font-size: 11px;
+  min-height: 24px;
+  padding: 2px 6px;
   border: 0;
-  font-size: 10px;
-  color: var(--text);
-  white-space: nowrap;
-  min-height: 26px;
-  padding: 3px 0;
 }
-.overview-strip {
+.run-meta #export {
+  margin-left: auto;
+  border: 1px solid var(--line);
+  padding: 3px 9px;
+}
+.run-meta #revision {
+  border-left: 1px solid var(--line);
+  padding-left: 14px;
+}
+#freshness.stale {
+  color: var(--amber);
+}
+.at-a-glance {
   display: grid;
-  grid-template-columns: minmax(200px, 2fr) repeat(3, 1fr);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  padding: 18px 0;
-  margin-bottom: 28px;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 18px;
 }
-.progress-group {
-  padding-right: 30px;
+.current-card,
+.attention-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 22px 24px;
+  min-width: 0;
 }
-.progress-line {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  margin: 4px 0;
-}
-.progress-line strong {
-  font-size: 20px;
-  font-weight: 550;
-  letter-spacing: -0.7px;
-}
-.progress-line span {
-  font-size: 10px;
-  color: var(--muted);
-}
-progress {
-  appearance: none;
-  border: 0;
-  display: block;
-  width: 100%;
-  height: 3px;
-  background: var(--line);
-  margin-top: 9px;
-}
-progress::-webkit-progress-bar {
-  background: var(--line);
-}
-progress::-webkit-progress-value {
-  background: var(--accent);
-}
-progress::-moz-progress-bar {
-  background: var(--accent);
-}
-.strip-metric {
+.current-card {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  border-left: 1px solid var(--line);
-  padding-left: 27px;
 }
-.strip-metric strong {
-  font-size: 23px;
-  line-height: 1.3;
-  font-weight: 450;
-}
-.strip-metric span {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 3px;
-}
-.workspace-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.38fr) minmax(0, 1fr);
-  gap: 22px;
-  align-items: start;
-}
-.workspace-grid.brief {
-  grid-template-columns: 1fr;
-}
-.panel {
-  border: 1px solid var(--line);
-  background: var(--surface);
-  border-radius: var(--radius);
-  min-width: 0;
-  overflow: hidden;
-}
-.section-head {
-  padding: 18px 19px 15px;
+.card-label {
   display: flex;
-  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 14px;
 }
-.section-caption {
+.card-label #step-position {
+  letter-spacing: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.current-task {
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  font-size: 21px;
+  line-height: 1.3;
+  letter-spacing: -0.4px;
+  text-align: left;
+  font-weight: 600;
+  min-height: 0;
+  align-self: flex-start;
+}
+.current-task:hover {
+  background: none;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+#current-detail {
+  font-size: 12px;
+  margin: 8px 0 23px;
+  line-height: 1.6;
+}
+.progress-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-top: auto;
+}
+.progress-caption strong {
+  font-weight: 500;
+}
+.text-button {
+  background: none;
+  border: 0;
+  padding: 2px 0;
+  min-height: 24px;
+  font-size: 11px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.text-button:hover {
+  background: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.segments {
+  display: flex;
+  gap: 4px;
+  margin: 10px 0 17px;
+}
+.segment {
+  height: 7px;
+  min-height: 7px;
+  flex: 1;
+  border: 0;
+  border-radius: 2px;
+  padding: 0;
+  background: var(--line);
+  position: relative;
+}
+.segment.done {
+  background: var(--green);
+}
+.segment.doing {
+  background: var(--accent);
+}
+.segment.blocked {
+  background: var(--red);
+  opacity: 0.65;
+}
+.segment.skipped {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--line),
+    var(--line) 2px,
+    var(--surface) 2px,
+    var(--surface) 4px
+  );
+}
+.up-next {
+  border-top: 1px solid var(--line);
+  padding-top: 13px;
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+}
+.up-next > span {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.up-next strong {
+  font-size: 12px;
+  font-weight: 500;
+}
+.attention-card #attention-label {
+  color: var(--amber);
+}
+.attention-question {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+  margin-bottom: 9px;
+}
+.attention-default {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.attention-default strong {
+  font-weight: 550;
+  color: var(--text);
+}
+#review-decisions {
+  margin-top: 14px;
+}
+.attention-extra {
   font-size: 11px;
   color: var(--muted);
-  display: block;
-  margin-top: 3px;
+  margin-top: 12px;
 }
-.count-label {
+.clear-state {
+  font-size: 18px;
+  letter-spacing: -0.3px;
+  margin-bottom: 7px;
+}
+.blocker-preview {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin-top: 15px;
+  padding: 11px 15px;
+  font-size: 12px;
+  line-height: 1.5;
+  background: var(--red-bg);
+}
+.blocker-preview > strong {
+  color: var(--red);
   font-size: 10px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.blocker-preview > span:last-child {
+  margin-left: auto;
+}
+.deliverables-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 15px 0;
+  font-size: 11px;
+}
+.deliverables-preview > span {
   color: var(--muted);
+  margin-right: 3px;
+}
+.file-chip {
+  font-size: 11px;
+  background: var(--surface);
+  padding: 4px 9px;
+  min-height: 29px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
-.task-tools {
-  padding: 0 19px 14px;
+.file-chip:before {
+  content: "▤";
+  color: var(--muted);
+  margin-right: 7px;
+}
+.detail-heading {
   display: flex;
-  gap: 9px;
+  justify-content: space-between;
+  gap: 15px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  margin: 22px 0 10px;
+}
+.detail-heading span:last-child {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: 0;
+  font-size: 11px;
+}
+.detail-stack {
+  border-top: 1px solid var(--line);
+}
+.detail-stack > details {
+  border-bottom: 1px solid var(--line);
+}
+summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 17px 0;
+  font-size: 13px;
+  min-height: 52px;
+}
+summary::-webkit-details-marker {
+  display: none;
+}
+.detail-name {
+  font-weight: 550;
+}
+.detail-meta {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 11px;
+}
+.chevron {
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid var(--muted);
+  border-bottom: 1.5px solid var(--muted);
+  transform: rotate(-45deg);
+  margin: 0 4px 0 8px;
+  flex-shrink: 0;
+}
+details[open] > summary .chevron {
+  transform: rotate(45deg);
+}
+details[open] > summary {
+  color: var(--accent);
+}
+.detail-body {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+.detail-stack > details {
+  scroll-margin-top: 18px;
+}
+.task-tools {
+  display: flex;
+  gap: 10px;
+  padding: 14px 17px;
+  border-bottom: 1px solid var(--line);
 }
 .search-box {
-  display: flex;
   position: relative;
-  min-width: 0;
+  display: flex;
   flex: 1;
+  min-width: 0;
 }
 .search-box input {
   width: 100%;
   border: 1px solid var(--line);
+  background: transparent;
   border-radius: 4px;
   padding: 7px 29px 7px 10px;
-  background: transparent;
-  color: var(--text);
-  font-size: 11px;
-  min-width: 0;
+  font-size: 12px;
 }
 .search-box kbd {
   position: absolute;
-  right: 9px;
-  top: 7px;
+  right: 10px;
+  top: 8px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
 }
-.task-tools select {
+select {
   border: 1px solid var(--line);
   border-radius: 4px;
-  padding: 4px 20px 4px 8px;
   background: var(--surface);
-  color: var(--muted);
-  font-size: 10px;
-  max-width: 132px;
+  padding: 4px 8px;
+  font-size: 11px;
+  max-width: 135px;
+}
+.row {
+  padding: var(--row) 18px;
+  border-bottom: 1px solid var(--line);
+}
+.row:last-child {
+  border-bottom: 0;
+}
+.row p {
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 5px;
 }
 .task-row {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) auto;
-  gap: 10px;
-  padding: var(--row) 19px;
-  border-top: 1px solid var(--line);
-  align-items: start;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  gap: 12px;
 }
 .task-number {
-  font:
-    10px ui-monospace,
-    monospace;
-  color: var(--faint);
+  color: var(--muted);
+  font-size: 11px;
   padding-top: 2px;
 }
-.task-title {
-  font-size: 13px;
-  line-height: 1.5;
-  font-weight: 550;
-}
-.task-row.done .task-title {
-  color: var(--muted);
-}
 .task-row.doing {
-  border-left: 2px solid var(--accent);
-  padding-left: 17px;
+  background: var(--accent-bg);
 }
-.task-row p {
-  font-size: 12px;
-  line-height: 1.7;
-  margin-top: 5px;
+.task-row.done h3 {
+  color: var(--muted);
 }
 .badge {
-  font-size: 9px;
-  font-weight: 500;
-  white-space: nowrap;
+  font-size: 10px;
+  padding: 2px 7px;
   border-radius: 3px;
-  padding: 2px 6px;
   background: var(--sidebar);
   color: var(--muted);
-  margin-top: 1px;
+  height: max-content;
+  white-space: nowrap;
 }
 .badge.done,
 .badge.resolved,
@@ -578,972 +686,985 @@ progress::-moz-progress-bar {
   color: var(--red);
   background: var(--red-bg);
 }
-.section-foot {
-  padding: 9px 19px;
-  font-size: 9px;
+.decision-kind {
+  font-size: 10px;
   color: var(--muted);
-  border-top: 1px solid var(--line);
-}
-.right-column {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-.decision-row,
-.blocker-row,
-.deliverable-row {
-  padding: var(--row) 19px;
-  border-top: 1px solid var(--line);
-}
-.decision-top,
-.artifact-top,
-.row-top {
-  display: flex;
-  gap: 10px;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-.decision-row h3 {
-  font-size: 13px;
-  line-height: 1.5;
-}
-.decision-row .decision-kind {
   display: block;
-  font:
-    9px ui-monospace,
-    monospace;
-  color: var(--muted);
-  margin-bottom: 7px;
-  letter-spacing: 0.04em;
+  margin-bottom: 8px;
 }
-.decision-row.required .decision-kind {
-  color: var(--red);
+.required .decision-kind {
+  color: var(--amber);
+}
+.row-top,
+.decision-top,
+.artifact-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
 }
 .decision-default {
   margin-top: 11px;
-  border-left: 2px solid var(--line);
-  padding-left: 10px;
+  background: var(--bg);
+  border-radius: 4px;
+  padding: 10px 12px;
   font-size: 12px;
   color: var(--muted);
-  line-height: 1.7;
 }
 .decision-default strong {
   display: block;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   color: var(--text);
-  font-weight: 600;
-  margin-bottom: 3px;
-}
-.decision-action {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 11px;
-}
-.decision-action span {
-  font-size: 9px;
-  color: var(--muted);
-}
-.text-button {
-  border: 0;
-  background: none;
-  border-radius: 0;
-  min-height: 25px;
-  padding: 3px 0;
   font-size: 10px;
-  color: var(--text);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  margin-bottom: 3px;
+  font-weight: 600;
 }
-.text-button:hover {
-  background: none;
-  color: var(--accent);
-}
-.blocker-row p,
-.deliverable-row p {
-  font-size: 11px;
-  line-height: 1.7;
-  margin-top: 5px;
-}
-.blocker-row.open {
-  border-left: 2px solid var(--red);
-  padding-left: 17px;
-}
+.decision-action,
 .path-line {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-top: 9px;
-}
-.path {
-  font:
-    10px/1.6 ui-monospace,
-    monospace;
-  overflow-wrap: anywhere;
-  min-width: 0;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 11px;
   color: var(--muted);
+}
+.path-line code {
   flex: 1;
 }
-.path-line button,
-.path-line a {
-  font-size: 9px;
-  flex-shrink: 0;
+.section-foot {
+  padding: 9px 18px;
+  font-size: 10px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
 }
 .artifact-label {
   font:
-    9px ui-monospace,
+    10px ui-monospace,
     monospace;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 .activity-row {
   display: grid;
-  grid-template-columns: 45px minmax(0, 1fr);
-  gap: 12px;
-  padding: 11px 19px;
-  border-top: 1px solid var(--line);
+  grid-template-columns: 66px minmax(0, 1fr);
+  gap: 14px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
 }
-.activity-time {
-  font:
-    9px ui-monospace,
-    monospace;
+.activity-time,
+.event-meta {
+  font-size: 10px;
   color: var(--muted);
-  padding-top: 3px;
 }
 .activity-row strong {
-  font-size: 11px;
-  font-weight: 550;
-}
-.activity-row p {
-  font-size: 10px;
-  line-height: 1.7;
-  margin-top: 3px;
-}
-.activity-row .event-meta {
-  font:
-    9px ui-monospace,
-    monospace;
-  color: var(--muted);
-  margin-top: 5px;
-}
-.activity-panel > button {
-  margin: 9px 19px 12px;
-}
-.empty {
-  padding: 22px 19px;
-  font-size: 11px;
-  color: var(--muted);
-  line-height: 1.8;
-}
-.empty strong {
-  display: block;
-  color: var(--text);
   font-size: 12px;
   font-weight: 500;
-  margin-bottom: 3px;
 }
-.view-heading {
-  margin: 28px 0 18px;
-}
-.view-heading h2 {
-  font:
-    25px Georgia,
-    serif;
-}
-.view-heading p {
+.activity-row p {
   font-size: 11px;
-  margin-top: 6px;
+  margin-top: 3px;
 }
-.workspace-grid.single {
-  grid-template-columns: 1fr;
+.event-meta {
+  margin-top: 3px;
 }
 .dev-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 22px;
+  padding: 18px;
+  gap: 15px;
+  border-bottom: 1px solid var(--line);
 }
 .dev-stat {
-  border-bottom: 1px solid var(--line);
-  padding: 0 0 12px;
-}
-.dev-stat span {
-  font-size: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
   color: var(--muted);
-  display: block;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 .dev-stat strong {
   font:
     13px ui-monospace,
     monospace;
-  display: block;
-  margin-top: 7px;
-  overflow-wrap: anywhere;
+  color: var(--text);
 }
-.dev-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 22px;
-  margin-bottom: 22px;
-}
-.dev-intro {
-  padding: 0 19px 15px;
-  font-size: 11px;
-  line-height: 1.8;
+.section-title {
+  padding: 18px 18px 4px;
+  font-size: 13px;
 }
 .command {
-  padding: 13px 19px;
-  border-top: 1px solid var(--line);
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--line);
 }
 .command-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 12px;
   margin-bottom: 7px;
-  font-size: 10px;
 }
 .command code {
-  font-size: 10px;
-  line-height: 1.8;
-  overflow-wrap: anywhere;
+  font-size: 11px;
   display: block;
   color: var(--muted);
+  line-height: 1.7;
 }
 .command-note {
-  padding: 12px 19px;
-  border-top: 1px solid var(--line);
-  font-size: 10px;
+  padding: 14px 18px;
+  font-size: 11px;
+  line-height: 1.6;
 }
-.dev-grid pre {
-  margin: 0 19px 18px;
-  background: var(--code);
-  padding: 14px;
-}
-.snapshot-panel pre {
-  padding: 20px;
+.nested-detail {
   border-top: 1px solid var(--line);
-  max-height: 520px;
-  overflow: auto;
+}
+.nested-detail > summary {
+  padding: 14px 18px;
+  font-size: 12px;
+}
+.nested-detail > summary:before {
+  content: "+";
+  color: var(--muted);
+  width: 12px;
+}
+.nested-detail[open] > summary:before {
+  content: "−";
+}
+.code-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 18px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.code-head button {
+  font-size: 11px;
 }
 footer {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
   justify-content: space-between;
-  margin-top: 30px;
-  border-top: 1px solid var(--line);
-  padding-top: 14px;
-  font-size: 9px;
+  gap: 15px;
+  color: var(--muted);
+  font-size: 10px;
+  margin: 22px 0 0;
+  line-height: 1.6;
+  flex-wrap: wrap;
+}
+.thread-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: calc(100dvh - 66px);
+  background: var(--sidebar);
+  border-left: 1px solid var(--line);
+  padding: 25px 17px 18px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  min-width: 0;
+}
+.sidebar-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 0 5px;
+}
+.sidebar-heading h2 {
+  font-size: 15px;
+}
+.sidebar-heading p {
+  font-size: 11px;
+  margin-top: 4px;
+}
+.sidebar-heading button {
+  border: 0;
+  min-width: 28px;
+  padding: 3px;
+}
+.thread-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 8px 10px;
+  margin-top: 23px;
+  background: var(--bg);
+}
+.thread-search svg {
+  width: 15px;
+  height: 15px;
   color: var(--muted);
 }
-.skip {
-  position: fixed;
-  top: -100px;
-  left: 20px;
-  z-index: 10;
+.thread-search input {
+  width: 100%;
+  background: none;
+  border: 0;
+  outline: none;
+  font-size: 11px;
+}
+.thread-search:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.thread-filters {
+  display: flex;
+  gap: 3px;
+  padding: 13px 0 18px;
+}
+.thread-filters button {
+  font-size: 10px;
+  border: 0;
+  padding: 4px 10px;
+  min-height: 27px;
+  color: var(--muted);
+}
+.thread-filters button[aria-pressed="true"] {
+  color: var(--text);
   background: var(--surface);
-  padding: 10px;
+  box-shadow: 0 1px 3px #00000008;
+}
+.thread-group-label {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin: 0 6px 9px;
+  text-transform: uppercase;
+}
+.thread-group-label.completed {
+  margin-top: 23px;
+}
+.thread-item {
+  display: block;
+  text-align: left;
+  width: 100%;
+  padding: 14px 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  min-width: 0;
+  margin-bottom: 5px;
+  position: relative;
+}
+.thread-item:hover {
+  background: var(--bg);
+}
+.thread-item[aria-current="true"] {
+  background: var(--surface);
+  border-color: var(--line);
+  box-shadow: 0 2px 5px #27292304;
+}
+.thread-item[aria-current="true"]:before {
+  content: "";
+  position: absolute;
+  left: -18px;
+  top: 18px;
+  bottom: 18px;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
+}
+.thread-project {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+}
+.status-dot.blocked {
+  background: var(--red);
+}
+.status-dot.paused {
+  background: var(--amber);
+}
+.thread-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 550;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.thread-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 9px;
+}
+.thread-alert {
+  color: var(--amber);
+}
+.thread-bar {
+  height: 2px;
+  background: var(--line);
+  margin-top: 10px;
+  display: block;
+  border-radius: 2px;
+}
+.thread-bar span {
+  display: block;
+  height: 100%;
+  background: var(--green);
+  border-radius: 2px;
+}
+.thread-item[aria-current="true"] .thread-bar span {
+  background: var(--accent);
+}
+.sidebar-footer {
+  padding: 24px 6px 0;
+  margin-top: auto;
+  color: var(--muted);
+  font-size: 10px;
+}
+.scope-indicator {
+  color: var(--text);
+  font-size: 10px;
+}
+.sidebar-footer p {
+  font-size: 10px;
+  line-height: 1.65;
+  margin-top: 7px;
+}
+.sidebar-footer button {
+  margin-top: 12px;
+  font-size: 10px;
+  padding: 3px 7px;
+  min-height: 25px;
+}
+.demo-note {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 10px;
+  color: var(--muted);
+  margin: -10px 0 21px;
+}
+.demo-note strong {
+  font-weight: 500;
+  color: var(--accent);
+}
+.workspace-warning {
+  background: var(--amber-bg);
+  padding: 10px 14px;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.workspace-empty {
+  max-width: 550px;
+  margin: 70px auto;
+  line-height: 1.6;
+}
+.workspace-empty h1 {
+  margin: 15px 0;
+}
+.workspace-empty code {
+  display: block;
+  margin-top: 25px;
+  background: var(--surface);
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.eyebrow {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+}
+.empty {
+  color: var(--muted);
+  font-size: 12px;
+  padding: 20px;
+}
+#toast {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  background: var(--text);
+  color: var(--bg);
+  padding: 10px 16px;
+  border-radius: 6px;
+  z-index: 20;
+  font-size: 12px;
+}
+dialog {
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 26px;
+  max-width: 520px;
+  width: calc(100% - 32px);
+}
+dialog::backdrop {
+  background: #20231da6;
+}
+.dialog-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.dialog-head h2 {
+  font-size: 21px;
+}
+dialog p {
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+.export-choice {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 5px;
+  text-align: left;
+  padding: 15px;
+  margin-top: 9px;
+}
+.export-choice strong {
+  font-size: 13px;
+  font-weight: 550;
+}
+.export-choice span {
+  font-size: 11px;
+  color: var(--muted);
+}
+textarea {
+  width: 100%;
+  min-height: 180px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.skip {
+  position: absolute;
+  left: 20px;
+  top: -60px;
+  z-index: 50;
+  background: var(--surface);
+  padding: 10px 15px;
 }
 .skip:focus {
   top: 10px;
 }
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
 }
-#toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--text);
-  color: var(--bg);
-  padding: 10px 18px;
-  border-radius: 5px;
-  font-size: 12px;
-  z-index: 20;
-  max-width: 90vw;
+#sidebar-backdrop {
+  display: none;
 }
-dialog {
-  background: var(--surface);
-  color: var(--text);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 25px;
-  width: 470px;
-  max-width: calc(100vw - 32px);
-}
-dialog::backdrop {
-  background: #10181075;
-}
-.dialog-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 18px;
-}
-.dialog-head h2 {
-  font:
-    26px Georgia,
-    serif;
-  margin-top: 6px;
-}
-.dialog-head button {
-  font-size: 11px;
-}
-dialog > p {
-  font-size: 12px;
-  line-height: 1.8;
-  margin-bottom: 18px;
-}
-.export-choice {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 14px;
-  margin-top: 9px;
-}
-.export-choice strong {
-  font-size: 12px;
-  display: block;
-}
-.export-choice span {
-  font-size: 11px;
-  color: var(--muted);
-  display: block;
-  margin-top: 4px;
-}
-#copy-text {
-  width: 100%;
-  height: 180px;
-  border: 1px solid var(--line);
-  padding: 12px;
-  background: var(--code);
-  color: var(--text);
-  font:
-    11px/1.7 ui-monospace,
-    monospace;
-}
-@media (min-width: 1450px) {
+@media (min-width: 1600px) {
   .page {
     padding-top: 42px;
   }
-  .workspace-grid {
-    gap: 28px;
+  .current-card,
+  .attention-card {
+    padding: 26px;
   }
-  .section-head {
-    padding-top: 22px;
+  .thread-heading {
+    margin-bottom: 30px;
   }
 }
-@media (max-width: 1150px) {
-  .shell {
-    grid-template-columns: 172px minmax(0, 1fr);
+@media (max-width: 1100px) {
+  .page {
+    padding: 27px 26px 22px;
   }
-  .sidebar {
-    padding: 25px 12px;
+  .workspace {
+    grid-template-columns: minmax(0, 1fr) 270px;
+  }
+  .at-a-glance {
+    grid-template-columns: 1fr;
+  }
+  .current-card {
+    padding: 20px;
+  }
+  .attention-card {
+    padding: 18px 20px;
+  }
+  .attention-card .card-label {
+    margin-bottom: 9px;
+  }
+  .local-indicator {
+    display: none;
+  }
+  .thread-heading {
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: 29px;
+  }
+}
+@media (max-width: 760px) {
+  .app-header {
+    height: 58px;
+    padding: 0 18px;
+    gap: 10px;
   }
   .brand {
-    font-size: 23px;
+    font-size: 20px;
+    gap: 8px;
+  }
+  .brand svg {
+    width: 18px;
+    height: 24px;
+  }
+  .workspace-label {
+    display: none;
+  }
+  .header-actions {
+    gap: 5px;
+  }
+  .header-actions button {
+    font-size: 10px;
+    padding: 5px 7px;
+    min-height: 31px;
+  }
+  .header-actions svg {
+    width: 16px;
+  }
+  .workspace,
+  .workspace.sidebar-closed {
+    display: block;
+    min-height: calc(100vh - 58px);
+  }
+  .thread-sidebar {
+    position: fixed;
+    right: 0;
+    top: 58px;
+    height: calc(100dvh - 58px);
+    width: min(330px, 88vw);
+    z-index: 12;
+    border-left: 1px solid var(--line);
+    box-shadow: -12px 0 35px #00000012;
+  }
+  .workspace:not(.sidebar-closed) #sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 58px 0 0;
+    border: 0;
+    background: #20231d66;
+    z-index: 10;
+    width: 100%;
+    height: calc(100vh - 58px);
+    border-radius: 0;
   }
   .page {
-    padding: 27px 25px;
+    padding: 26px 20px 20px;
   }
-  .topbar {
-    padding: 0 25px;
+  .at-a-glance {
+    gap: 12px;
+  }
+  h1 {
+    font-size: 27px;
+  }
+  .current-task {
+    font-size: 20px;
+  }
+  .summary {
+    font-size: 12px;
+  }
+  .detail-heading {
+    margin-top: 19px;
+  }
+  .run-meta {
+    gap: 10px;
+  }
+  .run-meta #revision {
+    padding-left: 10px;
+  }
+  .detail-meta {
+    font-size: 10px;
   }
   .task-row {
-    grid-template-columns: 20px minmax(0, 1fr);
+    grid-template-columns: 17px minmax(0, 1fr);
+    gap: 8px;
   }
   .task-row .badge {
     grid-column: 2;
     justify-self: start;
   }
-  .workspace-grid {
-    grid-template-columns: 1.2fr 1fr;
-    gap: 16px;
-  }
-  .strip-metric {
-    padding-left: 18px;
-  }
-  .title-row {
-    align-items: flex-start;
-  }
-  h1 {
-    font-size: 33px;
-  }
-  .progress-line {
-    flex-wrap: wrap;
-    gap: 3px 8px;
-  }
-}
-@media (max-width: 850px) {
-  .shell {
-    display: block;
-  }
-  .sidebar {
-    position: static;
-    height: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-    padding: 16px 20px;
-  }
-  .brand {
-    font-size: 22px;
-    margin: 0;
-  }
-  .brand span,
-  .side-label,
-  .all-runs,
-  .side-bottom p,
-  .local-label {
-    display: none;
-  }
-  .sidebar nav {
-    flex-direction: row;
-    overflow: auto;
-    margin-top: 16px;
-    gap: 4px;
-    padding-bottom: 1px;
-  }
-  nav button {
-    white-space: nowrap;
-    gap: 8px;
-    padding: 7px 10px;
-  }
-  nav .dev-nav {
-    margin: 0;
-    border: 0;
-    padding: 7px 10px;
-    border-radius: 4px;
-  }
-  .side-bottom {
-    position: absolute;
-    right: 20px;
-    top: 15px;
-    padding: 0;
-  }
-  .side-controls {
-    margin: 0;
-  }
-  .side-controls button {
-    padding: 5px 8px;
-  }
-  .topbar {
-    height: 48px;
-    padding: 0 20px;
-  }
-  .page {
-    padding: 25px 20px;
-  }
-  .breadcrumb {
-    font-size: 10px;
-  }
-  .top-actions {
-    gap: 6px;
-  }
-  #freshness {
-    font-size: 9px;
-  }
-  .workspace-grid {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  }
-  .dev-grid {
-    grid-template-columns: 1fr;
-  }
-  .run-meta {
-    font-size: 9px;
-    gap: 12px;
-  }
-  .attention {
-    gap: 10px;
-  }
-  .attention .attention-meta {
-    display: none;
-  }
-}
-@media (max-width: 600px) {
-  .workspace-grid {
-    grid-template-columns: 1fr;
-  }
-  .sidebar {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-  .page {
-    padding: 22px 16px;
-  }
-  .topbar {
-    padding: 0 16px;
-  }
-  .breadcrumb {
-    max-width: 95px;
-  }
-  .breadcrumb span:first-child,
-  .breadcrumb span:nth-child(2) {
-    display: none;
-  }
-  h1 {
-    font-size: 31px;
-    letter-spacing: -0.8px;
-  }
-  .title-row {
-    display: block;
-  }
-  .phase {
-    display: inline-block;
-    margin-top: 13px;
-  }
-  .summary {
-    font-size: 12px;
-  }
-  .overview-strip {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px 0;
-  }
-  .progress-group {
-    grid-column: 1/-1;
-    padding: 0;
-  }
-  .strip-metric {
-    padding: 0 14px;
-  }
-  .strip-metric:nth-child(2) {
-    border: 0;
-    padding-left: 0;
-  }
-  .strip-metric strong {
-    font-size: 20px;
-  }
-  .attention {
-    font-size: 10px;
-    padding: 10px 12px;
-  }
-  .attention button {
-    font-size: 10px;
-  }
-  .task-row {
-    grid-template-columns: 24px minmax(0, 1fr) auto;
-    gap: 8px;
-  }
-  .task-row .badge {
-    grid-column: auto;
+  .task-tools {
+    padding: 12px;
+    gap: 7px;
   }
   .dev-stats {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
   }
-  .run-meta {
-    row-gap: 9px;
+  .decision-top,
+  .artifact-top {
+    gap: 9px;
   }
-  .top-actions button {
-    min-height: 30px;
+  .row-top {
+    flex-wrap: wrap;
+  }
+  .path-line {
+    flex-wrap: wrap;
+  }
+  .blocker-preview {
+    align-items: flex-start;
+  }
+  .blocker-preview > strong {
+    padding-top: 2px;
+  }
+  .demo-note {
+    align-items: flex-start;
+    gap: 7px;
+    font-size: 9px;
+  }
+  .detail-name {
+    font-size: 12px;
+  }
+  .current-card,
+  .attention-card {
+    border-radius: 7px;
   }
   footer {
-    line-height: 1.7;
+    font-size: 9px;
   }
-  .section-head {
-    padding: 16px;
+  .heading-meta {
+    flex-wrap: wrap;
   }
-  .task-tools {
-    padding: 0 16px 12px;
-  }
-  .task-row,
-  .decision-row,
-  .blocker-row,
-  .deliverable-row {
-    padding: var(--row) 16px;
-  }
-  .task-row.doing,
-  .blocker-row.open {
-    padding-left: 14px;
+  dialog {
+    padding: 20px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
   * {
     scroll-behavior: auto !important;
-  }
-}
-@media print {
-  .sidebar,
-  .topbar,
-  .task-tools,
-  .text-button,
-  .attention button {
-    display: none !important;
-  }
-  .shell {
-    display: block;
-  }
-  .page {
-    padding: 0;
-  }
-  .workspace-grid {
-    display: block;
-  }
-  .panel {
-    break-inside: avoid;
-    margin-bottom: 16px;
-  }
-  .right-column {
-    display: block;
-  }
-  body {
-    --bg: white;
-    --surface: white;
-    --text: black;
-    --muted: #555;
-    --line: #ddd;
-  }
-  .run-heading {
-    margin-top: 0;
+    transition: none !important;
+    animation: none !important;
   }
 }
 
-@media (max-width: 600px) {
-  .sidebar nav {
-    gap: 2px;
-  }
-  .sidebar nav button {
-    font-size: 11px;
-    padding: 7px 6px;
-    gap: 4px;
-  }
-  .sidebar nav button span {
-    display: none;
-  }
-  .sidebar nav {
-    justify-content: space-between;
-  }
-  .side-controls button {
-    font-size: 10px;
-  }
-  .brand {
-    font-size: 21px;
-  }
+.at-a-glance.brief {
+  grid-template-columns: 1fr;
 }
-
-.demo-note {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px 12px;
-  margin-bottom: 24px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--line);
-  font-size: 11px;
-  color: var(--muted);
-}
-.demo-note strong {
-  color: var(--accent);
-  font-weight: 600;
-}
-
 
     </style>
+    <style id="thread-style"></style>
   </head>
   <body>
-    <a class="skip" href="#main">Skip to work</a>
+    <a class="skip" href="#main">Skip to dashboard</a>
     <noscript
-      >Enable JavaScript to view this offline dashboard. The source data is in
-      state.json beside this file.</noscript
+      >Enable JavaScript to view this offline workspace. Task state remains in
+      each project's .dashboard folder.</noscript
     >
-    <div class="shell">
-      <aside class="sidebar">
-        <div class="brand">Task Lantern<span>LOCAL WORKSPACE</span></div>
-        <div class="side-label">WORKSPACE</div>
-        <a id="all-runs" class="all-runs" href="../index.html"
-          >All runs <span aria-hidden="true">↗</span></a
+    <header class="app-header">
+      <a
+        class="brand"
+        href="#"
+        id="home"
+        aria-label="Task Lantern, back to summary"
+        ><svg viewBox="0 0 24 28" aria-hidden="true">
+          <path
+            d="M7 7V5a5 5 0 0 1 10 0v2M4 10h16M5 13v10h14V13M3 27h18M12 12c0 4-3 4-3 7a3 3 0 0 0 6 0c0-2-2-4-3-7Z"
+          /></svg
+        ><span>Task Lantern</span></a
+      >
+      <span class="workspace-label" id="workspace-label">Your workspace</span>
+      <div class="header-actions">
+        <span class="local-indicator"><i></i> Local file</span
+        ><button id="theme" aria-label="Switch color theme">Dark mode</button
+        ><button
+          id="toggle-threads"
+          aria-controls="thread-sidebar"
+          aria-expanded="true"
         >
-        <div class="side-label">THIS RUN</div>
-        <nav id="navigation" aria-label="Run views">
-          <button data-view="overview" aria-current="page">Overview</button>
-          <button data-view="plan">Plan <span id="nav-tasks"></span></button>
-          <button data-view="decisions">
-            Decisions <span id="nav-decisions"></span>
-          </button>
-          <button data-view="activity">
-            Activity <span id="nav-activity"></span>
-          </button>
-          <button data-view="developer" class="dev-nav">Developer</button>
-        </nav>
-        <div class="side-bottom">
-          <div class="local-label">Local progress dashboard</div>
-          <p>Saved in your project.<br />No background network calls.</p>
-          <div class="side-controls">
-            <button id="theme" aria-label="Switch color theme">Dark mode</button
-            ><button id="density" aria-label="Toggle row density">
-              Roomier
-            </button>
-          </div>
-        </div>
-      </aside>
+          <svg viewBox="0 0 20 20" aria-hidden="true">
+            <rect x="2" y="3" width="16" height="14" rx="2" />
+            <path d="M13 3v14" /></svg
+          >Threads <span id="thread-count"></span>
+        </button>
+      </div>
+    </header>
+    <div class="workspace" id="workspace">
       <main id="main" tabindex="-1">
-        <header class="topbar">
-          <div class="breadcrumb">
-            <span>Workspace</span><span aria-hidden="true">/</span
-            ><span id="run-short"></span>
-          </div>
-          <div class="top-actions">
-            <span id="freshness" role="status"></span
-            ><button id="refresh" aria-pressed="false">Pause</button
-            ><button id="export">Export</button>
-          </div>
-        </header>
         <div class="page">
-          <aside
-            id="demo-note"
-            class="demo-note"
-            aria-label="About this demo"
+          <div id="demo-note" class="demo-note" hidden>
+            <strong>Interactive demo</strong
+            ><span>Sample threads. No agent is running.</span>
+          </div>
+          <div
+            id="workspace-warning"
+            class="workspace-warning"
+            role="status"
             hidden
-          >
-            <strong>Interactive demo</strong>
-            <span
-              >Fictional task data. No agent is running. Try the views, filters,
-              and exports.</span
-            >
-          </aside>
-          <section class="run-heading">
-            <div class="eyebrow" id="eyebrow"></div>
-            <div class="title-row">
+          ></div>
+          <div id="workspace-empty" class="workspace-empty" hidden>
+            <div class="eyebrow">YOUR WORK, IN VIEW</div>
+            <h1>No tracked threads yet.</h1>
+            <p>
+              Ask your coding agent to use Task Lantern on a task. Its thread
+              will appear here after the first publication.
+            </p>
+            <code>Use Task Lantern to track this task.</code>
+          </div>
+          <div id="thread-content">
+            <section class="thread-heading">
+              <div class="heading-meta">
+                <span id="project-label"></span
+                ><span class="meta-divider">/</span><span id="host-label"></span
+                ><span id="phase" class="phase"></span>
+              </div>
               <h1 id="title"></h1>
-              <span id="phase" class="phase"></span>
-            </div>
-            <p id="summary" class="summary"></p>
-            <div class="run-meta">
-              <span id="started"></span><span id="revision"></span
-              ><span id="duration"></span>
-            </div>
-          </section>
-          <section
-            class="attention"
-            id="attention"
-            aria-label="Attention needed"
-          ></section>
-          <div class="overview-strip" id="overview-strip">
-            <div class="progress-group">
-              <span class="overline">PLAN PROGRESS</span>
-              <div class="progress-line">
-                <strong id="completion"></strong
-                ><span id="progress-note"></span>
+              <p id="summary" class="summary"></p>
+              <div class="run-meta">
+                <span id="freshness" role="status"></span
+                ><span id="revision"></span
+                ><button id="refresh" aria-pressed="false">Pause refresh</button
+                ><button id="export">Export</button>
               </div>
-              <progress id="progress" aria-label="Tasks completed"></progress>
-            </div>
-            <div class="strip-metric">
-              <strong id="doing-count"></strong><span>in progress</span>
-            </div>
-            <div class="strip-metric">
-              <strong id="question-count"></strong><span>awaiting input</span>
-            </div>
-            <div class="strip-metric">
-              <strong id="artifact-count"></strong><span>deliverables</span>
-            </div>
-          </div>
-          <div class="view-heading" id="view-heading" hidden>
-            <h2 id="view-title"></h2>
-            <p id="view-description"></p>
-          </div>
-          <div class="workspace-grid" id="workspace-grid">
-            <section
-              class="panel task-panel"
-              id="tasks"
-              aria-labelledby="tasks-title"
-            >
-              <div class="section-head">
-                <div>
-                  <h2 id="tasks-title">The plan</h2>
-                  <span class="section-caption">Tasks and status.</span>
+            </section>
+            <section class="at-a-glance" aria-label="Thread at a glance">
+              <div class="current-card">
+                <div class="card-label">
+                  <span id="current-label">WORKING ON</span
+                  ><span id="step-position"></span>
                 </div>
-                <span id="task-total" class="count-label"></span>
+                <button
+                  id="current-task"
+                  class="current-task"
+                  data-detail="plan"
+                ></button>
+                <p id="current-detail"></p>
+                <div class="progress-caption">
+                  <strong id="completion"></strong
+                  ><button data-detail="plan" class="text-button">
+                    See plan <span aria-hidden="true">↗</span>
+                  </button>
+                </div>
+                <div
+                  id="segments"
+                  class="segments"
+                  aria-label="Task progress"
+                ></div>
+                <progress
+                  id="progress"
+                  class="sr-only"
+                  aria-label="Tasks completed"
+                ></progress>
+                <div class="up-next">
+                  <span>UP NEXT</span><strong id="next-task"></strong>
+                </div>
               </div>
-              <div class="task-tools">
-                <label class="search-box"
-                  ><span class="sr-only">Search tasks</span
-                  ><input
-                    id="task-search"
-                    type="search"
-                    placeholder="Find a task…"
-                    autocomplete="off"
-                  /><kbd>/</kbd></label
-                ><label
-                  ><span class="sr-only">Filter task status</span
-                  ><select id="task-filter">
-                    <option value="all">All statuses</option>
-                    <option value="open">Unfinished</option>
-                    <option value="doing">In progress</option>
-                    <option value="blocked">Blocked</option>
-                    <option value="done">Completed</option>
-                    <option value="todo">Not started</option>
-                    <option value="skipped">Skipped</option>
-                  </select></label
+              <div class="attention-card">
+                <div class="card-label">
+                  <span id="attention-label">NEEDS YOU</span
+                  ><span id="attention-count"></span>
+                </div>
+                <div id="attention-preview"></div>
+                <button
+                  data-detail="decisions"
+                  id="review-decisions"
+                  class="text-button"
                 >
-              </div>
-              <div id="task-list"></div>
-              <div id="task-empty" class="empty" hidden>
-                No tasks match. Try another search or status.
-              </div>
-              <div
-                id="task-result"
-                class="section-foot"
-                aria-live="polite"
-              ></div>
-            </section>
-            <div class="right-column" id="right-column">
-              <section
-                class="panel decisions-panel"
-                id="questions"
-                aria-labelledby="questions-title"
-              >
-                <div class="section-head">
-                  <div>
-                    <h2 id="questions-title">Decisions</h2>
-                    <span class="section-caption"
-                      >Your input, where it matters.</span
-                    >
-                  </div>
-                  <span id="decision-total" class="count-label"></span>
-                </div>
-                <div id="question-list"></div>
-              </section>
-              <section
-                class="panel blocker-panel"
-                id="blockers"
-                aria-labelledby="blockers-title"
-              >
-                <div class="section-head">
-                  <h2 id="blockers-title">Blockers</h2>
-                  <span id="blocker-total" class="count-label"></span>
-                </div>
-                <div id="blocker-list"></div>
-              </section>
-            </div>
-            <section
-              class="panel deliverable-panel"
-              id="deliverables"
-              aria-labelledby="deliverables-title"
-            >
-              <div class="section-head">
-                <div>
-                  <h2 id="deliverables-title">Ready to inspect</h2>
-                  <span class="section-caption"
-                    >Published files and links.</span
-                  >
-                </div>
-                <span id="deliverable-total" class="count-label"></span>
-              </div>
-              <div id="deliverable-list"></div>
-            </section>
-            <section
-              class="panel activity-panel"
-              id="activity"
-              aria-labelledby="activity-title"
-            >
-              <div class="section-head">
-                <div>
-                  <h2 id="activity-title">Activity</h2>
-                  <span class="section-caption"
-                    >Recorded changes, from the publisher.</span
-                  >
-                </div>
-                <span class="count-label" id="activity-total"></span>
-              </div>
-              <div id="activity-list"></div>
-              <button class="text-button" id="all-activity">
-                See all activity
-              </button>
-            </section>
-          </div>
-          <section id="developer" hidden>
-            <div class="dev-stats" id="dev-stats"></div>
-            <div class="dev-grid">
-              <section class="panel">
-                <div class="section-head">
-                  <h2>Work with this run</h2>
-                  <span class="count-label">CLI</span>
-                </div>
-                <p class="dev-intro">
-                  Run these commands in your terminal. Publishing still requires
-                  the current revision.
-                </p>
-                <div id="commands"></div>
-                <p class="command-note">
-                  Commands use POSIX shell quoting. On Windows, use Git Bash or
-                  WSL. Patch accepts complete rows by ID; omitted rows stay
-                  intact.
-                </p>
-              </section>
-              <section class="panel">
-                <div class="section-head">
-                  <h2>Patch example</h2>
-                  <button id="copy-patch" class="text-button">Copy JSON</button>
-                </div>
-                <p class="dev-intro">
-                  Save as <code>patch.json</code>, edit the values, then use the
-                  patch command. Copying never changes the run.
-                </p>
-                <pre id="patch-example" tabindex="0"></pre>
-              </section>
-            </div>
-            <section class="panel snapshot-panel">
-              <div class="section-head">
-                <div>
-                  <h2>Current snapshot</h2>
-                  <span class="section-caption"
-                    >Exact published source. Read-only.</span
-                  >
-                </div>
-                <button id="copy-snapshot" class="text-button">
-                  Copy JSON
+                  Review decisions <span aria-hidden="true">↗</span>
                 </button>
               </div>
-              <pre id="snapshot-json" tabindex="0"></pre>
             </section>
-          </section>
-          <footer>
-            <span id="updated"></span
-            ><span
-              >Reply in your agent chat. This dashboard never executes your
-              decisions.</span
-            >
-          </footer>
+            <button
+              id="blocker-preview"
+              class="blocker-preview"
+              data-detail="decisions"
+              hidden
+            ></button>
+            <div class="deliverables-preview" id="deliverables-preview"></div>
+            <div class="detail-heading">
+              <span>A CLOSER LOOK</span><span>Open only what you need</span>
+            </div>
+            <div id="detail-stack" class="detail-stack">
+              <details id="plan-details" data-section="plan">
+                <summary>
+                  <span class="detail-name">Plan</span
+                  ><span id="plan-meta" class="detail-meta"></span
+                  ><span class="chevron"></span>
+                </summary>
+                <div class="detail-body" id="tasks">
+                  <div class="task-tools">
+                    <label class="search-box"
+                      ><span class="sr-only">Search tasks</span
+                      ><input
+                        id="task-search"
+                        type="search"
+                        placeholder="Find a step…"
+                        autocomplete="off"
+                      /><kbd>/</kbd></label
+                    ><label
+                      ><span class="sr-only">Filter task status</span
+                      ><select id="task-filter">
+                        <option value="all">All statuses</option>
+                        <option value="open">Unfinished</option>
+                        <option value="doing">In progress</option>
+                        <option value="blocked">Blocked</option>
+                        <option value="done">Completed</option>
+                        <option value="todo">Not started</option>
+                        <option value="skipped">Skipped</option>
+                      </select></label
+                    >
+                  </div>
+                  <div id="task-list"></div>
+                  <div id="task-empty" class="empty" hidden>
+                    No matching steps.
+                  </div>
+                  <div
+                    id="task-result"
+                    class="section-foot"
+                    aria-live="polite"
+                  ></div>
+                </div>
+              </details>
+              <details id="decisions-details" data-section="decisions">
+                <summary>
+                  <span class="detail-name">Decisions &amp; blockers</span
+                  ><span id="decisions-meta" class="detail-meta"></span
+                  ><span class="chevron"></span>
+                </summary>
+                <div class="detail-body">
+                  <div id="question-list"></div>
+                  <div id="blocker-list"></div>
+                </div>
+              </details>
+              <details id="deliverables-details" data-section="deliverables">
+                <summary>
+                  <span class="detail-name">Files &amp; links</span
+                  ><span id="deliverables-meta" class="detail-meta"></span
+                  ><span class="chevron"></span>
+                </summary>
+                <div class="detail-body" id="deliverable-list"></div>
+              </details>
+              <details id="activity-details" data-section="activity">
+                <summary>
+                  <span class="detail-name">Activity</span
+                  ><span id="activity-meta" class="detail-meta"></span
+                  ><span class="chevron"></span>
+                </summary>
+                <div class="detail-body" id="activity-list"></div>
+              </details>
+              <details id="developer-details" data-section="developer">
+                <summary>
+                  <span class="detail-name">Developer details</span
+                  ><span class="detail-meta">State, CLI &amp; JSON</span
+                  ><span class="chevron"></span>
+                </summary>
+                <div class="detail-body" id="developer">
+                  <div class="dev-stats" id="dev-stats"></div>
+                  <h2 class="section-title">Work with this thread</h2>
+                  <div id="commands"></div>
+                  <p class="command-note">
+                    Commands use POSIX quoting (Git Bash or WSL on Windows).
+                    Copying a command never executes it. Re-read the current
+                    revision before publishing.
+                  </p>
+                  <details class="nested-detail">
+                    <summary>Patch example</summary>
+                    <div class="code-head">
+                      <span>Complete rows are merged by ID.</span
+                      ><button id="copy-patch">Copy JSON</button>
+                    </div>
+                    <pre id="patch-example" tabindex="0"></pre>
+                  </details>
+                  <details class="nested-detail">
+                    <summary>Published snapshot</summary>
+                    <div class="code-head">
+                      <span>Read-only source data.</span
+                      ><button id="copy-snapshot">Copy JSON</button>
+                    </div>
+                    <pre id="snapshot-json" tabindex="0"></pre>
+                  </details>
+                </div>
+              </details>
+            </div>
+            <footer>
+              <span id="updated"></span
+              ><span>Answer in your agent chat. Updates appear here.</span>
+            </footer>
+          </div>
         </div>
       </main>
+      <button
+        id="sidebar-backdrop"
+        aria-label="Close thread sidebar"
+        hidden
+      ></button>
+      <aside
+        id="thread-sidebar"
+        class="thread-sidebar"
+        aria-label="Tracked threads"
+      >
+        <div class="sidebar-heading">
+          <div>
+            <h2>Threads</h2>
+            <p id="sidebar-caption">Across your projects</p>
+          </div>
+          <button id="close-threads" aria-label="Collapse threads">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="m7 5 5 5-5 5" />
+            </svg>
+          </button>
+        </div>
+        <label class="thread-search"
+          ><svg viewBox="0 0 20 20" aria-hidden="true">
+            <circle cx="8" cy="8" r="5" />
+            <path d="m12 12 5 5" /></svg
+          ><span class="sr-only">Find a thread or project</span
+          ><input
+            id="thread-search"
+            type="search"
+            placeholder="Find a thread or project…"
+            autocomplete="off"
+        /></label>
+        <div class="thread-filters" aria-label="Filter threads">
+          <button data-thread-filter="all" aria-pressed="true">All</button
+          ><button data-thread-filter="active" aria-pressed="false">
+            Active</button
+          ><button data-thread-filter="attention" aria-pressed="false">
+            Needs you
+          </button>
+        </div>
+        <nav id="thread-list" aria-label="Choose a tracked thread"></nav>
+        <p id="no-threads" class="empty" hidden>No matching threads.</p>
+        <div class="sidebar-footer">
+          <span class="scope-indicator">Only threads you’ve enabled</span>
+          <p>Snapshots from your agents. No server required.</p>
+          <button id="density">Roomier rows</button>
+        </div>
+      </aside>
     </div>
     <div id="toast" role="status" aria-live="polite" hidden></div>
     <dialog id="export-dialog" aria-labelledby="export-title">
       <div class="dialog-head">
-        <div>
-          <div class="overline">TAKE THE WORK WITH YOU</div>
-          <h2 id="export-title">Export this run</h2>
-        </div>
-        <button id="close-export" aria-label="Close export dialog">
-          Close
-        </button>
+        <h2 id="export-title">Export this thread</h2>
+        <button id="close-export">Close</button>
       </div>
-      <p>
-        A snapshot of the published state. Review task details before sharing.
-      </p>
+      <p>Only this thread is exported. Review its details before sharing.</p>
       <button id="export-markdown" class="export-choice">
         <strong>Markdown handoff</strong
-        ><span>Plan, decisions, blockers, and deliverables.</span></button
+        ><span>Plan, decisions, blockers, and files.</span></button
       ><button id="export-json" class="export-choice">
-        <strong>Full state · JSON</strong
-        ><span
-          >Current snapshot and the recorded activity journal.</span
-        ></button
+        <strong>Published state · JSON</strong
+        ><span>Snapshot and recorded activity.</span></button
       ><button id="copy-summary" class="export-choice">
         <strong>Copy a short update</strong
-        ><span>Paste a concise status into your own message.</span>
+        ><span>A concise status for your own message.</span>
       </button>
     </dialog>
     <dialog id="copy-dialog" aria-labelledby="copy-title">
@@ -1551,27 +1672,23 @@ dialog > p {
         <h2 id="copy-title">Copy this text</h2>
         <button id="close-copy">Close</button>
       </div>
-      <p>
-        Your browser blocked automatic clipboard access. Select and copy the
-        text below.
-      </p>
+      <p>Automatic clipboard access is unavailable. Select and copy below.</p>
       <textarea id="copy-text" readonly aria-label="Text to copy"></textarea>
     </dialog>
     <script id="state" type="application/json">
-      {"version": 2, "run": "20260927-085120-be874f07", "revision": 2, "started_at": "2026-09-27T08:51:20+00:00", "updated_at": "2026-09-27T08:51:20+00:00", "history": [{"revision": 1, "at": "2026-09-27T08:51:20+00:00", "panel": "run", "label": "title", "before": "Task Lantern demo", "after": "A better search experience.", "kind": "updated"}, {"revision": 1, "at": "2026-09-27T08:51:20+00:00", "panel": "run", "label": "summary", "before": "Preparing the plan.", "after": "Mapping the search flow and planning the implementation.", "kind": "updated"}, {"revision": 1, "at": "2026-09-27T08:51:20+00:00", "panel": "tasks", "label": "Map the current search flow", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:51:20+00:00", "panel": "tasks", "label": "Design the result states", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:51:20+00:00", "panel": "tasks", "label": "Build the search interface", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:51:20+00:00", "panel": "tasks", "label": "Verify keyboard navigation", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:51:20+00:00", "panel": "tasks", "label": "Prepare the release preview", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T08:51:20+00:00", "panel": "tasks", "label": "Write the handoff", "before": "", "after": "todo", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:51:20+00:00", "panel": "run", "label": "summary", "before": "Mapping the search flow and planning the implementation.", "after": "The core search flow is ready. Keyboard navigation is being checked while the release preview waits on access.", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T08:51:20+00:00", "panel": "tasks", "label": "Map the current search flow", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:51:20+00:00", "panel": "tasks", "label": "Design the result states", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:51:20+00:00", "panel": "tasks", "label": "Build the search interface", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:51:20+00:00", "panel": "tasks", "label": "Verify keyboard navigation", "before": "todo", "after": "doing", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:51:20+00:00", "panel": "tasks", "label": "Prepare the release preview", "before": "todo", "after": "blocked", "kind": "status"}, {"revision": 2, "at": "2026-09-27T08:51:20+00:00", "panel": "tasks", "label": "Write the handoff", "before": "", "after": "Details changed", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T08:51:20+00:00", "panel": "questions", "label": "Should result rows be more compact?", "before": "", "after": "pending", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:51:20+00:00", "panel": "questions", "label": "Publish the preview when access is ready?", "before": "", "after": "pending", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:51:20+00:00", "panel": "blockers", "label": "Preview access is missing", "before": "", "after": "open", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:51:20+00:00", "panel": "deliverables", "label": "Interactive search preview", "before": "", "after": "preview/search.html", "kind": "added"}, {"revision": 2, "at": "2026-09-27T08:51:20+00:00", "panel": "deliverables", "label": "Design decisions", "before": "", "after": "docs/search-decisions.md", "kind": "added"}], "style": {"theme": "light", "density": "dense", "accent": "#ae5630"}, "snapshot": {"title": "A better search experience.", "summary": "The core search flow is ready. Keyboard navigation is being checked while the release preview waits on access.", "phase": "active", "tasks": [{"id": "audit", "title": "Map the current search flow", "status": "done", "detail": "Found three friction points across desktop and mobile."}, {"id": "design", "title": "Design the result states", "status": "done", "detail": "Empty, loading, and no-result states are covered."}, {"id": "build", "title": "Build the search interface", "status": "done", "detail": "The local preview is ready to inspect."}, {"id": "keyboard", "title": "Verify keyboard navigation", "status": "doing", "detail": "Checking focus order and Escape behavior."}, {"id": "release", "title": "Prepare the release preview", "status": "blocked", "detail": "Waiting for access to the preview environment."}, {"id": "handoff", "title": "Write the handoff", "status": "todo", "detail": "Include validation results and remaining decisions."}], "questions": [{"id": "density", "question": "Should result rows be more compact?", "status": "pending", "requires_answer": false, "default": "Keep the current airy spacing. Easy to change later.", "answer": ""}, {"id": "publish", "question": "Publish the preview when access is ready?", "status": "pending", "requires_answer": true, "default": "Keep the preview local and continue the handoff until you approve publication.", "answer": ""}], "blockers": [{"id": "access", "title": "Preview access is missing", "status": "open", "detail": "Release preparation is waiting. Local checks can continue."}], "deliverables": [{"id": "preview", "title": "Interactive search preview", "path": "preview/search.html", "detail": "Desktop and mobile states, ready for review."}, {"id": "notes", "title": "Design decisions", "path": "docs/search-decisions.md", "detail": "The rationale behind the new result layout."}]}, "home_href": "", "demo": true, "presentation": {"eyebrow": "SEARCH REDESIGN / DEMO PROJECT", "order": ["tasks", "questions", "blockers", "deliverables"], "layout": "board"}, "commands": {"status": "python3 /path/to/dashboard.py --project /path/to/project status 20260927-085120-be874f07", "patch": "python3 /path/to/dashboard.py --project /path/to/project patch 20260927-085120-be874f07 --input patch.json --expected-revision 2", "render": "python3 /path/to/dashboard.py --project /path/to/project render 20260927-085120-be874f07"}}
+      {"workspace_version": 1, "threads": [{"version": 2, "run": "20260927-100650-1ede2277", "revision": 2, "started_at": "2026-09-27T10:06:50+00:00", "updated_at": "2026-09-27T10:06:50+00:00", "history": [{"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "run", "label": "summary", "before": "Preparing the plan.", "after": "Preparing the implementation plan.", "kind": "updated"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Map the current search flow", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Design the result states", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Build the search interface", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Verify keyboard navigation", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Prepare the release preview", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Write the handoff", "before": "", "after": "todo", "kind": "added"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "run", "label": "summary", "before": "Preparing the implementation plan.", "after": "The core search flow is ready. Keyboard navigation is being checked while the release preview waits on access.", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Map the current search flow", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Design the result states", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Build the search interface", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Verify keyboard navigation", "before": "todo", "after": "doing", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Prepare the release preview", "before": "todo", "after": "blocked", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Write the handoff", "before": "", "after": "Details changed", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "questions", "label": "Should result rows be more compact?", "before": "", "after": "pending", "kind": "added"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "questions", "label": "Publish the preview when access is ready?", "before": "", "after": "pending", "kind": "added"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "blockers", "label": "Preview access is missing", "before": "", "after": "open", "kind": "added"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "deliverables", "label": "Interactive search preview", "before": "", "after": "preview/search.html", "kind": "added"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "deliverables", "label": "Design decisions", "before": "", "after": "docs/search-decisions.md", "kind": "added"}], "host": "claude", "thread_id": null, "style": {"theme": "light", "density": "dense", "accent": "#ae5630"}, "snapshot": {"title": "Redesign product search", "summary": "The core search flow is ready. Keyboard navigation is being checked while the release preview waits on access.", "phase": "active", "tasks": [{"id": "audit", "title": "Map the current search flow", "status": "done", "detail": "Found three friction points across desktop and mobile."}, {"id": "design", "title": "Design the result states", "status": "done", "detail": "Empty, loading, and no-result states are covered."}, {"id": "build", "title": "Build the search interface", "status": "done", "detail": "The local preview is ready to inspect."}, {"id": "keyboard", "title": "Verify keyboard navigation", "status": "doing", "detail": "Checking focus order and Escape behavior."}, {"id": "release", "title": "Prepare the release preview", "status": "blocked", "detail": "Waiting for access to the preview environment."}, {"id": "handoff", "title": "Write the handoff", "status": "todo", "detail": "Include validation results and remaining decisions."}], "questions": [{"id": "density", "question": "Should result rows be more compact?", "status": "pending", "requires_answer": false, "default": "Keep the current airy spacing. Easy to change later.", "answer": ""}, {"id": "publish", "question": "Publish the preview when access is ready?", "status": "pending", "requires_answer": true, "default": "Keep the preview local and continue the handoff until you approve publication.", "answer": ""}], "blockers": [{"id": "access", "title": "Preview access is missing", "status": "open", "detail": "Release preparation is waiting. Local checks can continue."}], "deliverables": [{"id": "preview", "title": "Interactive search preview", "path": "preview/search.html", "detail": "Desktop and mobile states, ready for review."}, {"id": "notes", "title": "Design decisions", "path": "docs/search-decisions.md", "detail": "The rationale behind the new result layout."}]}, "demo": true, "project_name": "Storefront", "key": "f42b0d1e3cb1dfa0d17529b9", "project": "Storefront", "presentation": {"eyebrow": "WORKSPACE / CURRENT RUN", "order": ["tasks", "questions", "blockers", "deliverables"], "layout": "board"}, "custom_css": "", "commands": {"status": "python3 /path/to/dashboard.py --project /path/to/project status 20260927-100650-1ede2277", "patch": "python3 /path/to/dashboard.py --project /path/to/project patch 20260927-100650-1ede2277 --input patch.json --expected-revision 2", "render": "python3 /path/to/dashboard.py --project /path/to/project render 20260927-100650-1ede2277"}}, {"version": 2, "run": "20260927-100650-189eb026", "revision": 2, "started_at": "2026-09-27T10:06:50+00:00", "updated_at": "2026-09-27T10:06:50+00:00", "history": [{"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "run", "label": "summary", "before": "Preparing the plan.", "after": "Preparing the implementation plan.", "kind": "updated"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Map existing endpoints", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Add typed request models", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Migrate subscription routes", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Update webhook handlers", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Check webhook retries", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Write the migration guide", "before": "", "after": "todo", "kind": "added"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "run", "label": "summary", "before": "Preparing the implementation plan.", "after": "The new endpoints are in place. Checking webhook retries before the final handoff.", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Map existing endpoints", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Add typed request models", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Migrate subscription routes", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Update webhook handlers", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Check webhook retries", "before": "todo", "after": "doing", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Write the migration guide", "before": "", "after": "Details changed", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "deliverables", "label": "API migration", "before": "", "after": "src/billing/routes.ts", "kind": "added"}], "host": "codex", "thread_id": null, "style": {"theme": "light", "density": "dense", "accent": "#ae5630"}, "snapshot": {"summary": "The new endpoints are in place. Checking webhook retries before the final handoff.", "phase": "active", "tasks": [{"id": "0", "title": "Map existing endpoints", "status": "done", "detail": "Routes and consumers are documented."}, {"id": "1", "title": "Add typed request models", "status": "done", "detail": "Validated payloads cover every endpoint."}, {"id": "2", "title": "Migrate subscription routes", "status": "done", "detail": "Existing behavior is preserved."}, {"id": "3", "title": "Update webhook handlers", "status": "done", "detail": "Events use the new interface."}, {"id": "4", "title": "Check webhook retries", "status": "doing", "detail": "Verifying idempotency when the same event arrives twice."}, {"id": "5", "title": "Write the migration guide", "status": "todo", "detail": "Document changes for SDK consumers."}], "questions": [], "blockers": [], "deliverables": [{"id": "api", "title": "API migration", "path": "src/billing/routes.ts", "detail": "Updated subscription routes."}], "title": "Migrate the billing API"}, "demo": true, "project_name": "Billing", "key": "c7312621d97a996955c15f69", "project": "Billing", "presentation": {"eyebrow": "WORKSPACE / CURRENT RUN", "order": ["tasks", "questions", "blockers", "deliverables"], "layout": "board"}, "custom_css": "", "commands": {"status": "python3 /path/to/dashboard.py --project /path/to/project status 20260927-100650-189eb026", "patch": "python3 /path/to/dashboard.py --project /path/to/project patch 20260927-100650-189eb026 --input patch.json --expected-revision 2", "render": "python3 /path/to/dashboard.py --project /path/to/project render 20260927-100650-189eb026"}}, {"version": 2, "run": "20260927-100650-ea599bd7", "revision": 2, "started_at": "2026-09-27T10:06:50+00:00", "updated_at": "2026-09-27T10:06:50+00:00", "history": [{"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "run", "label": "summary", "before": "Preparing the plan.", "after": "Preparing the implementation plan.", "kind": "updated"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Build profile settings", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Verify email changes", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Check all settings flows", "before": "", "after": "todo", "kind": "added"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "run", "label": "summary", "before": "Preparing the implementation plan.", "after": "Profile settings are ready. Email verification is waiting for test credentials.", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "run", "label": "phase", "before": "active", "after": "blocked", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Build profile settings", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Verify email changes", "before": "todo", "after": "blocked", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Check all settings flows", "before": "", "after": "Details changed", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "blockers", "label": "Email sandbox key needed", "before": "", "after": "open", "kind": "added"}], "host": "claude", "thread_id": null, "style": {"theme": "light", "density": "dense", "accent": "#ae5630"}, "snapshot": {"summary": "Profile settings are ready. Email verification is waiting for test credentials.", "phase": "blocked", "tasks": [{"id": "profile", "title": "Build profile settings", "status": "done", "detail": "Name and avatar changes are covered."}, {"id": "email", "title": "Verify email changes", "status": "blocked", "detail": "The email provider's sandbox key is missing."}, {"id": "tests", "title": "Check all settings flows", "status": "todo", "detail": "Run through save and error states."}], "questions": [], "blockers": [{"id": "key", "title": "Email sandbox key needed", "status": "open", "detail": "Add a sandbox credential in your agent session. Local UI checks can continue."}], "deliverables": [], "title": "Polish account settings"}, "demo": true, "project_name": "Workspace", "key": "6e690276f28b768909cfe04a", "project": "Workspace", "presentation": {"eyebrow": "WORKSPACE / CURRENT RUN", "order": ["tasks", "questions", "blockers", "deliverables"], "layout": "board"}, "custom_css": "", "commands": {"status": "python3 /path/to/dashboard.py --project /path/to/project status 20260927-100650-ea599bd7", "patch": "python3 /path/to/dashboard.py --project /path/to/project patch 20260927-100650-ea599bd7 --input patch.json --expected-revision 2", "render": "python3 /path/to/dashboard.py --project /path/to/project render 20260927-100650-ea599bd7"}}, {"version": 2, "run": "20260927-100650-64bf84d1", "revision": 2, "started_at": "2026-09-27T10:06:50+00:00", "updated_at": "2026-09-27T10:06:50+00:00", "history": [{"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "run", "label": "summary", "before": "Preparing the plan.", "after": "Preparing the implementation plan.", "kind": "updated"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Write the quickstart", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Add pagination examples", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Verify example snippets", "before": "", "after": "todo", "kind": "added"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "run", "label": "summary", "before": "Preparing the implementation plan.", "after": "The quickstart is ready. Adding examples for pagination and error handling.", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Write the quickstart", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Add pagination examples", "before": "todo", "after": "doing", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Verify example snippets", "before": "", "after": "Details changed", "kind": "updated"}], "host": "codex", "thread_id": null, "style": {"theme": "light", "density": "dense", "accent": "#ae5630"}, "snapshot": {"summary": "The quickstart is ready. Adding examples for pagination and error handling.", "phase": "active", "tasks": [{"id": "quickstart", "title": "Write the quickstart", "status": "done", "detail": "Setup and the first request are covered."}, {"id": "examples", "title": "Add pagination examples", "status": "doing", "detail": "Showing how to retrieve each page of results."}, {"id": "review", "title": "Verify example snippets", "status": "todo", "detail": "Execute each example before handing off."}], "questions": [], "blockers": [], "deliverables": [], "title": "Add SDK examples"}, "demo": true, "project_name": "Developer docs", "key": "8e1d6baece1fcd64b96704a7", "project": "Developer docs", "presentation": {"eyebrow": "WORKSPACE / CURRENT RUN", "order": ["tasks", "questions", "blockers", "deliverables"], "layout": "board"}, "custom_css": "", "commands": {"status": "python3 /path/to/dashboard.py --project /path/to/project status 20260927-100650-64bf84d1", "patch": "python3 /path/to/dashboard.py --project /path/to/project patch 20260927-100650-64bf84d1 --input patch.json --expected-revision 2", "render": "python3 /path/to/dashboard.py --project /path/to/project render 20260927-100650-64bf84d1"}}, {"version": 2, "run": "20260927-100650-5520c501", "revision": 2, "started_at": "2026-09-27T10:06:50+00:00", "updated_at": "2026-09-27T10:06:50+00:00", "history": [{"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "run", "label": "summary", "before": "Preparing the plan.", "after": "Preparing the implementation plan.", "kind": "updated"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Reproduce the redirect", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Preserve the return path", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Add a regression check", "before": "", "after": "todo", "kind": "added"}, {"revision": 1, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Write the handoff", "before": "", "after": "todo", "kind": "added"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "run", "label": "summary", "before": "Preparing the implementation plan.", "after": "The redirect keeps the intended destination. The regression check and handoff are complete.", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "run", "label": "phase", "before": "active", "after": "complete", "kind": "updated"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Reproduce the redirect", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Preserve the return path", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Add a regression check", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "tasks", "label": "Write the handoff", "before": "todo", "after": "done", "kind": "status"}, {"revision": 2, "at": "2026-09-27T10:06:50+00:00", "panel": "deliverables", "label": "Redirect fix", "before": "", "after": "src/auth/redirect.ts", "kind": "added"}], "host": "codex", "thread_id": null, "style": {"theme": "light", "density": "dense", "accent": "#ae5630"}, "snapshot": {"summary": "The redirect keeps the intended destination. The regression check and handoff are complete.", "phase": "complete", "tasks": [{"id": "0", "title": "Reproduce the redirect", "status": "done", "detail": "Verified in this fictional example."}, {"id": "1", "title": "Preserve the return path", "status": "done", "detail": "Verified in this fictional example."}, {"id": "2", "title": "Add a regression check", "status": "done", "detail": "Verified in this fictional example."}, {"id": "3", "title": "Write the handoff", "status": "done", "detail": "Verified in this fictional example."}], "questions": [], "blockers": [], "deliverables": [{"id": "fix", "title": "Redirect fix", "path": "src/auth/redirect.ts", "detail": "Preserves the requested destination."}], "title": "Fix the sign-in redirect"}, "demo": true, "project_name": "Storefront", "key": "75331bd970ab410f43ef8cae", "project": "Storefront", "presentation": {"eyebrow": "WORKSPACE / CURRENT RUN", "order": ["tasks", "questions", "blockers", "deliverables"], "layout": "board"}, "custom_css": "", "commands": {"status": "python3 /path/to/dashboard.py --project /path/to/project status 20260927-100650-5520c501", "patch": "python3 /path/to/dashboard.py --project /path/to/project patch 20260927-100650-5520c501 --input patch.json --expected-revision 2", "render": "python3 /path/to/dashboard.py --project /path/to/project render 20260927-100650-5520c501"}}], "selected": "f42b0d1e3cb1dfa0d17529b9", "scope": "all", "demo": true, "unreadable": []}
     </script>
     <script>
       "use strict";
-const state = JSON.parse(document.getElementById("state").textContent);
-const isDemo = state.demo === true;
-const data = state.snapshot,
-  history = state.history || [];
+const workspace = JSON.parse(document.getElementById("state").textContent);
+const threads = workspace.threads || [];
+const isDemo = workspace.demo === true;
 const $ = (id) => document.getElementById(id);
-const el = (tag, content, cls) => {
-  const item = document.createElement(tag);
-  if (content !== undefined) item.textContent = content;
-  if (cls) item.className = cls;
-  return item;
+const el = (tag, text, cls) => {
+  const e = document.createElement(tag);
+  if (text !== undefined) e.textContent = text;
+  if (cls) e.className = cls;
+  return e;
 };
 const labels = {
   todo: "Not started",
@@ -1584,44 +1701,70 @@ const labels = {
   defaulted: "Default used",
   open: "Open",
   resolved: "Resolved",
+  active: "In progress",
+  paused: "Paused",
+  complete: "Complete",
 };
-const key = "lantern-ui:" + state.run;
-function browserStorage(name) {
+function storage(name) {
   try {
     return window[name];
   } catch {
     return null;
   }
 }
-const sessionStore = browserStorage("sessionStorage"),
-  localStore = browserStorage("localStorage");
-function readStore(storage, name, fallback) {
+const sessionStore = storage("sessionStorage"),
+  localStore = storage("localStorage");
+function readStore(store, key, fallback) {
   try {
-    return JSON.parse(storage.getItem(name)) || fallback;
+    return JSON.parse(store.getItem(key)) ?? fallback;
   } catch {
     return fallback;
   }
 }
-function writeStore(storage, name, value) {
+function writeStore(store, key, value) {
   try {
-    storage.setItem(name, JSON.stringify(value));
+    store.setItem(key, JSON.stringify(value));
   } catch {}
 }
-let ui = readStore(sessionStore, key, {});
-const views = ["overview", "plan", "decisions", "activity", "developer"];
-if (!views.includes(ui.view)) ui.view = "overview";
-let theme = readStore(localStore, "lantern-theme", state.style.theme),
-  density = readStore(localStore, "lantern-density", state.style.density);
-if (!["light", "dark"].includes(theme)) theme = state.style.theme;
-if (!["dense", "airy"].includes(density)) density = state.style.density;
+const workspaceKey = "lantern-workspace:" + location.pathname;
+const workspaceUI = readStore(sessionStore, workspaceKey, {});
+const sections = ["plan", "decisions", "deliverables", "activity", "developer"];
+let state,
+  data,
+  history,
+  ui,
+  taskRows = [],
+  patchExample = "",
+  snapshotJSON = "";
+let theme = readStore(
+  localStore,
+  "lantern-theme",
+  threads[0]?.style?.theme || "light",
+);
+let density = readStore(
+  localStore,
+  "lantern-density",
+  threads[0]?.style?.density || "dense",
+);
+if (!["light", "dark"].includes(theme)) theme = "light";
+if (!["dense", "airy"].includes(density)) density = "dense";
+const mobile = matchMedia("(max-width:760px)");
+let sidebarOpen =
+  typeof workspaceUI.sidebar === "boolean"
+    ? workspaceUI.sidebar
+    : !mobile.matches;
+function saveWorkspace() {
+  writeStore(sessionStore, workspaceKey, workspaceUI);
+}
 function save() {
-  writeStore(sessionStore, key, ui);
+  if (state) writeStore(sessionStore, "lantern-thread:" + state.key, ui);
 }
 function appearance() {
   document.body.classList.toggle("dark", theme === "dark");
   document.body.classList.toggle("airy", density === "airy");
   $("theme").textContent = theme === "dark" ? "Light mode" : "Dark mode";
-  $("density").textContent = density === "dense" ? "Roomier" : "Compact";
+  $("density").textContent =
+    density === "dense" ? "Roomier rows" : "Compact rows";
 }
 $("theme").addEventListener("click", () => {
   theme = theme === "dark" ? "light" : "dark";
@@ -1634,257 +1777,66 @@ $("density").addEventListener("click", () => {
   appearance();
 });
 appearance();
-document.documentElement.style.setProperty("--accent", state.style.accent);
+function toggleSidebar(open, returnFocus = false) {
+  sidebarOpen = open;
+  workspaceUI.sidebar = open;
+  saveWorkspace();
+  $("workspace").classList.toggle("sidebar-closed", !open);
+  $("toggle-threads").setAttribute("aria-expanded", String(open));
+  $("sidebar-backdrop").hidden = !open || !mobile.matches;
+  $("thread-sidebar").inert = !open;
+  if (open && mobile.matches) {
+    $("thread-sidebar").setAttribute("role", "dialog");
+    $("thread-sidebar").setAttribute("aria-modal", "true");
+  } else {
+    $("thread-sidebar").removeAttribute("role");
+    $("thread-sidebar").removeAttribute("aria-modal");
+  }
+  // On narrow screens the drawer is modal: keep background controls out of the tab order.
+  $("main").inert = open && mobile.matches;
+  if (returnFocus) $("toggle-threads").focus();
+}
+$("toggle-threads").addEventListener("click", () => {
+  toggleSidebar(!sidebarOpen);
+  if (sidebarOpen && mobile.matches) $("thread-search").focus();
+});
+$("close-threads").addEventListener("click", () => toggleSidebar(false, true));
+$("sidebar-backdrop").addEventListener("click", () =>
+  toggleSidebar(false, true),
+);
+mobile.addEventListener("change", () => toggleSidebar(!mobile.matches));
+toggleSidebar(sidebarOpen);
 $("demo-note").hidden = !isDemo;
-$("title").textContent = data.title;
-$("summary").textContent = data.summary;
-$("eyebrow").textContent = state.presentation.eyebrow;
-$("run-short").textContent = "Run " + state.run.slice(-8);
-$("revision").textContent = "Revision " + state.revision;
-$("phase").textContent = {
-  active: "In progress",
-  blocked: "Blocked",
-  paused: "Paused",
-  complete: "Complete",
-}[data.phase];
-$("phase").classList.add(data.phase);
-const started = new Date(state.started_at),
-  updated = new Date(state.updated_at);
-$("started").textContent =
-  "Started " +
-  started.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-$("updated").textContent = "Published " + updated.toLocaleString();
-if (state.home_href) {
-  $("all-runs").href = state.home_href;
-} else {
-  $("all-runs").hidden = true;
+$("thread-count").textContent = threads.length;
+$("workspace-label").textContent =
+  workspace.scope === "thread" ? "Thread dashboard" : "Your workspace";
+$("sidebar-caption").textContent =
+  workspace.scope === "all"
+    ? "Across your projects"
+    : workspace.scope === "project"
+      ? "In this project"
+      : "This portable dashboard";
+if (workspace.unreadable?.length) {
+  $("workspace-warning").hidden = false;
+  $("workspace-warning").textContent =
+    workspace.unreadable.length +
+    " tracked thread(s) could not be read. Their files may have moved or become unreadable. Run the workspace command after fixing them.";
 }
-const done = data.tasks.filter((t) => t.status === "done").length,
-  skipped = data.tasks.filter((t) => t.status === "skipped").length;
-const pending = data.questions.filter((q) => q.status === "pending"),
-  required = pending.filter((q) => q.requires_answer),
-  blockers = data.blockers.filter((b) => b.status === "open");
-$("completion").textContent = done + " / " + data.tasks.length;
-$("progress-note").textContent =
-  "steps complete" + (skipped ? " · " + skipped + " skipped" : "");
-$("progress").max = Math.max(1, data.tasks.length);
-$("progress").value = done;
-$("doing-count").textContent = data.tasks.filter(
-  (t) => t.status === "doing",
-).length;
-$("question-count").textContent = pending.length;
-$("artifact-count").textContent = data.deliverables.length;
-$("nav-tasks").textContent = data.tasks.length;
-$("nav-decisions").textContent = pending.length;
-$("nav-activity").textContent = history.length;
-$("task-total").textContent = data.tasks.length + " steps";
-$("decision-total").textContent = pending.length + " pending";
-$("blocker-total").textContent = blockers.length + " open";
-$("deliverable-total").textContent = data.deliverables.length + " items";
-if (required.length || blockers.length) {
-  const text = el("div");
-  text.append(
-    el(
-      "strong",
-      required.length
-        ? required.length +
-            " decision" +
-            (required.length === 1 ? " needs" : "s need") +
-            " your answer"
-        : blockers.length +
-            " blocker" +
-            (blockers.length === 1 ? " needs" : "s need") +
-            " attention",
-    ),
-  );
-  text.append(
-    el(
-      "span",
-      required.length
-        ? "Dependent work waits. Independent work can continue."
-        : "The rest of the plan can still move forward.",
-      "attention-meta",
-    ),
-  );
-  const button = el("button", "Review attention items →");
-  button.addEventListener("click", () => setView("decisions"));
-  $("attention").append(text, button);
-} else {
-  $("attention").hidden = true;
-}
+const hostLabel = (value) =>
+  ({ codex: "Codex", claude: "Claude Code", agent: "Coding agent" })[value] ||
+  "Coding agent";
+const counts = (t) => ({
+  done: t.snapshot.tasks.filter((x) => x.status === "done").length,
+  total: t.snapshot.tasks.length,
+  required: t.snapshot.questions.filter(
+    (x) => x.status === "pending" && x.requires_answer,
+  ).length,
+  questions: t.snapshot.questions.filter((x) => x.status === "pending").length,
+  blocked: t.snapshot.blockers.filter((x) => x.status === "open").length,
+});
 function badge(status) {
   return el("span", labels[status] || status, "badge " + status);
 }
-function empty(container, title, description) {
-  const item = el("div", undefined, "empty");
-  item.append(el("strong", title), el("span", description));
-  container.append(item);
-}
-let toastTimer;
-function toast(message) {
-  $("toast").textContent = message;
-  $("toast").hidden = false;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => {
-    $("toast").hidden = true;
-  }, 2600);
-}
-async function copy(text) {
-  try {
-    await navigator.clipboard.writeText(text);
-    toast("Copied to clipboard");
-  } catch {
-    $("copy-text").value = text;
-    $("copy-dialog").showModal();
-    $("copy-text").focus();
-    $("copy-text").select();
-  }
-}
-$("close-copy").addEventListener("click", () => $("copy-dialog").close());
-function copyButton(label, text) {
-  const button = el("button", label, "text-button");
-  button.addEventListener("click", () => copy(text));
-  return button;
-}
-const taskRows = [];
-for (const [index, task] of data.tasks.entries()) {
-  const row = el("article", undefined, "row task-row " + task.status);
-  row.dataset.status = task.status;
-  const content = el("div");
-  content.append(el("h3", task.title, "task-title"));
-  if (task.detail) content.append(el("p", task.detail));
-  row.append(
-    el("span", String(index + 1).padStart(2, "0"), "task-number"),
-    content,
-    badge(task.status),
-  );
-  $("task-list").append(row);
-  taskRows.push({ row, task });
-}
-if (!data.tasks.length)
-  empty(
-    $("task-list"),
-    "The plan is taking shape.",
-    "Steps appear when the agent publishes its first plan.",
-  );
-$("task-search").value = typeof ui.query === "string" ? ui.query : "";
-$("task-filter").value = [
-  "all",
-  "open",
-  "doing",
-  "blocked",
-  "done",
-  "todo",
-  "skipped",
-].includes(ui.filter)
-  ? ui.filter
-  : "all";
-function filterTasks() {
-  const query = $("task-search").value.toLowerCase().trim(),
-    filter = $("task-filter").value;
-  let visible = 0;
-  for (const { row, task } of taskRows) {
-    const status =
-      filter === "all" ||
-      (filter === "open"
-        ? !["done", "skipped"].includes(task.status)
-        : task.status === filter);
-    const match =
-      status &&
-      (task.title + " " + task.detail + " " + task.id)
-        .toLowerCase()
-        .includes(query);
-    row.hidden = !match;
-    if (match) visible++;
-  }
-  $("task-empty").hidden = visible > 0 || !data.tasks.length;
-  $("task-result").textContent =
-    visible + " of " + data.tasks.length + " steps · " + done + " complete";
-  ui.query = $("task-search").value;
-  ui.filter = filter;
-  save();
-}
-$("task-search").addEventListener("input", filterTasks);
-$("task-filter").addEventListener("change", filterTasks);
-filterTasks();
-const questions = [...data.questions].sort(
-  (a, b) =>
-    (a.status === "pending" ? 0 : 2) +
-    (a.requires_answer ? 0 : 1) -
-    ((b.status === "pending" ? 0 : 2) + (b.requires_answer ? 0 : 1)),
-);
-for (const question of questions) {
-  const row = el(
-    "article",
-    undefined,
-    "row decision-row" + (question.requires_answer ? " required" : ""),
-  );
-  row.append(
-    el(
-      "span",
-      question.requires_answer ? "ANSWER REQUIRED" : "OPTIONAL PREFERENCE",
-      "decision-kind",
-    ),
-  );
-  const top = el("div", undefined, "decision-top");
-  top.append(el("h3", question.question), badge(question.status));
-  row.append(top);
-  const box = el("div", undefined, "decision-default");
-  box.append(
-    el(
-      "strong",
-      question.status === "answered"
-        ? "Your answer"
-        : question.requires_answer
-          ? "While waiting"
-          : question.status === "defaulted"
-            ? "Default applied"
-            : "If you don’t answer",
-    ),
-    el(
-      "span",
-      question.status === "answered" ? question.answer : question.default,
-    ),
-  );
-  row.append(box);
-  const action = el("div", undefined, "decision-action");
-  action.append(
-    el(
-      "span",
-      question.status === "pending"
-        ? "Reply in your agent chat"
-        : "Recorded in this run",
-    ),
-    copyButton(
-      "Copy question",
-      "Question " + question.id + ": " + question.question + "\nMy answer: ",
-    ),
-  );
-  row.append(action);
-  $("question-list").append(row);
-}
-if (!questions.length)
-  empty(
-    $("question-list"),
-    "No decisions waiting.",
-    "The agent has what it needs to keep working.",
-  );
-for (const blocker of [...data.blockers].sort((a, b) =>
-  a.status === b.status ? 0 : a.status === "open" ? -1 : 1,
-)) {
-  const row = el("article", undefined, "row blocker-row " + blocker.status),
-    top = el("div", undefined, "row-top");
-  top.append(el("h3", blocker.title), badge(blocker.status));
-  row.append(top);
-  if (blocker.detail) row.append(el("p", blocker.detail));
-  $("blocker-list").append(row);
-}
-if (!data.blockers.length)
-  empty(
-    $("blocker-list"),
-    "Nothing is blocked.",
-    "No blockers have been reported for this run.",
-  );
 function safeWebLink(value) {
   try {
     const url = new URL(value);
@@ -1897,226 +1849,675 @@ function safeWebLink(value) {
     return null;
   }
 }
-for (const artifact of data.deliverables) {
-  const row = el("article", undefined, "row deliverable-row"),
-    top = el("div", undefined, "artifact-top");
-  const extension = artifact.path.split(".").pop().split(/[?#]/)[0];
-  top.append(
-    el("h3", artifact.title),
-    el("span", extension.length < 8 ? extension : "FILE", "artifact-label"),
-  );
-  row.append(top);
-  if (artifact.detail) row.append(el("p", artifact.detail));
-  const line = el("div", undefined, "path-line");
-  line.append(
-    el("code", artifact.path, "path"),
-    copyButton("Copy path", artifact.path),
-  );
-  const href = safeWebLink(artifact.path);
-  if (href) {
-    const link = el("a", "Open ↗");
-    link.href = href;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    line.append(link);
-  }
-  row.append(line);
-  $("deliverable-list").append(row);
+let toastTimer;
+function toast(text) {
+  $("toast").textContent = text;
+  $("toast").hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => ($("toast").hidden = true), 2400);
 }
-if (!data.deliverables.length)
-  empty(
-    $("deliverable-list"),
-    "The work will land here.",
-    "Files and links appear as the agent records deliverables.",
-  );
-function drawActivity(all) {
-  $("activity-list").replaceChildren();
-  const events = [...history].reverse();
-  $("activity-total").textContent = history.length + " events";
-  if (!events.length)
-    empty(
-      $("activity-list"),
-      "No changes recorded yet.",
-      "Activity is recorded on each publish. Older runs begin recording on their next update.",
-    );
-  for (const event of all ? events : events.slice(0, 4)) {
-    const row = el("article", undefined, "activity-row"),
-      time = new Date(event.at),
-      content = el("div");
-    const label =
-      {
-        added: "Added",
-        removed: "Removed",
-        status: "Status changed",
-        updated: "Updated",
-        confirmed: "Checked",
-      }[event.kind] || "Updated";
-    row.append(
+async function copy(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast("Copied to clipboard");
+  } catch {
+    $("copy-text").value = text;
+    $("copy-dialog").showModal();
+    $("copy-text").focus();
+    $("copy-text").select();
+  }
+}
+function copyButton(label, text) {
+  const button = el("button", label, "text-button");
+  button.addEventListener("click", () => copy(text));
+  return button;
+}
+$("close-copy").addEventListener("click", () => $("copy-dialog").close());
+function route(section) {
+  const params = new URLSearchParams({ thread: state.key });
+  if (section) params.set("detail", section);
+  try {
+    window.history.replaceState(null, "", "#" + params.toString());
+  } catch {}
+}
+function openDetail(section, taskId) {
+  if (!sections.includes(section) || !state) return;
+  if (taskId) {
+    $("task-search").value = "";
+    $("task-filter").value = "all";
+    filterTasks();
+  }
+  const details = $(section + "-details");
+  details.open = true;
+  ui.open = { ...ui.open, [section]: true };
+  save();
+  route(section);
+  const target = taskId
+    ? document.querySelector('[data-task-id="' + CSS.escape(taskId) + '"]')
+    : details;
+  (target || details).scrollIntoView({
+    behavior: matchMedia("(prefers-reduced-motion:reduce)").matches
+      ? "instant"
+      : "smooth",
+    block: "start",
+  });
+  if (taskId && target) {
+    target.tabIndex = -1;
+    target.focus({ preventScroll: true });
+  } else {
+    details.querySelector("summary").focus({ preventScroll: true });
+  }
+}
+for (const button of document.querySelectorAll("[data-detail]"))
+  button.addEventListener("click", () => openDetail(button.dataset.detail));
+for (const section of sections) {
+  $(section + "-details").addEventListener("toggle", () => {
+    if (!ui) return;
+    ui.open = { ...ui.open, [section]: $(section + "-details").open };
+    save();
+    if (
+      !ui.open[section] &&
+      new URLSearchParams(location.hash.slice(1)).get("detail") === section
+    )
+      route();
+  });
+}
+$("home").addEventListener("click", (e) => {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  if (state) route();
+});
+let threadFilter = ["all", "active", "attention"].includes(workspaceUI.filter)
+  ? workspaceUI.filter
+  : "all";
+$("thread-search").value = workspaceUI.query || "";
+function drawThreads() {
+  const q = $("thread-search").value.toLowerCase().trim();
+  $("thread-list").replaceChildren();
+  let shown = 0;
+  for (const completed of [false, true]) {
+    const matches = threads
+      .filter((t) => (t.snapshot.phase === "complete") === completed)
+      .filter((t) => {
+        const c = counts(t);
+        return (
+          (t.snapshot.title + " " + t.project + " " + hostLabel(t.host))
+            .toLowerCase()
+            .includes(q) &&
+          (threadFilter === "all" ||
+            (threadFilter === "active"
+              ? ["active", "blocked"].includes(t.snapshot.phase)
+              : c.required + c.blocked > 0))
+        );
+      });
+    if (!matches.length) continue;
+    $("thread-list").append(
       el(
-        "time",
-        time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-        "activity-time",
+        "div",
+        (completed ? "Completed" : "Tracked") + " · " + matches.length,
+        "thread-group-label" + (completed ? " completed" : ""),
       ),
     );
+    for (const t of matches) {
+      const c = counts(t),
+        button = el("button", undefined, "thread-item");
+      button.dataset.thread = t.key;
+      button.setAttribute("aria-current", String(t.key === state?.key));
+      const project = el("span", undefined, "thread-project");
+      const dot = el("i", undefined, "status-dot " + t.snapshot.phase);
+      dot.setAttribute("aria-hidden", "true");
+      project.append(
+        dot,
+        document.createTextNode(t.project + " · " + hostLabel(t.host)),
+      );
+      const bottom = el("span", undefined, "thread-bottom");
+      bottom.append(
+        el("span", c.done + " / " + c.total + " done"),
+        el(
+          "span",
+          c.required
+            ? c.required + " needs you"
+            : c.blocked
+              ? c.blocked + " blocked"
+              : labels[t.snapshot.phase],
+          c.required || c.blocked ? "thread-alert" : "",
+        ),
+      );
+      const bar = el("span", undefined, "thread-bar"),
+        fill = el("span");
+      fill.style.width = (c.total ? (c.done / c.total) * 100 : 0) + "%";
+      bar.append(fill);
+      button.append(
+        project,
+        el("span", t.snapshot.title, "thread-title"),
+        bottom,
+        bar,
+      );
+      button.addEventListener("click", () => {
+        selectThread(t.key);
+        if (mobile.matches) toggleSidebar(false);
+        $("title").tabIndex = -1;
+        $("title").focus({ preventScroll: true });
+      });
+      $("thread-list").append(button);
+      shown++;
+    }
+  }
+  $("no-threads").hidden = shown > 0;
+  for (const b of document.querySelectorAll("[data-thread-filter]"))
+    b.setAttribute(
+      "aria-pressed",
+      String(b.dataset.threadFilter === threadFilter),
+    );
+  workspaceUI.filter = threadFilter;
+  workspaceUI.query = $("thread-search").value;
+  saveWorkspace();
+}
+$("thread-search").addEventListener("input", drawThreads);
+for (const b of document.querySelectorAll("[data-thread-filter]"))
+  b.addEventListener("click", () => {
+    threadFilter = b.dataset.threadFilter;
+    drawThreads();
+  });
+function empty(id, text) {
+  $(id).append(el("div", text, "empty"));
+}
+function selectThread(key, initial = false) {
+  const chosen = threads.find((t) => t.key === key);
+  if (!chosen) return;
+  state = chosen;
+  data = state.snapshot;
+  history = state.history || [];
+  ui = readStore(sessionStore, "lantern-thread:" + state.key, {});
+  workspaceUI.selected = key;
+  saveWorkspace();
+  $("thread-content").hidden = false;
+  $("workspace-empty").hidden = true;
+  document.title = data.title + " · Task Lantern";
+  document.documentElement.style.setProperty("--accent", state.style.accent);
+  $("thread-style").textContent = state.custom_css || "";
+  $("title").title = state.presentation?.eyebrow || "";
+  document
+    .querySelector(".at-a-glance")
+    .classList.toggle("brief", state.presentation?.layout === "brief");
+  const order = [
+    ...new Set(
+      (
+        state.presentation?.order || [
+          "tasks",
+          "questions",
+          "blockers",
+          "deliverables",
+        ]
+      ).map(
+        (p) =>
+          ({
+            tasks: "plan",
+            questions: "decisions",
+            blockers: "decisions",
+            deliverables: "deliverables",
+          })[p],
+      ),
+    ),
+  ];
+  for (const section of [...order, "activity", "developer"])
+    $("detail-stack").append($(section + "-details"));
+  $("project-label").textContent = state.project;
+  $("host-label").textContent = hostLabel(state.host);
+  $("title").textContent = data.title;
+  $("summary").textContent = data.summary;
+  $("phase").textContent = labels[data.phase];
+  $("phase").className = "phase " + data.phase;
+  $("revision").textContent = "Revision " + state.revision;
+  $("updated").textContent = isDemo
+    ? "Sample data · Nothing is running"
+    : "Published " + new Date(state.updated_at).toLocaleString();
+  const c = counts(state),
+    doing = data.tasks.filter((t) => t.status === "doing"),
+    unfinished = data.tasks.filter(
+      (t) => !["done", "skipped"].includes(t.status),
+    );
+  const current =
+    doing[0] || unfinished.find((t) => t.status === "blocked") || unfinished[0];
+  $("current-label").textContent =
+    data.phase === "complete"
+      ? "FINISHED"
+      : data.phase === "paused"
+        ? "PAUSED"
+        : doing.length
+          ? "WORKING ON"
+          : current?.status === "blocked"
+            ? "WAITING ON"
+            : "NEXT STEP";
+  $("current-task").textContent =
+    current?.title ||
+    (data.phase === "complete"
+      ? "Ready for handoff."
+      : "The plan is taking shape.");
+  $("current-detail").textContent =
+    current?.detail ||
+    (data.phase === "complete"
+      ? "The agent marked this thread complete. Files and decisions are below."
+      : "The next publication will bring the first steps into view.");
+  $("step-position").textContent = current
+    ? "Step " + (data.tasks.indexOf(current) + 1) + " of " + c.total
+    : "";
+  $("completion").textContent =
+    c.done +
+    " of " +
+    c.total +
+    " steps complete" +
+    (data.tasks.some((t) => t.status === "skipped")
+      ? " · " +
+        data.tasks.filter((t) => t.status === "skipped").length +
+        " skipped"
+      : "");
+  $("progress").max = Math.max(c.total, 1);
+  $("progress").value = c.done;
+  $("segments").replaceChildren();
+  for (const task of data.tasks) {
+    const b = el("button", undefined, "segment " + task.status);
+    b.title = task.title + " · " + labels[task.status];
+    b.setAttribute("aria-label", b.title);
+    b.addEventListener("click", () => openDetail("plan", task.id));
+    $("segments").append(b);
+  }
+  $("next-task").textContent =
+    data.phase === "complete"
+      ? "Review the deliverables"
+      : data.tasks.find((t) => t.status === "todo" && t !== current)?.title ||
+        (doing.length > 1
+          ? doing.length - 1 + " other step(s) in progress"
+          : "No later step recorded");
+  const pending = data.questions
+    .filter((q) => q.status === "pending")
+    .sort((a, b) => Number(b.requires_answer) - Number(a.requires_answer));
+  $("attention-preview").replaceChildren();
+  $("attention-count").textContent = pending.length
+    ? pending.length + " pending"
+    : "";
+  $("attention-label").textContent = c.required
+    ? "NEEDS YOUR ANSWER"
+    : pending.length
+      ? "OPTIONAL PREFERENCE"
+      : "NO DECISIONS WAITING";
+  if (pending.length) {
+    const q = pending[0];
+    $("attention-preview").append(el("div", q.question, "attention-question"));
+    const d = el("div", undefined, "attention-default");
+    d.append(
+      el(
+        "strong",
+        q.requires_answer ? "While waiting: " : "If you don’t answer: ",
+      ),
+      document.createTextNode(q.default),
+    );
+    $("attention-preview").append(d);
+    if (pending.length > 1)
+      $("attention-preview").append(
+        el(
+          "p",
+          "+ " +
+            (pending.length - 1) +
+            " more decision" +
+            (pending.length > 2 ? "s" : "") +
+            " · open to see defaults",
+          "attention-extra",
+        ),
+      );
+  } else {
+    $("attention-preview").append(
+      el(
+        "div",
+        data.phase === "complete"
+          ? "All wrapped up."
+          : "You’re not holding it up.",
+        "clear-state",
+      ),
+      el(
+        "p",
+        data.phase === "complete"
+          ? "No unresolved questions or blockers were published."
+          : "No decisions are waiting for your answer. Check the plan for the latest reported work.",
+        "attention-default",
+      ),
+    );
+  }
+  $("review-decisions").hidden = !pending.length;
+  const blockers = data.blockers.filter((b) => b.status === "open");
+  $("blocker-preview").hidden = !blockers.length;
+  $("blocker-preview").replaceChildren();
+  if (blockers.length)
+    $("blocker-preview").append(
+      el("strong", blockers.length + " blocked"),
+      el("span", blockers[0].title),
+      el("span", "Review ↗"),
+    );
+  $("deliverables-preview").replaceChildren();
+  $("deliverables-preview").append(
+    el(
+      "span",
+      data.deliverables.length ? "Ready to inspect" : "No files published yet",
+    ),
+  );
+  for (const a of data.deliverables.slice(0, 2)) {
+    const b = el("button", a.title, "file-chip");
+    b.addEventListener("click", () => openDetail("deliverables"));
+    $("deliverables-preview").append(b);
+  }
+  if (data.deliverables.length > 2) {
+    const b = el(
+      "button",
+      "+" + (data.deliverables.length - 2) + " more",
+      "text-button",
+    );
+    b.addEventListener("click", () => openDetail("deliverables"));
+    $("deliverables-preview").append(b);
+  }
+  $("plan-meta").textContent = c.done + " / " + c.total + " complete";
+  $("decisions-meta").textContent =
+    c.questions + " pending · " + c.blocked + " blocked";
+  $("deliverables-meta").textContent = data.deliverables.length + " published";
+  $("activity-meta").textContent = history.length + " events";
+  drawPlan();
+  drawDecisions();
+  drawDeliverables();
+  drawActivity();
+  drawDeveloper();
+  for (const section of sections)
+    $(section + "-details").open = ui.open?.[section] === true;
+  for (const detail of document.querySelectorAll(".nested-detail"))
+    detail.open = false;
+  drawThreads();
+  freshness();
+  refreshLabel();
+  if (!initial) {
+    window.scrollTo({ top: 0, behavior: "instant" });
+    ui.scroll = 0;
+    route();
+    save();
+  } else if (ui.scroll)
+    requestAnimationFrame(() => window.scrollTo(0, ui.scroll));
+}
+function drawPlan() {
+  $("task-list").replaceChildren();
+  taskRows = [];
+  for (const [i, t] of data.tasks.entries()) {
+    const row = el("article", undefined, "row task-row " + t.status),
+      content = el("div");
+    row.dataset.taskId = t.id;
+    row.dataset.status = t.status;
+    content.append(el("h3", t.title, "task-title"));
+    if (t.detail) content.append(el("p", t.detail));
+    row.append(
+      el(
+        "span",
+        t.status === "done" ? "✓" : String(i + 1).padStart(2, "0"),
+        "task-number",
+      ),
+      content,
+      badge(t.status),
+    );
+    $("task-list").append(row);
+    taskRows.push({ row, task: t });
+  }
+  if (!data.tasks.length)
+    empty("task-list", "Steps appear when the agent publishes a plan.");
+  $("task-search").value = typeof ui.query === "string" ? ui.query : "";
+  $("task-filter").value = [
+    "all",
+    "open",
+    "doing",
+    "blocked",
+    "done",
+    "todo",
+    "skipped",
+  ].includes(ui.filter)
+    ? ui.filter
+    : "all";
+  filterTasks();
+}
+function filterTasks() {
+  if (!state) return;
+  const q = $("task-search").value.toLowerCase().trim(),
+    f = $("task-filter").value;
+  let visible = 0;
+  for (const { row, task: t } of taskRows) {
+    row.hidden = !(
+      (f === "all" ||
+        (f === "open"
+          ? !["done", "skipped"].includes(t.status)
+          : t.status === f)) &&
+      (t.title + " " + t.detail + " " + t.id).toLowerCase().includes(q)
+    );
+    if (!row.hidden) visible++;
+  }
+  $("task-empty").hidden = visible > 0 || !data.tasks.length;
+  $("task-result").textContent =
+    visible + " of " + data.tasks.length + " steps";
+  ui.query = $("task-search").value;
+  ui.filter = f;
+  save();
+}
+$("task-search").addEventListener("input", filterTasks);
+$("task-filter").addEventListener("change", filterTasks);
+function drawDecisions() {
+  $("question-list").replaceChildren();
+  $("blocker-list").replaceChildren();
+  const questions = [...data.questions].sort(
+    (a, b) =>
+      (a.status === "pending" ? 0 : 2) +
+      (a.requires_answer ? 0 : 1) -
+      ((b.status === "pending" ? 0 : 2) + (b.requires_answer ? 0 : 1)),
+  );
+  for (const q of questions) {
+    const row = el(
+      "article",
+      undefined,
+      "row decision-row" + (q.requires_answer ? " required" : ""),
+    );
+    row.append(
+      el(
+        "span",
+        q.requires_answer ? "ANSWER REQUIRED" : "OPTIONAL PREFERENCE",
+        "decision-kind",
+      ),
+    );
+    const top = el("div", undefined, "decision-top");
+    top.append(el("h3", q.question), badge(q.status));
+    const box = el("div", undefined, "decision-default");
+    box.append(
+      el(
+        "strong",
+        q.status === "answered"
+          ? "Your answer"
+          : q.requires_answer
+            ? "While waiting"
+            : q.status === "defaulted"
+              ? "Default applied"
+              : "If you don’t answer",
+      ),
+      el("span", q.status === "answered" ? q.answer : q.default),
+    );
+    const action = el("div", undefined, "decision-action");
+    action.append(
+      el(
+        "span",
+        q.status === "pending"
+          ? "Answer in your agent chat"
+          : "Recorded in this thread",
+      ),
+      copyButton(
+        "Copy question",
+        "Question " + q.id + ": " + q.question + "\nMy answer: ",
+      ),
+    );
+    row.append(top, box, action);
+    $("question-list").append(row);
+  }
+  if (!questions.length)
+    empty("question-list", "No decisions have been published.");
+  if (data.blockers.length)
+    $("blocker-list").append(el("h2", "Blockers", "section-title"));
+  for (const b of [...data.blockers].sort(
+    (a, b) => Number(b.status === "open") - Number(a.status === "open"),
+  )) {
+    const row = el("article", undefined, "row blocker-row " + b.status),
+      top = el("div", undefined, "row-top");
+    top.append(el("h3", b.title), badge(b.status));
+    row.append(top, el("p", b.detail));
+    $("blocker-list").append(row);
+  }
+}
+function drawDeliverables() {
+  $("deliverable-list").replaceChildren();
+  for (const a of data.deliverables) {
+    const row = el("article", undefined, "row deliverable-row"),
+      top = el("div", undefined, "artifact-top"),
+      ext = a.path.split(".").pop().split(/[?#]/)[0];
+    top.append(
+      el("h3", a.title),
+      el("span", ext.length < 8 ? ext : "FILE", "artifact-label"),
+    );
+    row.append(top);
+    if (a.detail) row.append(el("p", a.detail));
+    const line = el("div", undefined, "path-line");
+    line.append(el("code", a.path), copyButton("Copy path", a.path));
+    const href = safeWebLink(a.path);
+    if (href) {
+      const link = el("a", "Open ↗");
+      link.href = href;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      line.append(link);
+    }
+    row.append(line);
+    $("deliverable-list").append(row);
+  }
+  if (!data.deliverables.length)
+    empty(
+      "deliverable-list",
+      "Files and links appear when the agent publishes them.",
+    );
+}
+function drawActivity() {
+  $("activity-list").replaceChildren();
+  for (const event of [...history].reverse()) {
+    const row = el("article", undefined, "activity-row"),
+      content = el("div"),
+      time = el(
+        "time",
+        new Date(event.at).toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        "activity-time",
+      );
+    time.dateTime = event.at;
     content.append(
       el("strong", event.label),
       el(
         "p",
         event.kind === "status"
-          ? labels[event.before] + " → " + labels[event.after]
-          : label + (event.after ? " · " + event.after : ""),
+          ? (labels[event.before] || event.before) +
+              " → " +
+              (labels[event.after] || event.after)
+          : ({
+              added: "Added",
+              removed: "Removed",
+              updated: "Updated",
+              confirmed: "Checked",
+            }[event.kind] || "Updated") +
+              (event.after ? " · " + event.after : ""),
       ),
       el("div", "r" + event.revision + " · " + event.panel, "event-meta"),
     );
-    row.append(content);
+    row.append(time, content);
     $("activity-list").append(row);
   }
-  $("all-activity").hidden = all || history.length <= 4;
+  if (!history.length)
+    empty(
+      "activity-list",
+      "No changes recorded yet. Publications add real, timestamped events.",
+    );
 }
-$("all-activity").addEventListener("click", () => setView("activity"));
-for (const [label, value] of [
-  ["Schema", "v" + state.version],
-  ["Revision", String(state.revision)],
-  ["Journal", history.length + " / 100 events"],
-  ["Storage", "Local file"],
-]) {
-  const item = el("div", undefined, "dev-stat");
-  item.append(el("span", label), el("strong", value));
-  $("dev-stats").append(item);
-}
-for (const [name, command] of Object.entries(state.commands || {})) {
-  const row = el("div", undefined, "command"),
-    head = el("div", undefined, "command-head");
-  head.append(
-    el(
-      "strong",
-      {
-        status: "Inspect state",
-        patch: "Apply a patch",
-        render: "Rebuild this view",
-      }[name],
-    ),
-    copyButton("Copy", command),
+function drawDeveloper() {
+  $("dev-stats").replaceChildren();
+  $("commands").replaceChildren();
+  for (const [label, value] of [
+    ["Schema", "v" + state.version],
+    ["Revision", state.revision],
+    ["Events", history.length + " / 100"],
+    ["Storage", "Local file"],
+  ]) {
+    const item = el("div", undefined, "dev-stat");
+    item.append(el("span", label), el("strong", value));
+    $("dev-stats").append(item);
+  }
+  for (const [name, command] of Object.entries(state.commands || {})) {
+    const row = el("div", undefined, "command"),
+      head = el("div", undefined, "command-head");
+    head.append(
+      el(
+        "strong",
+        {
+          status: "Inspect state",
+          patch: "Apply a patch",
+          render: "Rebuild this dashboard",
+        }[name] || name,
+      ),
+      copyButton("Copy", command),
+    );
+    row.append(head, el("code", command));
+    $("commands").append(row);
+  }
+  patchExample = JSON.stringify(
+    data.tasks.length
+      ? {
+          tasks: [
+            {
+              ...(data.tasks.find((t) => t.status === "doing") ||
+                data.tasks[0]),
+              status: "done",
+            },
+          ],
+        }
+      : { summary: "Describe the latest verified progress." },
+    null,
+    2,
   );
-  row.append(head, el("code", command));
-  $("commands").append(row);
+  snapshotJSON = JSON.stringify(data, null, 2);
+  $("patch-example").textContent = patchExample;
+  $("snapshot-json").textContent = snapshotJSON;
 }
-const patchExample = JSON.stringify(
-  data.tasks.length
-    ? {
-        tasks: [
-          {
-            ...(data.tasks.find((t) => t.status === "doing") || data.tasks[0]),
-            status: "done",
-          },
-        ],
-      }
-    : { summary: "Describe the latest verified progress." },
-  null,
-  2,
-);
-$("patch-example").textContent = patchExample;
 $("copy-patch").addEventListener("click", () => copy(patchExample));
-const snapshotJSON = JSON.stringify(data, null, 2);
-$("snapshot-json").textContent = snapshotJSON;
 $("copy-snapshot").addEventListener("click", () => copy(snapshotJSON));
-const viewMeta = {
-  plan: [
-    "The plan",
-    "Find the next step, check completed work, or isolate what is blocked.",
-  ],
-  decisions: [
-    "Decisions & blockers",
-    "What needs an answer, what can wait, and what happens next.",
-  ],
-  activity: [
-    "Activity journal",
-    "The latest 100 changes recorded at publication time.",
-  ],
-  developer: [
-    "Developer workspace",
-    "Inspect the source, make precise updates, and hand work between sessions.",
-  ],
-};
-function setView(view, initial = false) {
-  ui.view = views.includes(view) ? view : "overview";
-  save();
-  for (const button of document.querySelectorAll("[data-view]")) {
-    if (button.dataset.view === ui.view)
-      button.setAttribute("aria-current", "page");
-    else button.removeAttribute("aria-current");
-  }
-  const overview = ui.view === "overview";
-  $("overview-strip").hidden = !overview;
-  $("view-heading").hidden = overview;
-  if (!overview) {
-    $("view-title").textContent = viewMeta[ui.view][0];
-    $("view-description").textContent = viewMeta[ui.view][1];
-  }
-  $("workspace-grid").hidden = ui.view === "developer";
-  $("workspace-grid").classList.toggle("single", !overview);
-  $("tasks").hidden = !overview && ui.view !== "plan";
-  $("right-column").hidden = !overview && ui.view !== "decisions";
-  $("deliverables").hidden = !overview;
-  $("activity").hidden = !overview && ui.view !== "activity";
-  $("developer").hidden = ui.view !== "developer";
-  drawActivity(ui.view === "activity");
-  if (!initial) window.scrollTo({ top: 0, behavior: "instant" });
-}
-for (const button of document.querySelectorAll("[data-view]"))
-  button.addEventListener("click", () => setView(button.dataset.view));
-$("workspace-grid").classList.toggle(
-  "brief",
-  state.presentation.layout === "brief",
-);
-const order = state.presentation.order;
-$("tasks").style.order = order.indexOf("tasks");
-$("right-column").style.order = Math.min(
-  order.indexOf("questions"),
-  order.indexOf("blockers"),
-);
-$("questions").style.order = order.indexOf("questions");
-$("blockers").style.order = order.indexOf("blockers");
-$("deliverables").style.order = order.indexOf("deliverables");
-$("activity").style.order = 4;
-setView(ui.view, true);
-document.addEventListener("keydown", (event) => {
-  const input = ["INPUT", "TEXTAREA", "SELECT"].includes(
-    document.activeElement.tagName,
-  );
-  if (event.key === "/" && !input && !document.querySelector("dialog[open]")) {
-    event.preventDefault();
-    setView("plan");
-    $("task-search").focus();
-  }
-  if (event.key === "Escape" && document.activeElement === $("task-search")) {
-    $("task-search").value = "";
-    filterTasks();
-    $("task-search").blur();
-  }
-});
 function markdown() {
   const lines = [
     "# " + data.title,
     "",
+    ...(isDemo
+      ? ["_Demo: fictional task data. No agent is running._", ""]
+      : []),
     data.summary,
     "",
+    "Project: " + state.project,
     "Status: " + data.phase + " · Revision " + state.revision,
     "Published: " + state.updated_at,
     "",
     "## Plan",
     "",
   ];
-  for (const task of data.tasks)
+  for (const t of data.tasks)
     lines.push(
       "- [" +
-        (task.status === "done" ? "x" : " ") +
+        (t.status === "done" ? "x" : " ") +
         "] " +
-        task.title +
+        t.title +
         " (" +
-        task.status +
+        t.status +
         ")" +
-        (task.detail ? " — " + task.detail : ""),
+        (t.detail ? " — " + t.detail : ""),
     );
   lines.push("", "## Decisions", "");
   for (const q of data.questions)
@@ -2135,8 +2536,6 @@ function markdown() {
     lines.push(
       "- " + a.title + ": " + a.path + (a.detail ? " — " + a.detail : ""),
     );
-  if (isDemo)
-    lines.splice(2, 0, "_Demo: fictional task data. No agent is running._", "");
   return lines.join("\n") + "\n";
 }
 function download(name, text, type) {
@@ -2156,114 +2555,195 @@ $("export-markdown").addEventListener("click", () =>
   download("task-lantern-" + state.run + ".md", markdown(), "text/markdown"),
 );
 $("export-json").addEventListener("click", () => {
-  const { presentation, commands, home_href, ...source } = state;
+  const { key, presentation, custom_css, commands, ...source } = state;
   download(
     "task-lantern-" + state.run + ".json",
     JSON.stringify(source, null, 2),
     "application/json",
   );
 });
-$("copy-summary").addEventListener("click", () =>
+$("copy-summary").addEventListener("click", () => {
+  const c = counts(state);
   copy(
     (isDemo ? "Demo: fictional task data.\n" : "") +
       data.title +
       "\n" +
       data.summary +
       "\n" +
-      done +
+      c.done +
       "/" +
-      data.tasks.length +
-      " steps complete · " +
-      pending.length +
-      " pending decisions · " +
-      blockers.length +
-      " open blockers\nPublished " +
-      state.updated_at +
-      " (revision " +
-      state.revision +
-      ")",
-  ),
-);
-const terminal = ["complete", "paused"].includes(data.phase);
+      c.total +
+      " complete · " +
+      c.questions +
+      " decisions · " +
+      c.blocked +
+      " blockers\nPublished " +
+      state.updated_at,
+  );
+});
 function refreshLabel() {
+  const terminal =
+    workspace.scope === "thread" &&
+    state &&
+    ["complete", "paused"].includes(data.phase);
   $("refresh").textContent = isDemo
     ? "Reload demo"
     : terminal
       ? "Refresh now"
-      : ui.paused
-        ? "Resume"
-        : "Pause";
-  $("refresh").setAttribute("aria-pressed", String(!!ui.paused));
+      : workspaceUI.paused
+        ? "Resume refresh"
+        : "Pause refresh";
+  $("refresh").setAttribute("aria-pressed", String(!!workspaceUI.paused));
 }
 $("refresh").addEventListener("click", () => {
-  if (terminal || isDemo) {
+  if (
+    isDemo ||
+    (workspace.scope === "thread" &&
+      ["complete", "paused"].includes(data.phase))
+  ) {
     location.reload();
     return;
   }
-  ui.paused = !ui.paused;
-  save();
+  workspaceUI.paused = !workspaceUI.paused;
+  saveWorkspace();
   refreshLabel();
   freshness();
 });
 function freshness() {
+  if (!state) return;
   if (isDemo) {
     $("freshness").textContent = "Sample data";
-    $("freshness").title =
-      "This fictional demo is static. Real runs refresh after the agent publishes updates.";
-    $("duration").hidden = true;
+    $("freshness").classList.remove("stale");
     return;
   }
   const seconds = Math.max(
-    0,
-    Math.floor((Date.now() - updated.getTime()) / 1000),
-  );
-  const age = seconds < 60 ? seconds + "s" : Math.floor(seconds / 60) + "m";
-  const stale = seconds > 120 && !terminal;
-  $("freshness").classList.toggle("stale", stale);
-  $("freshness").textContent = terminal
-    ? "Saved " + age + " ago"
-    : ui.paused
-      ? "Refresh paused"
-      : stale
-        ? "No update for " + age
-        : "Updated " + age + " ago";
-  $("freshness").title =
-    "Last published " +
-    updated.toLocaleString() +
-    ". Refreshing does not prove the agent is still running.";
-  const elapsed = Math.max(
-    0,
-    Math.floor(
-      ((terminal ? updated.getTime() : Date.now()) - started.getTime()) / 60000,
+      0,
+      Math.floor((Date.now() - new Date(state.updated_at).getTime()) / 1000),
     ),
-  );
-  $("duration").textContent =
-    elapsed < 1 ? "Started just now" : elapsed + "m since start";
+    age =
+      seconds < 60
+        ? seconds + "s"
+        : seconds < 3600
+          ? Math.floor(seconds / 60) + "m"
+          : Math.floor(seconds / 3600) + "h",
+    terminal = ["complete", "paused"].includes(data.phase);
+  $("freshness").classList.toggle("stale", seconds > 120 && !terminal);
+  $("freshness").textContent = workspaceUI.paused
+    ? "Refresh paused"
+    : seconds > 120 && !terminal
+      ? "No update for " + age
+      : "Published " + age + " ago";
+  $("freshness").title =
+    "Last publication: " +
+    new Date(state.updated_at).toLocaleString() +
+    ". This is a reported snapshot, not a process monitor.";
 }
-refreshLabel();
-freshness();
-setInterval(freshness, 1000);
+const routeParams = new URLSearchParams(location.hash.slice(1));
+const first = [
+  routeParams.get("thread"),
+  workspaceUI.selected,
+  workspace.selected,
+  threads.find((t) => t.snapshot.phase !== "complete")?.key,
+  threads[0]?.key,
+].find((key) => threads.some((t) => t.key === key));
+if (first) {
+  selectThread(first, true);
+  const detail = routeParams.get("detail");
+  if (sections.includes(detail) && !(ui.open?.[detail] && ui.scroll))
+    requestAnimationFrame(() => openDetail(detail));
+} else {
+  $("workspace-empty").hidden = false;
+  $("thread-content").hidden = true;
+  drawThreads();
+}
+window.addEventListener("hashchange", () => {
+  const params = new URLSearchParams(location.hash.slice(1));
+  if (params.get("thread") !== state?.key) selectThread(params.get("thread"));
+  if (sections.includes(params.get("detail"))) openDetail(params.get("detail"));
+});
 window.addEventListener(
   "scroll",
   () => {
-    ui.scroll = window.scrollY;
-    save();
+    if (ui) {
+      ui.scroll = window.scrollY;
+      save();
+    }
   },
   { passive: true },
 );
-if (ui.scroll) requestAnimationFrame(() => window.scrollTo(0, ui.scroll));
-setInterval(() => {
+document.addEventListener("keydown", (event) => {
+  const input = ["INPUT", "TEXTAREA", "SELECT"].includes(
+    document.activeElement.tagName,
+  );
   if (
-    !ui.paused &&
-    !terminal &&
+    event.key === "/" &&
+    !input &&
+    !document.querySelector("dialog[open]") &&
+    state &&
+    !(sidebarOpen && mobile.matches)
+  ) {
+    event.preventDefault();
+    openDetail("plan");
+    $("task-search").focus({ preventScroll: true });
+  }
+  if (event.key === "Escape" && !document.querySelector("dialog[open]")) {
+    if (sidebarOpen && mobile.matches) toggleSidebar(false, true);
+    else if (document.activeElement === $("task-search")) {
+      $("task-search").value = "";
+      filterTasks();
+      $("task-search").blur();
+    }
+  }
+});
+setInterval(freshness, 1000);
+setInterval(() => {
+  const terminal =
+    workspace.scope === "thread" &&
+    state &&
+    ["complete", "paused"].includes(data.phase);
+  if (
     !isDemo &&
+    !workspaceUI.paused &&
+    !terminal &&
+    !document.hidden &&
     !document.querySelector("dialog[open]") &&
     !["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement.tagName)
   ) {
     save();
+    saveWorkspace();
     location.reload();
   }
 }, 10000);
+
+document.addEventListener("keydown", (event) => {
+  if (
+    event.key !== "Tab" ||
+    !sidebarOpen ||
+    !mobile.matches ||
+    document.querySelector("dialog[open]")
+  )
+    return;
+  const items = [
+    ...$("thread-sidebar").querySelectorAll("button,input"),
+  ].filter((e) => e.getClientRects().length);
+  const first = items[0],
+    last = items.at(-1);
+  if (
+    event.shiftKey &&
+    (document.activeElement === first ||
+      !$("thread-sidebar").contains(document.activeElement))
+  ) {
+    event.preventDefault();
+    last?.focus();
+  } else if (
+    !event.shiftKey &&
+    (document.activeElement === last ||
+      !$("thread-sidebar").contains(document.activeElement))
+  ) {
+    event.preventDefault();
+    first?.focus();
+  }
+});
 
     </script>
   </body>

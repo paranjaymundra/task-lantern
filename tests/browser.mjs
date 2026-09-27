@@ -111,7 +111,7 @@ try {
       await sleep(50);
       if (
         await evaluate(
-          'document.readyState === "complete" && !!document.querySelector("#tasks .row")',
+          'document.readyState === "complete" && !!document.querySelector("#title").textContent',
         )
       )
         return;
@@ -120,119 +120,71 @@ try {
   };
   const assets = join(root, "docs/assets");
   await mkdir(assets, { recursive: true });
-  for (const [file, width, height, out] of [
-    ["demo-dark.html", 1440, 1100, "dashboard-dark.png"],
-    ["demo-light.html", 1440, 1100, "dashboard-light.png"],
-    ["demo.html", 390, 844, "dashboard-mobile.png"],
-  ]) {
-    await call("Emulation.setDeviceMetricsOverride", {
+  const metrics = async (width, height) =>
+    call("Emulation.setDeviceMetricsOverride", {
       width,
       height,
       deviceScaleFactor: 1,
       mobile: width < 500,
     });
-    await load(join(root, "examples", file));
-    assert.equal(
-      await evaluate(
-        'Array.from(document.querySelectorAll(".panel")).filter(e=>e.getClientRects().length).length',
-      ),
-      5,
-    );
-    assert.equal(
-      await evaluate('document.querySelectorAll("#tasks .row").length'),
-      6,
-    );
-    assert.equal(await evaluate('document.querySelector("progress").value'), 3);
-    assert.equal(
-      await evaluate(
-        "document.documentElement.scrollWidth <= window.innerWidth",
-      ),
-      true,
-      "Horizontal overflow",
-    );
-    if (width < 500)
-      assert.equal(
-        await evaluate(
-          'document.querySelector("[data-view=developer]").getBoundingClientRect().right <= window.innerWidth',
-        ),
-        true,
-        "Developer navigation is off-screen",
-      );
-    const { data } = await call("Page.captureScreenshot", {
+  const screenshot = async (name, full = false) => {
+    const shot = await call("Page.captureScreenshot", {
       format: "png",
-      captureBeyondViewport: true,
+      captureBeyondViewport: full,
     });
-    await writeFile(join(assets, out), Buffer.from(data, "base64"));
-    if (file === "demo-light.html") {
-      const preview = await call("Page.captureScreenshot", {
-        format: "png",
-        captureBeyondViewport: false,
-      });
-      await writeFile(
-        join(assets, "dashboard-overview.png"),
-        Buffer.from(preview.data, "base64"),
-      );
-    }
-  }
-  await call("Emulation.setDeviceMetricsOverride", {
-    width: 1440,
-    height: 1100,
-    deviceScaleFactor: 1,
-    mobile: false,
-  });
-  await load(join(root, "examples/demo.html"));
-  await evaluate('document.querySelector("[data-view=developer]").click()');
+    await writeFile(join(assets, name), Buffer.from(shot.data, "base64"));
+  };
+  await metrics(1440, 1000);
+  await load(join(root, "examples/demo-light.html"));
   assert.equal(
-    await evaluate('!document.querySelector("#developer").hidden'),
-    true,
+    await evaluate('document.querySelectorAll(".thread-item").length'),
+    5,
   );
   assert.equal(
     await evaluate(
-      'JSON.parse(document.querySelector("#snapshot-json").textContent).tasks.length',
+      'document.querySelectorAll("#detail-stack > details[open]").length',
     ),
-    6,
+    0,
   );
   assert.equal(
-    await evaluate(
-      'document.querySelector("#commands").textContent.includes("--expected-revision 2")',
-    ),
-    true,
+    await evaluate('document.querySelector("#current-task").textContent'),
+    "Verify keyboard navigation",
   );
-  const developerImage = await call("Page.captureScreenshot", {
-    format: "png",
-    captureBeyondViewport: true,
-  });
-  await writeFile(
-    join(assets, "dashboard-developer.png"),
-    Buffer.from(developerImage.data, "base64"),
-  );
+  assert.equal(await evaluate('document.querySelector("progress").value'), 3);
   assert.equal(
     await evaluate('document.querySelector("#freshness").textContent'),
     "Sample data",
   );
+  await screenshot("dashboard-overview.png");
+  await screenshot("dashboard-light.png");
+  await screenshot("dashboard-workspace.png");
+  await evaluate('document.querySelector("[data-detail=decisions]").click()');
+  await sleep(350);
   assert.equal(
-    await evaluate('document.querySelector("#refresh").textContent'),
-    "Reload demo",
-  );
-  assert.equal(
-    await evaluate('!document.querySelector("#demo-note").hidden'),
+    await evaluate('document.querySelector("#decisions-details").open'),
     true,
   );
-  assert.ok(await evaluate('markdown().includes("fictional task data")'));
-  // Switch to a non-demo fixture for live refresh/pause and stale-state checks.
-  const demoSource = await readFile(join(root, "examples/demo.html"), "utf8");
-  const liveSource = demoSource.replace(/("demo"\s*:\s*)true/, "$1false");
-  const liveFixture = join(profile, "live-test.html");
-  await writeFile(liveFixture, liveSource);
-  await load(liveFixture);
   assert.equal(
-    await evaluate('document.querySelector("#demo-note").hidden'),
+    await evaluate(
+      'document.querySelector(".decision-row").classList.contains("required")',
+    ),
     true,
   );
+  assert.equal(
+    await evaluate(
+      'document.querySelectorAll("#thread-sidebar .thread-item").length',
+    ),
+    5,
+  );
+  await screenshot("dashboard-decisions.png");
   await evaluate(
-    'document.dispatchEvent(new KeyboardEvent("keydown",{key:"/",bubbles:true}))',
+    'document.querySelector("#decisions-details").open=false;window.scrollTo(0,0);document.querySelector("#current-task").click()',
   );
-  assert.equal(await evaluate("document.activeElement.id"), "task-search");
+  await sleep(350);
+  assert.equal(
+    await evaluate('document.querySelector("#plan-details").open'),
+    true,
+  );
   await evaluate(
     'document.querySelector("#task-search").value="keyboard";document.querySelector("#task-search").dispatchEvent(new Event("input"))',
   );
@@ -246,19 +198,82 @@ try {
     'document.querySelector("#task-filter").value="done";document.querySelector("#task-filter").dispatchEvent(new Event("change"))',
   );
   assert.equal(
-    await evaluate('!document.querySelector("#task-empty").hidden'),
+    await evaluate('document.querySelector("#task-empty").hidden'),
+    false,
+  );
+  await evaluate(
+    'document.querySelector("#task-filter").value="all";document.querySelector("#task-filter").dispatchEvent(new Event("change"))',
+  );
+  const firstKey = await evaluate("state.key");
+  await evaluate('selectThread(threads.find(t=>t.project==="Billing").key)');
+  assert.equal(
+    await evaluate('document.querySelector("#title").textContent'),
+    "Migrate the billing API",
+  );
+  assert.equal(
+    await evaluate('document.querySelector("#current-task").textContent'),
+    "Check webhook retries",
+  );
+  assert.equal(
+    await evaluate(
+      'document.querySelectorAll("#detail-stack > details[open]").length',
+    ),
+    0,
+  );
+  assert.equal(
+    await evaluate('document.querySelector("#task-search").value'),
+    "",
+  );
+  await evaluate("selectThread(" + JSON.stringify(firstKey) + ")");
+  assert.equal(
+    await evaluate('document.querySelector("#task-search").value'),
+    "keyboard",
+  );
+  assert.equal(
+    await evaluate('document.querySelector("#plan-details").open'),
+    true,
+  );
+  await call("Page.reload");
+  await sleep(300);
+  assert.equal(await evaluate("state.key"), firstKey);
+  assert.equal(
+    await evaluate('document.querySelector("#plan-details").open'),
     true,
   );
   await evaluate(
-    'document.querySelector("#task-search").value="";document.querySelector("#task-search").dispatchEvent(new Event("input"));document.querySelector("#task-filter").value="all";document.querySelector("#task-filter").dispatchEvent(new Event("change"));document.querySelector("#task-search").blur()',
+    'document.querySelector("#task-search").value="";document.querySelector("#task-search").dispatchEvent(new Event("input"));document.querySelector("#task-search").blur();document.querySelector("#plan-details").open=false;window.scrollTo(0,0)',
   );
-  await evaluate('document.querySelector("[data-view=decisions]").click()');
+  const beforeWidth = await evaluate(
+    'document.querySelector("main").getBoundingClientRect().width',
+  );
+  await evaluate('document.querySelector("#toggle-threads").click()');
   assert.equal(
     await evaluate(
-      'document.querySelector(".decision-row").classList.contains("required")',
+      'document.querySelector("#toggle-threads").getAttribute("aria-expanded")',
     ),
-    true,
+    "false",
   );
+  assert.ok(
+    (await evaluate(
+      'document.querySelector("main").getBoundingClientRect().width',
+    )) > beforeWidth,
+  );
+  await screenshot("dashboard-focus.png");
+  await evaluate(
+    'document.querySelector("#toggle-threads").click();document.querySelector("#thread-search").value="Billing";document.querySelector("#thread-search").dispatchEvent(new Event("input"))',
+  );
+  assert.equal(
+    await evaluate('document.querySelectorAll(".thread-item").length'),
+    1,
+  );
+  await evaluate(
+    'document.querySelector("#thread-search").value="";document.querySelector("#thread-search").dispatchEvent(new Event("input"));document.querySelector("#thread-search").blur();document.querySelector("[data-thread-filter=attention]").click()',
+  );
+  assert.equal(
+    await evaluate('document.querySelectorAll(".thread-item").length'),
+    2,
+  );
+  await evaluate('document.querySelector("[data-thread-filter=all]").click()');
   assert.equal(await evaluate('safeWebLink("javascript:alert(1)")'), null);
   assert.equal(
     await evaluate('safeWebLink("https://user:pass@example.com")'),
@@ -272,11 +287,10 @@ try {
     await evaluate('document.querySelector("#copy-dialog").open'),
     true,
   );
-  assert.equal(
+  assert.ok(
     await evaluate(
       'document.querySelector("#copy-text").value.includes("Question publish:")',
     ),
-    true,
   );
   await evaluate('document.querySelector("#close-copy").click()');
   const downloadDir = join(profile, "downloads");
@@ -290,218 +304,207 @@ try {
   );
   for (let n = 0; n < 50; n++) {
     if (
-      (await readdir(downloadDir)).filter(
-        (name) => !name.endsWith(".crdownload"),
-      ).length >= 2
+      (await readdir(downloadDir)).filter((n) => !n.endsWith(".crdownload"))
+        .length >= 2
     )
       break;
     await sleep(100);
   }
-  const downloads = await readdir(downloadDir);
-  const exported = JSON.parse(
-    await readFile(
-      join(
-        downloadDir,
-        downloads.find((name) => name.endsWith(".json")),
+  const downloads = await readdir(downloadDir),
+    exported = JSON.parse(
+      await readFile(
+        join(
+          downloadDir,
+          downloads.find((n) => n.endsWith(".json")),
+        ),
+        "utf8",
       ),
-      "utf8",
-    ),
-  );
+    );
   assert.equal(exported.snapshot.tasks.length, 6);
+  assert.equal(exported.threads, undefined);
   assert.equal(exported.commands, undefined);
   assert.ok(
     (
       await readFile(
         join(
           downloadDir,
-          downloads.find((name) => name.endsWith(".md")),
+          downloads.find((n) => n.endsWith(".md")),
         ),
         "utf8",
       )
-    ).includes("## Decisions"),
+    ).includes("fictional task data"),
   );
   await evaluate(
-    'document.querySelector("#close-export").click();document.querySelector("#theme").click()',
+    'document.querySelector("#close-export").click();openDetail("developer")',
   );
+  await sleep(350);
   assert.equal(
-    await evaluate('document.body.classList.contains("dark")'),
+    await evaluate('document.querySelector("#developer-details").open'),
     true,
   );
+  assert.equal(
+    await evaluate(
+      'JSON.parse(document.querySelector("#snapshot-json").textContent).tasks.length',
+    ),
+    6,
+  );
+  assert.ok(
+    await evaluate(
+      'document.querySelector("#commands").textContent.includes("--expected-revision 2")',
+    ),
+  );
+  await new Promise((resolve) => setTimeout(resolve, 2600));
+  await screenshot("dashboard-developer.png");
+  await evaluate(
+    'document.querySelector("#developer-details").open=false;window.scrollTo(0,0);document.querySelector("#theme").click()',
+  );
+  await sleep(2600);
+  await screenshot("dashboard-dark.png");
   await call("Page.reload");
   await sleep(300);
   assert.equal(
     await evaluate('document.body.classList.contains("dark")'),
     true,
   );
-  assert.equal(
-    await evaluate(
-      'document.querySelector("[data-view=decisions]").getAttribute("aria-current")',
-    ),
-    "page",
-  );
-  await evaluate('document.querySelector("#refresh").click()');
-  assert.equal(
-    await evaluate('document.querySelector("#refresh").textContent'),
-    "Resume",
-  );
-  await call("Page.reload");
-  await sleep(300);
-  assert.equal(
-    await evaluate('document.querySelector("#refresh").textContent'),
-    "Resume",
-  );
-  const source = liveSource;
-  const fixture = join(profile, "refresh-test.html");
-  await writeFile(fixture, source);
-  await load(fixture);
-  // Session storage can be shared across file URLs. Explicitly resume if needed.
+  await evaluate('document.querySelector("#theme").click()');
   await evaluate(
-    'if(document.querySelector("#refresh").textContent==="Resume")document.querySelector("#refresh").click()',
+    'for(const d of document.querySelectorAll("#detail-stack > details"))d.open=false;route();window.scrollTo(0,0)',
   );
-  await writeFile(
-    fixture,
-    source.replaceAll("A better search experience.", "Refresh check passed."),
-  );
-  await sleep(11000);
+  await sleep(100);
+  await metrics(390, 844);
+  await evaluate("window.scrollTo(0,0)");
+  await sleep(150);
   assert.equal(
-    await evaluate('document.querySelector("h1").textContent'),
-    "Refresh check passed.",
-    "10-second reload did not pick up disk changes",
+    await evaluate("document.documentElement.scrollWidth<=window.innerWidth"),
+    true,
+    "Mobile horizontal overflow",
   );
-  // Verify that stale progress is explicit and terminal runs stop refreshing.
-  const envelope = JSON.parse(
-    source.match(
-      /<script id="state" type="application\/json">([\s\S]*?)<\/script>/,
-    )[1],
-  );
-  envelope.updated_at = new Date(Date.now() - 180000).toISOString();
-  const encode = (state) =>
-    JSON.stringify(state)
-      .replaceAll("<", "\\u003c")
-      .replaceAll(">", "\\u003e")
-      .replaceAll("&", "\\u0026");
-  const fixtureHTML = (state) =>
-    source.replace(
-      /(<script id="state" type="application\/json">)[\s\S]*?(<\/script>)/,
-      (_, a, b) => a + encode(state) + b,
-    );
-  const staleFile = join(profile, "stale.html");
-  await writeFile(staleFile, fixtureHTML(envelope));
-  await load(staleFile);
   assert.equal(
     await evaluate(
-      'document.querySelector("#freshness").classList.contains("stale")',
+      'document.querySelector("#toggle-threads").getAttribute("aria-expanded")',
     ),
-    true,
+    "false",
   );
-  envelope.snapshot.phase = "complete";
-  for (const task of envelope.snapshot.tasks) task.status = "done";
-  for (const q of envelope.snapshot.questions) {
-    q.status = "answered";
-    q.answer = "Keep it local.";
-  }
-  for (const blocker of envelope.snapshot.blockers) blocker.status = "resolved";
-  const completeFile = join(profile, "complete.html");
-  await writeFile(completeFile, fixtureHTML(envelope));
-  await load(completeFile);
+  await screenshot("dashboard-mobile.png");
+  await evaluate('document.querySelector("#toggle-threads").click()');
+  assert.equal(await evaluate('document.querySelector("main").inert'), true);
   assert.equal(
-    await evaluate('document.querySelector("#refresh").textContent'),
-    "Refresh now",
+    await evaluate(
+      'document.querySelector("#thread-sidebar").getAttribute("aria-modal")',
+    ),
+    "true",
   );
-  // The multi-run overview uses real publisher output, not a separate mock.
-  const project = join(profile, "project");
+  await screenshot("dashboard-mobile-threads.png");
+  await evaluate(
+    'document.dispatchEvent(new KeyboardEvent("keydown",{key:"Escape",bubbles:true}))',
+  );
+  assert.equal(await evaluate('document.querySelector("main").inert'), false);
+  assert.equal(await evaluate("document.activeElement.id"), "toggle-threads");
+  await metrics(1440, 1000);
+  // Exercise actual cross-project publishers and the single HTML refresh, not a mock fixture.
+  const project = join(profile, "project a"),
+    other = join(profile, "project b");
   await mkdir(project);
+  await mkdir(other);
   const publisher = join(root, "skills/task-lantern/scripts/dashboard.py");
-  const cli = (...args) =>
+  const cli = (project, ...args) =>
     JSON.parse(
       execFileSync(
         process.env.PYTHON || "python3",
         [publisher, "--project", project, ...args],
         {
           encoding: "utf8",
-          env: { ...process.env, XDG_CONFIG_HOME: join(profile, "config") },
+          env: {
+            ...process.env,
+            XDG_CONFIG_HOME: join(profile, "config"),
+            XDG_DATA_HOME: join(profile, "data"),
+          },
         },
       ),
     );
-  cli("init", "--title", "Search redesign");
-  cli("init", "--title", "API migration");
-  await call("Page.navigate", {
-    url: pathToFileURL(join(project, ".dashboard/index.html")).href,
-  });
-  for (let n = 0; n < 50; n++) {
-    await sleep(50);
-    if (await evaluate('document.querySelectorAll("#runs .run").length===2'))
-      break;
-  }
-  assert.equal(
-    await evaluate('document.querySelectorAll("#runs .run").length'),
-    2,
+  const a = cli(project, "init", "--title", "Live search", "--host", "claude"),
+    b = cli(other, "init", "--title", "Live billing", "--host", "codex");
+  cli(
+    project,
+    "publish",
+    a.run,
+    "--input",
+    join(root, "examples/snapshot.json"),
+    "--expected-revision",
+    "0",
+  );
+  await load(a.dashboard);
+  assert.equal(await evaluate("threads.length"), 2);
+  await evaluate(
+    "selectThread(threads.find(t=>t.run===" + JSON.stringify(a.run) + ").key)",
   );
   await evaluate(
-    'document.querySelector("#search").value="API";document.querySelector("#search").dispatchEvent(new Event("input"))',
+    'openDetail("plan");document.querySelector("#task-search").value="keyboard";document.querySelector("#task-search").dispatchEvent(new Event("input"));document.querySelector("#task-search").focus()',
   );
-  assert.equal(
-    await evaluate(
-      'Array.from(document.querySelectorAll("#runs .run")).filter(e=>e.getClientRects().length).length',
-    ),
-    1,
-  );
-  await evaluate(
-    'document.querySelector("#search").value="";document.querySelector("#search").dispatchEvent(new Event("input"))',
-  );
-  await call("Emulation.setDeviceMetricsOverride", {
-    width: 1440,
-    height: 900,
-    deviceScaleFactor: 1,
-    mobile: false,
-  });
-  const workspaceImage = await call("Page.captureScreenshot", {
-    format: "png",
-    captureBeyondViewport: true,
-  });
+  const patchFile = join(profile, "update.json");
   await writeFile(
-    join(assets, "dashboard-workspace.png"),
-    Buffer.from(workspaceImage.data, "base64"),
+    patchFile,
+    JSON.stringify({ summary: "A real publication reached the workspace." }),
   );
-  // Raster exports of the editable vector brand assets, useful for social previews.
+  cli(
+    project,
+    "patch",
+    a.run,
+    "--input",
+    patchFile,
+    "--expected-revision",
+    "1",
+  );
+  // No reload while typing; blur and wait for the next real ten-second timer.
+  await sleep(10500);
+  assert.notEqual(
+    await evaluate('document.querySelector("#summary").textContent'),
+    "A real publication reached the workspace.",
+  );
+  await evaluate('document.querySelector("#task-search").blur()');
+  await sleep(10500);
+  assert.equal(
+    await evaluate('document.querySelector("#summary").textContent'),
+    "A real publication reached the workspace.",
+  );
+  assert.equal(
+    await evaluate('document.querySelector("#task-search").value'),
+    "keyboard",
+  );
+  assert.equal(
+    await evaluate('document.querySelector("#plan-details").open'),
+    true,
+  );
+  assert.equal(await evaluate("state.run"), a.run);
+  assert.equal(await evaluate("threads.length"), 2);
+  await evaluate('document.querySelector("#refresh").click()');
+  assert.equal(
+    await evaluate('document.querySelector("#refresh").textContent'),
+    "Resume refresh",
+  );
+  await call("Page.reload");
+  await sleep(300);
+  assert.equal(
+    await evaluate('document.querySelector("#refresh").textContent'),
+    "Resume refresh",
+  );
+  // Brand graphics retain real SVG captures.
   for (const [name, width, height] of [
     ["hero", 1600, 560],
     ["social-preview", 1280, 640],
   ]) {
-    await call("Emulation.setDeviceMetricsOverride", {
-      width,
-      height,
-      deviceScaleFactor: 1,
-      mobile: false,
-    });
+    await metrics(width, height);
     await call("Page.navigate", {
       url: pathToFileURL(join(assets, name + ".svg")).href,
     });
-    for (let n = 0; n < 50; n++) {
-      await sleep(50);
-      if (
-        await evaluate(
-          'document.readyState === "complete" && document.documentElement.tagName === "svg"',
-        )
-      )
-        break;
-    }
-    assert.equal(await evaluate("document.documentElement.tagName"), "svg");
-    const capture = await call("Page.captureScreenshot", {
-      format: "png",
-      captureBeyondViewport: false,
-    });
-    await writeFile(
-      join(assets, name + ".png"),
-      Buffer.from(capture.data, "base64"),
-    );
+    await sleep(150);
+    await screenshot(name + ".png");
   }
-  assert.deepEqual(network, [], "Dashboard made network requests");
+  assert.deepEqual(network, [], "Offline dashboard made network requests");
   assert.deepEqual(errors, [], "Browser runtime errors");
   console.log(
-    "PASS: responsive views, developer data, search/filter/keyboard, decisions, safe links, clipboard fallback, exports, UI persistence, file refresh, stale/terminal states, multi-run overview, no network or runtime errors.",
+    "PASS: single-page cross-project workspace, progressive disclosure, thread switching, selection/search persistence, collapse/expand, mobile drawer and focus, theme, safe links, clipboard fallback, selected-thread exports, real publisher refresh and pause, no network/runtime errors.",
   );
-  console.log("Screenshots: docs/assets/dashboard-{dark,light,mobile}.png");
 } finally {
   if (socket) socket.close();
   child.kill("SIGTERM");

@@ -3,7 +3,7 @@
 <desc id="desc">The main agent publishes facts. The optional designer supplies presentation. The Python publisher validates and timestamps those inputs, producing one offline HTML dashboard. You answer in the agent chat.</desc>
 <rect width="1400" height="420" fill="#f6f5f1"/>
 <g font-family="ui-monospace,Consolas,monospace" font-size="13" letter-spacing="1.5" fill="#686e60">
-<text x="38" y="40">01 / YOUR AGENT SESSION</text><text x="561" y="40">02 / LOCAL PUBLISHER</text><text x="1044" y="40">03 / YOUR BROWSER</text>
+<text x="38" y="40">01 / TRACKED AGENT THREADS</text><text x="561" y="40">02 / LOCAL PUBLISHER</text><text x="1044" y="40">03 / YOUR BROWSER</text>
 </g>
 <g stroke="#d6d9cc" fill="#fffefa">
 <rect x="38" y="70" width="370" height="117" rx="5"/>
@@ -13,14 +13,14 @@
 </g>
 <path d="M38 71v115" stroke="#ae5630" stroke-width="3"/>
 <g font-family="Georgia,serif" font-size="26" fill="#272923">
-<text x="62" y="112">Main agent</text><text x="62" y="265">Dashboard designer</text>
+<text x="62" y="112">Your coding agents</text><text x="62" y="265">Dashboard designer</text>
 <text x="584" y="164">Validate + publish</text><text x="1068" y="164">One HTML file</text>
 </g>
 <g font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="16" fill="#646b5b">
 <text x="62" y="148">Does the work. Records actual progress.</text>
 <text x="62" y="301">Optional. Styles the view in the background.</text>
 <text x="584" y="202">Checks revisions and decisions.</text><text x="584" y="233">Uses the real system clock.</text>
-<text x="1068" y="202">Open beside your editor.</text><text x="1068" y="233">Refreshes during active work.</text>
+<text x="1068" y="202">Switch threads. Expand details.</text><text x="1068" y="233">Across registered projects.</text>
 </g>
 <g stroke="#89917d" stroke-width="2" fill="none">
 <path d="M408 129h76v55h64M408 282h76v-55h64M867 206h163"/>

@@ -1,0 +1,1 @@
+Task Lantern now puts your tracked coding-agent threads in one local workspace. Switch projects on the right, see progress and decisions at a glance, and expand the details without leaving the page. Open source for Claude Code and Codex: https://github.com/paranjaymundra/task-lantern
